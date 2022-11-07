@@ -9,3 +9,6 @@ Unicamente Modificar src/co/edu/unbosque
 -Se modifcó el TitleState.
 -Se creó una carpeta Assets para todos los archivos extra:
 -"src/Assets/<Nombre del archivo>"
+
+11/7/2022 12:30
+-Getters & Setters de GameFrame y TitleState
