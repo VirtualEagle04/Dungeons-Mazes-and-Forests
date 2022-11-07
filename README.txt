@@ -5,7 +5,7 @@ Unicamente Modificar src/co/edu/unbosque
 -Inicio del Repositorio
 
 11/7/2022 12:00 
--Se crearon las clases para los gameStates, herando de JPanel.
+-Se crearon las clases para los gameStates, heredando de JPanel.
 -Se modifcó el TitleState.
 -Se creó una carpeta Assets para todos los archivos extra:
 -"src/Assets/<Nombre del archivo>"
