@@ -12,6 +12,7 @@ public class TitleState extends JLayeredPane {
 	// Components
 	private JButton tsNewGame, tsOptions, tsTutorial, tsQuit, tsCreadits;
 	private JLabel tsLogo, tsBackground, tsLogoShadow;
+	Sound sound = new Sound();
 
 	public TitleState() {
 		setSize(1024, 768);
@@ -71,6 +72,8 @@ public class TitleState extends JLayeredPane {
 		tsCreadits.setForeground(Color.WHITE);
 		tsCreadits.setLocation(30, 270);
 		tsCreadits.setBorderPainted(false);
+		
+		playMusic(0);
 
 		tsQuit = new JButton();
 		tsQuit.setSize(250, 20);
@@ -159,6 +162,18 @@ public class TitleState extends JLayeredPane {
 
 	public void setTsLogoShadow(JLabel tsLogoShadow) {
 		this.tsLogoShadow = tsLogoShadow;
+	}
+	
+	public void playMusic(int i) {
+		
+		sound.setFile(i);
+		sound.play();
+		sound.loop();
+	}
+	
+	public void stopMusic() {
+		
+		sound.stop();
 	}
 
 }
