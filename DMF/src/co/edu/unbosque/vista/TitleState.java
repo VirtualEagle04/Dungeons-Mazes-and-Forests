@@ -15,7 +15,7 @@ public class TitleState extends JLayeredPane{
 	
 	public TitleState() {
 		setSize(1024, 768);
-		setLocation(0,-5);
+		setLocation(0,0);
 		setLayout(null);
 		setBackground(Color.DARK_GRAY);
 		
