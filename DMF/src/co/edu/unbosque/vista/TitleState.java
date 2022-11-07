@@ -12,6 +12,7 @@ public class TitleState extends JLayeredPane{
 	//Components
 	private JButton tsNewGame, tsOptions, tsTutorial, tsQuit, tsCreadits;
 	private JLabel tsLogo, tsBackground, tsLogoShadow;
+	Sound sound = new Sound();
 	
 	public TitleState() {
 		setSize(1024, 768);
@@ -81,7 +82,7 @@ public class TitleState extends JLayeredPane{
 		tsQuit.setLocation(30, 310);
 		tsQuit.setBorderPainted(false);
 		
-		
+		playMusic(0);
 		
 		//Background
 		add(tsBackground, JLayeredPane.DEFAULT_LAYER);
@@ -97,71 +98,16 @@ public class TitleState extends JLayeredPane{
 		add(tsLogoShadow, JLayeredPane.PALETTE_LAYER);
 		add(tsLogo, JLayeredPane.MODAL_LAYER);
 	}
-
-	//Getters & Setters
-	public JButton getTsNewGame() {
-		return tsNewGame;
-	}
-
-	public void setTsNewGame(JButton tsNewGame) {
-		this.tsNewGame = tsNewGame;
-	}
-
-	public JButton getTsOptions() {
-		return tsOptions;
-	}
-
-	public void setTsOptions(JButton tsOptions) {
-		this.tsOptions = tsOptions;
-	}
-
-	public JButton getTsTutorial() {
-		return tsTutorial;
-	}
-
-	public void setTsTutorial(JButton tsTutorial) {
-		this.tsTutorial = tsTutorial;
-	}
-
-	public JButton getTsQuit() {
-		return tsQuit;
-	}
-
-	public void setTsQuit(JButton tsQuit) {
-		this.tsQuit = tsQuit;
-	}
-
-	public JButton getTsCreadits() {
-		return tsCreadits;
-	}
-
-	public void setTsCreadits(JButton tsCreadits) {
-		this.tsCreadits = tsCreadits;
-	}
-
-	public JLabel getTsLogo() {
-		return tsLogo;
-	}
-
-	public void setTsLogo(JLabel tsLogo) {
-		this.tsLogo = tsLogo;
-	}
-
-	public JLabel getTsBackground() {
-		return tsBackground;
-	}
-
-	public void setTsBackground(JLabel tsBackground) {
-		this.tsBackground = tsBackground;
-	}
-
-	public JLabel getTsLogoShadow() {
-		return tsLogoShadow;
-	}
-
-	public void setTsLogoShadow(JLabel tsLogoShadow) {
-		this.tsLogoShadow = tsLogoShadow;
-	}
 	
+	public void playMusic(int i) {
+		
+		sound.setFile(i);
+		sound.play();
+		sound.loop();
+	}
+	public void stopMusic() {
+		
+		sound.stop();
+	}
 	
 }
