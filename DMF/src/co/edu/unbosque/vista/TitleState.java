@@ -28,14 +28,14 @@ public class TitleState extends JLayeredPane {
 		tsLogo.setForeground(Color.WHITE);
 		tsLogo.setText("Dungeons,\n Mazes and Forests");
 		tsLogo.setSize(1024, 40);
-		tsLogo.setLocation(30, 30);
+		tsLogo.setLocation(230, 230);
 
 		tsLogoShadow = new JLabel();
 		tsLogoShadow.setFont(new Font("Alagard", Font.ITALIC, 40));
 		tsLogoShadow.setForeground(Color.DARK_GRAY);
 		tsLogoShadow.setText("Dungeons,\n Mazes and Forests");
 		tsLogoShadow.setSize(1024, 40);
-		tsLogoShadow.setLocation(33, 33);
+		tsLogoShadow.setLocation(233, 233);
 
 		tsNewGame = new JButton();
 		tsNewGame.setSize(250, 20);
@@ -43,7 +43,7 @@ public class TitleState extends JLayeredPane {
 		tsNewGame.setFont(new Font("Alagard", Font.ITALIC, 20));
 		tsNewGame.setBackground(Color.DARK_GRAY);
 		tsNewGame.setForeground(Color.WHITE);
-		tsNewGame.setLocation(30, 150);
+		tsNewGame.setLocation(380, 330);
 		tsNewGame.setBorderPainted(false);
 
 		tsOptions = new JButton();
@@ -52,7 +52,7 @@ public class TitleState extends JLayeredPane {
 		tsOptions.setFont(new Font("Alagard", Font.ITALIC, 20));
 		tsOptions.setBackground(Color.DARK_GRAY);
 		tsOptions.setForeground(Color.WHITE);
-		tsOptions.setLocation(30, 190);
+		tsOptions.setLocation(380, 370);
 		tsOptions.setBorderPainted(false);
 
 		tsTutorial = new JButton();
@@ -61,7 +61,7 @@ public class TitleState extends JLayeredPane {
 		tsTutorial.setFont(new Font("Alagard", Font.ITALIC, 20));
 		tsTutorial.setBackground(Color.DARK_GRAY);
 		tsTutorial.setForeground(Color.WHITE);
-		tsTutorial.setLocation(30, 230);
+		tsTutorial.setLocation(380, 410);
 		tsTutorial.setBorderPainted(false);
 
 		tsCreadits = new JButton();
@@ -70,7 +70,7 @@ public class TitleState extends JLayeredPane {
 		tsCreadits.setFont(new Font("Alagard", Font.ITALIC, 20));
 		tsCreadits.setBackground(Color.DARK_GRAY);
 		tsCreadits.setForeground(Color.WHITE);
-		tsCreadits.setLocation(30, 270);
+		tsCreadits.setLocation(380, 450);
 		tsCreadits.setBorderPainted(false);
 		
 		playMusic(0);
@@ -81,7 +81,7 @@ public class TitleState extends JLayeredPane {
 		tsQuit.setFont(new Font("Alagard", Font.ITALIC, 20));
 		tsQuit.setBackground(Color.DARK_GRAY);
 		tsQuit.setForeground(Color.WHITE);
-		tsQuit.setLocation(30, 310);
+		tsQuit.setLocation(380, 490);
 		tsQuit.setBorderPainted(false);
 			
 		// Background
