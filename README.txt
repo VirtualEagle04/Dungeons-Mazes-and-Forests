@@ -17,3 +17,8 @@ Unicamente Modificar src/co/edu/unbosque
 Reorganización
 -Simplemente cambíe el nombre de algunas variables y la posiciones de algunas funciones importantes para no confundirnos...
 -También revisé lo de las acciones de los botones del TitleState, pero por ahora no he podido hacer nada. Estoy buscando una función que me permita remover un panel y mostrar otro... por que no es setVisible(false)
+
+11/8/2022 2:21
+Funcionalidad Botones TitleState
+-Añadí funcionalidad a los botones del menú de inicio
+-La música pára cuando se cambia de State
