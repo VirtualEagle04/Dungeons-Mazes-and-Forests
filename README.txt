@@ -12,3 +12,8 @@ Unicamente Modificar src/co/edu/unbosque
 
 11/7/2022 12:30
 -Getters & Setters de GameFrame y TitleState
+
+11/7/2022 11:39
+Reorganización
+-Simplemente cambíe el nombre de algunas variables y la posiciones de algunas funciones importantes para no confundirnos...
+-También revisé lo de las acciones de los botones del TitleState, pero por ahora no he podido hacer nada. Estoy buscando una función que me permita remover un panel y mostrar otro... por que no es setVisible(false)
