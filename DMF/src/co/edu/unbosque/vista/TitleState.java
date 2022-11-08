@@ -10,7 +10,7 @@ import javax.swing.JLayeredPane;
 
 public class TitleState extends JLayeredPane {
 	// Components
-	private JButton tsNewGame, tsOptions, tsTutorial, tsQuit, tsCreadits;
+	private JButton tsNewGame, tsOptions, tsTutorial, tsQuit, tsCredits;
 	private JLabel tsLogo, tsBackground, tsLogoShadow;
 	private Sound tsMusic;
 
@@ -64,14 +64,14 @@ public class TitleState extends JLayeredPane {
 		tsTutorial.setLocation(380, 410);
 		tsTutorial.setBorderPainted(false);
 
-		tsCreadits = new JButton();
-		tsCreadits.setSize(250, 20);
-		tsCreadits.setText("Credits");
-		tsCreadits.setFont(new Font("Alagard", Font.ITALIC, 20));
-		tsCreadits.setBackground(Color.DARK_GRAY);
-		tsCreadits.setForeground(Color.WHITE);
-		tsCreadits.setLocation(380, 450);
-		tsCreadits.setBorderPainted(false);
+		tsCredits = new JButton();
+		tsCredits.setSize(250, 20);
+		tsCredits.setText("Credits");
+		tsCredits.setFont(new Font("Alagard", Font.ITALIC, 20));
+		tsCredits.setBackground(Color.DARK_GRAY);
+		tsCredits.setForeground(Color.WHITE);
+		tsCredits.setLocation(380, 450);
+		tsCredits.setBorderPainted(false);
 
 		tsQuit = new JButton();
 		tsQuit.setSize(250, 20);
@@ -93,7 +93,7 @@ public class TitleState extends JLayeredPane {
 		add(tsOptions, JLayeredPane.MODAL_LAYER);
 		add(tsTutorial, JLayeredPane.MODAL_LAYER);
 		add(tsQuit, JLayeredPane.MODAL_LAYER);
-		add(tsCreadits, JLayeredPane.MODAL_LAYER);
+		add(tsCredits, JLayeredPane.MODAL_LAYER);
 
 		// Title
 		add(tsLogoShadow, JLayeredPane.PALETTE_LAYER);
@@ -147,12 +147,12 @@ public class TitleState extends JLayeredPane {
 		this.tsQuit = tsQuit;
 	}
 
-	public JButton getTsCreadits() {
-		return tsCreadits;
+	public JButton getTsCredits() {
+		return tsCredits;
 	}
 
-	public void setTsCreadits(JButton tsCreadits) {
-		this.tsCreadits = tsCreadits;
+	public void setTsCredits(JButton tsCreadits) {
+		this.tsCredits = tsCreadits;
 	}
 
 	public JLabel getTsLogo() {

@@ -27,7 +27,7 @@ public class OptionsState extends JLayeredPane {
 	
 	opTitleShadow = new JLabel();
 	opTitleShadow.setFont(new Font("Alagard", Font.ITALIC, 40));
-	opTitleShadow.setForeground(Color.GRAY);
+	opTitleShadow.setForeground(Color.DARK_GRAY);
 	opTitleShadow.setText("Options");
 	opTitleShadow.setSize(1024, 40);
 	opTitleShadow.setLocation(33, 33);
