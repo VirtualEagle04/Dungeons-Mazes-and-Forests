@@ -12,11 +12,11 @@ public class TitleState extends JLayeredPane {
 	// Components
 	private JButton tsNewGame, tsOptions, tsTutorial, tsQuit, tsCreadits;
 	private JLabel tsLogo, tsBackground, tsLogoShadow;
-	Sound sound = new Sound();
+	private Sound tsMusic;
 
 	public TitleState() {
 		setSize(1024, 768);
-		setLocation(0, -5);
+		setLocation(0, 0);
 		setLayout(null);
 		setBackground(Color.DARK_GRAY);
 
@@ -72,8 +72,6 @@ public class TitleState extends JLayeredPane {
 		tsCreadits.setForeground(Color.WHITE);
 		tsCreadits.setLocation(380, 450);
 		tsCreadits.setBorderPainted(false);
-		
-		playMusic(0);
 
 		tsQuit = new JButton();
 		tsQuit.setSize(250, 20);
@@ -83,6 +81,9 @@ public class TitleState extends JLayeredPane {
 		tsQuit.setForeground(Color.WHITE);
 		tsQuit.setLocation(380, 490);
 		tsQuit.setBorderPainted(false);
+		
+		tsMusic = new Sound();
+		playMusic(0);
 			
 		// Background
 		add(tsBackground, JLayeredPane.DEFAULT_LAYER);
@@ -99,7 +100,21 @@ public class TitleState extends JLayeredPane {
 		add(tsLogo, JLayeredPane.MODAL_LAYER);
 		
 	}
+	
+	//Funciones Música
+	public void playMusic(int i) {
+		
+		tsMusic.setFile(i);
+		tsMusic.play();
+		tsMusic.loop();
+	}
+	
+	public void stopMusic() {
+		
+		tsMusic.stop();
+	}
 
+	//Getters & Setters
 	public JButton getTsNewGame() {
 		return tsNewGame;
 	}
@@ -164,16 +179,12 @@ public class TitleState extends JLayeredPane {
 		this.tsLogoShadow = tsLogoShadow;
 	}
 	
-	public void playMusic(int i) {
-		
-		sound.setFile(i);
-		sound.play();
-		sound.loop();
+	public Sound getTsMusic() {
+		return tsMusic;
 	}
-	
-	public void stopMusic() {
-		
-		sound.stop();
+
+	public void setTsMusic(Sound tsMusic) {
+		this.tsMusic = tsMusic;
 	}
 
 }

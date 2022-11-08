@@ -15,7 +15,7 @@ public class Controlador implements ActionListener {
 
 	public Controlador() {
 		gameFrame = new GameFrame();
-		ts = new TitleState();
+		//ts = new TitleState();
 		os = new OptionsState();
 		agregarLectores();
 

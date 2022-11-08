@@ -1,13 +1,6 @@
 package co.edu.unbosque.vista;
 
-import java.awt.Color;
-import java.awt.Image;
-
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
 
 public class GameFrame extends JFrame{
 	
@@ -28,13 +21,15 @@ public class GameFrame extends JFrame{
 		setLayout(null);
 		
 		tsState = new TitleState();
-		opState = new OptionsState();
+		//opState = new OptionsState();
 		
+		//add(opState);
 		add(tsState);
 		
 		setVisible(true);
 	}
 
+	//Getters & Setters
 	public TitleState getTsState() {
 		return tsState;
 	}

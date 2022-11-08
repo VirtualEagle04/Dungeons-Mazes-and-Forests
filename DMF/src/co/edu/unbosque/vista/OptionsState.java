@@ -9,37 +9,69 @@ import javax.swing.JLayeredPane;
 
 public class OptionsState extends JLayeredPane {
 
-	private JLabel opOptionsTitle,opOptionsTitle1,opBackground;
+	private JLabel opTitle,opTitleShadow,opBackground;
 	
 	
 	public OptionsState() {
-	setBounds(0,0,1024,768);
+	setLocation(0,0);
+	setSize(1024, 768);
 	setLayout(null);
 	setBackground(Color.DARK_GRAY);
 
-	opOptionsTitle = new JLabel();
-	opOptionsTitle.setFont(new Font("Alagard", Font.ITALIC, 40));
-	opOptionsTitle.setForeground(Color.WHITE);
-	opOptionsTitle.setText("Options");
-	opOptionsTitle.setSize(1024, 40);
-	opOptionsTitle.setLocation(30, 30);
+	opTitle = new JLabel();
+	opTitle.setFont(new Font("Alagard", Font.ITALIC, 40));
+	opTitle.setForeground(Color.WHITE);
+	opTitle.setText("Options");
+	opTitle.setSize(1024, 40);
+	opTitle.setLocation(30, 30);
 	
-	opOptionsTitle1 = new JLabel();
-	opOptionsTitle1.setFont(new Font("Alagard", Font.ITALIC, 40));
-	opOptionsTitle1.setForeground(Color.GRAY);
-	opOptionsTitle1.setText("Options");
-	opOptionsTitle1.setSize(1024, 40);
-	opOptionsTitle1.setLocation(33, 33);
+	opTitleShadow = new JLabel();
+	opTitleShadow.setFont(new Font("Alagard", Font.ITALIC, 40));
+	opTitleShadow.setForeground(Color.GRAY);
+	opTitleShadow.setText("Options");
+	opTitleShadow.setSize(1024, 40);
+	opTitleShadow.setLocation(33, 33);
 	
 	opBackground = new JLabel(new ImageIcon("src/Assets/CQx.gif"));
-	opBackground.setBounds(0, 0, 1024, 768);
+	opBackground.setLocation(0,0);
+	opBackground.setSize(1024, 768);
 	
 	setVisible(true);
 	
-	add(opOptionsTitle);
-	add(opOptionsTitle1);
+	add(opTitle);
+	add(opTitleShadow);
 	add(opBackground);
 	
+	}
+
+	//Getters & Setters
+	public JLabel getOpTitle() {
+		return opTitle;
+	}
+
+
+	public void setOpTitle(JLabel opTitle) {
+		this.opTitle = opTitle;
+	}
+
+
+	public JLabel getOpTitleShadow() {
+		return opTitleShadow;
+	}
+
+
+	public void setOpTitleShadow(JLabel opTitleShadow) {
+		this.opTitleShadow = opTitleShadow;
+	}
+
+
+	public JLabel getOpBackground() {
+		return opBackground;
+	}
+
+
+	public void setOpBackground(JLabel opBackground) {
+		this.opBackground = opBackground;
 	}
 
 }
