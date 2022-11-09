@@ -66,6 +66,7 @@ public class Controlador implements ActionListener {
 		case "options_button": {
 			tsState.setVisible(false);
 			tsState.stopMusic();
+			opState.playMusic(1);
 
 			opState.setVisible(true);
 			break;
@@ -80,6 +81,7 @@ public class Controlador implements ActionListener {
 		case "credits_button": {
 			tsState.setVisible(false);
 			tsState.stopMusic();
+			crState.playMusic(2);
 
 			crState.setVisible(true);
 			break;

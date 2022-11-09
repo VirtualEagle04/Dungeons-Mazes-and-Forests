@@ -10,7 +10,7 @@ import javax.swing.JLayeredPane;
 public class OptionsState extends JLayeredPane {
 
 	private JLabel opTitle,opTitleShadow,opBackground;
-	
+	private Sound OsMusic;
 	
 	public OptionsState() {
 	setLocation(0,0);
@@ -35,6 +35,8 @@ public class OptionsState extends JLayeredPane {
 	opBackground = new JLabel(new ImageIcon("src/Assets/si.gif"));
 	opBackground.setLocation(0,0);
 	opBackground.setSize(1024, 768);
+	
+	OsMusic = new Sound();
 	
 	setVisible(true);
 	
@@ -72,6 +74,19 @@ public class OptionsState extends JLayeredPane {
 
 	public void setOpBackground(JLabel opBackground) {
 		this.opBackground = opBackground;
+	}
+	
+	//Función Música
+	public void playMusic(int i) {
+		
+		OsMusic.setFile(i);
+		OsMusic.play();
+		OsMusic.loop();
+	}
+	
+	public void stopMusic() {
+		
+		OsMusic.stop();
 	}
 
 }
