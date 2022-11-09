@@ -22,8 +22,8 @@ public class CharacterState extends JPanel{
 		setBackground(Color.DARK_GRAY);
 
 		fondo = new JLabel(new ImageIcon("src/Assets/bi.gif"));
-		fondo.setBounds(0, 0, 1024, 768);
-
+		fondo.setBounds(0,0,1024,768);
+		
 		p1 = new JPanel(null);
 		p1.setSize(480, 768);
 		p1.setLocation(0, 0);

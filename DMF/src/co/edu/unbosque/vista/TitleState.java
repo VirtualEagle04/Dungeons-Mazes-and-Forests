@@ -95,7 +95,7 @@ public class TitleState extends JLayeredPane {
 		add(tsQuit, JLayeredPane.MODAL_LAYER);
 		add(tsCredits, JLayeredPane.MODAL_LAYER);
 
-		// Title
+			// Title
 		add(tsLogoShadow, JLayeredPane.PALETTE_LAYER);
 		add(tsLogo, JLayeredPane.MODAL_LAYER);
 		
