@@ -4,25 +4,24 @@ import javax.swing.JLayeredPane;
 
 public class CreditsState extends JLayeredPane{
 
-	private Sound CrMusic;
+	private Sound crMusic;
 	
 	public CreditsState() {
 		
-		CrMusic = new Sound();
+		crMusic = new Sound();
+		
 	}
 	
 	//Función Música
 		public void playMusic(int i) {
 			
-			CrMusic.setFile(i);
-			CrMusic.play();
-			CrMusic.loop();
+			crMusic.setFile(i);
+			crMusic.play();
+			crMusic.loop();
 		}
 		
 		public void stopMusic() {
 			
-			CrMusic.stop();
+			crMusic.stop();
 		}
-
-
 }
