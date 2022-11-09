@@ -1,18 +1,22 @@
 package co.edu.unbosque.vista;
 
 import java.awt.Color;
+import java.awt.Font;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 
-public class CharacterState extends JPanel{
-	//Components
+public class CharacterState extends JPanel {
+	// Components
 	private JButton csMage, csPaladin, csWarrior, csBarbarian, csArcher, csRogue;
 	private JButton volver, iniciar;
-	private JPanel p1;
-	private JLabel fondo;
+	private JPanel panel_buttons, panel_art;
+	private JLabel bacground_principal, archer_concept_art;
+	private JTextArea panel_text,panel_text_shadow;
 
 	public CharacterState() {
 
@@ -20,14 +24,28 @@ public class CharacterState extends JPanel{
 		setLocation(0, 0);
 		setLayout(null);
 		setBackground(Color.DARK_GRAY);
-
-		fondo = new JLabel(new ImageIcon("src/Assets/bi.gif"));
-		fondo.setBounds(0,0,1024,768);
 		
-		p1 = new JPanel(null);
-		p1.setSize(480, 768);
-		p1.setLocation(0, 0);
-		p1.setBackground(Color.black);
+		bacground_principal = new JLabel(new ImageIcon("src/Assets/bi.gif"));
+		bacground_principal.setBounds(0,0,1024,768);
+		
+		panel_buttons = new JPanel(null);
+		panel_buttons.setSize(480, 768);
+		panel_buttons.setLocation(0, 0);
+		panel_buttons.setBackground(Color.black);
+		
+		panel_art = new JPanel(null);
+		panel_art.setLocation(540,60);
+		panel_art.setSize(400,500);
+		panel_art.setBackground(Color.black);
+		
+		panel_text = new JTextArea();
+		panel_text.setBackground(Color.black);
+		panel_text.setText("  CHOOSE \n\n       A \n\nCHARACTER");
+		panel_text.setFont(new Font("Alagard", Font.ITALIC, 40));
+		panel_text.setForeground(Color.white);
+		panel_text.setBounds(90,130,400,500);
+		panel_text.setVisible(false);
+		panel_text.setEditable(false);
 
 		csMage = new JButton();
 		csMage.setLocation(40,80);
@@ -55,19 +73,37 @@ public class CharacterState extends JPanel{
 		csArcher.setSize(400,70);
 		csArcher.setIcon(new ImageIcon("src/Assets/background_archer.jpg"));
 		
+		archer_concept_art = new JLabel();
+		archer_concept_art.setIcon(new ImageIcon("src/Assets/archer_concept_art.gif"));
+		archer_concept_art.setSize(400,400);
+		archer_concept_art.setLocation(0,0);
+		archer_concept_art.setVisible(true);
+		
+		
 		csRogue = new JButton();
 		csRogue.setLocation(40,580);
 		csRogue.setSize(400,70);
 		csRogue.setIcon(new ImageIcon("src/Assets/background_rogue.jpg"));
 		
-		p1.add(csMage);
-		p1.add(csPaladin);
-		p1.add(csWarrior);
-		p1.add(csBarbarian);
-		p1.add(csArcher);
-		p1.add(csRogue);
-		add(p1);
-		add(fondo);
+		//character_art
+		
+		panel_art.add(panel_text);
+		panel_art.add(archer_concept_art);
+		
+		//buttons
+		
+		panel_buttons.add(csMage);
+		panel_buttons.add(csPaladin);
+		panel_buttons.add(csWarrior);
+		panel_buttons.add(csBarbarian);
+		panel_buttons.add(csArcher);
+		panel_buttons.add(csRogue);
+		
+		//panel & background
+		
+		add(panel_buttons, JLayeredPane.MODAL_LAYER);
+		add(panel_art, JLayeredPane.MODAL_LAYER);
+		add(bacground_principal, JLayeredPane.DEFAULT_LAYER);
 		setVisible(true);
 
 	}
@@ -145,11 +181,11 @@ public class CharacterState extends JPanel{
 	}
 
 	public JLabel getFondo() {
-		return fondo;
+		return bacground_principal;
 	}
 
 	public void setFondo(JLabel fondo) {
-		this.fondo = fondo;
+		this.bacground_principal = fondo;
 	}
-	
+
 }
