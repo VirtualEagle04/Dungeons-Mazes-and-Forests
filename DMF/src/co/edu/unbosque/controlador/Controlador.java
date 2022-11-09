@@ -38,7 +38,7 @@ public class Controlador implements ActionListener {
 	}
 
 	public void agregarLectores() {
-		
+		//Botones Titulo
 		tsState.getTsNewGame().addActionListener(this);
 		tsState.getTsNewGame().setActionCommand("new_game_button");
 		
@@ -52,7 +52,26 @@ public class Controlador implements ActionListener {
 		tsState.getTsCredits().setActionCommand("credits_button");
 		
 		tsState.getTsQuit().addActionListener(this);
-		tsState.getTsQuit().setActionCommand("quit_button");		
+		tsState.getTsQuit().setActionCommand("quit_button");	
+		
+		//Botones Character Select
+		chState.getCsMage().addActionListener(this);
+		chState.getCsMage().setActionCommand("csMage");
+		
+		chState.getCsBarbarian().addActionListener(this);
+		chState.getCsBarbarian().setActionCommand("csBarbarian");
+		
+		chState.getCsArcher().addActionListener(this);
+		chState.getCsArcher().setActionCommand("csArcher");
+		
+		chState.getCsPaladin().addActionListener(this);
+		chState.getCsPaladin().setActionCommand("csPaladin");
+	
+		chState.getCsRogue().addActionListener(this);
+		chState.getCsRogue().setActionCommand("csRogue");
+		
+		chState.getCsWarrior().addActionListener(this);
+		chState.getCsWarrior().setActionCommand("csWarrior");
 	}
 
 	public void actionPerformed(ActionEvent e) {
@@ -91,6 +110,31 @@ public class Controlador implements ActionListener {
 			System.exit(0);
 			break;
 		}
+		case "csMage":{
+			
+			break;
+		}
+		case "csWarrior":{
+			
+			break;
+		}
+		case "csPaladin":{
+			
+			break;
+		}
+		case "csRogue":{
+			
+			break;
+		}
+		case "csArcher":{
+			
+			break;
+		}
+		case "csBarbarian":{
+			
+			break;
+		}
+		
 		default:
 		}
 	}

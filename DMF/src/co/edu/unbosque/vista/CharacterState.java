@@ -71,5 +71,85 @@ public class CharacterState extends JPanel{
 		setVisible(true);
 
 	}
+
+	public JButton getCsMage() {
+		return csMage;
+	}
+
+	public void setCsMage(JButton csMage) {
+		this.csMage = csMage;
+	}
+
+	public JButton getCsPaladin() {
+		return csPaladin;
+	}
+
+	public void setCsPaladin(JButton csPaladin) {
+		this.csPaladin = csPaladin;
+	}
+
+	public JButton getCsWarrior() {
+		return csWarrior;
+	}
+
+	public void setCsWarrior(JButton csWarrior) {
+		this.csWarrior = csWarrior;
+	}
+
+	public JButton getCsBarbarian() {
+		return csBarbarian;
+	}
+
+	public void setCsBarbarian(JButton csBarbarian) {
+		this.csBarbarian = csBarbarian;
+	}
+
+	public JButton getCsArcher() {
+		return csArcher;
+	}
+
+	public void setCsArcher(JButton csArcher) {
+		this.csArcher = csArcher;
+	}
+
+	public JButton getCsRogue() {
+		return csRogue;
+	}
+
+	public void setCsRogue(JButton csRogue) {
+		this.csRogue = csRogue;
+	}
+
+	public JButton getVolver() {
+		return volver;
+	}
+
+	public void setVolver(JButton volver) {
+		this.volver = volver;
+	}
+
+	public JButton getIniciar() {
+		return iniciar;
+	}
+
+	public void setIniciar(JButton iniciar) {
+		this.iniciar = iniciar;
+	}
+
+	public JPanel getP1() {
+		return p1;
+	}
+
+	public void setP1(JPanel p1) {
+		this.p1 = p1;
+	}
+
+	public JLabel getFondo() {
+		return fondo;
+	}
+
+	public void setFondo(JLabel fondo) {
+		this.fondo = fondo;
+	}
 	
 }
