@@ -60,7 +60,8 @@ public class Controlador implements ActionListener {
 		case "new_game_button": {
 			tsState.setVisible(false);
 			tsState.stopMusic();
-			gState.setVisible(true);
+			chState.setVisible(true);
+
 			break;
 		}
 		case "options_button": {
