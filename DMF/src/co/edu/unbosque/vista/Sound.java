@@ -16,6 +16,8 @@ public class Sound {
 		soundURL[0] = getClass().getResource("/Assets/Music/DMF-MainTitle.wav");
 		soundURL[1] = getClass().getResource("/Assets/Music/DMF-OptionMenu.wav");
 		soundURL[2] = getClass().getResource("/Assets/Music/DMF-CreditsSong.wav");
+		soundURL[3] = getClass().getResource("/Assets/Music/DMF-CharacterSelection.wav");
+
 	}
 	
 	public void setFile(int i) {
