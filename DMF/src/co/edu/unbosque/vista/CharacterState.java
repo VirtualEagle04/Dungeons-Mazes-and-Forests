@@ -17,6 +17,7 @@ public class CharacterState extends JPanel {
 	private JPanel panel_buttons, panel_art;
 	private JLabel chBackground, archer_concept_art;
 	private JTextArea panel_text,panel_text_shadow;
+	private Sound ChMusic;
 
 	public CharacterState() {
 
@@ -83,6 +84,7 @@ public class CharacterState extends JPanel {
 		csRogue.setSize(400,70);
 		csRogue.setIcon(new ImageIcon("src/Assets/Images/background_rogue.jpg"));
 		
+		ChMusic = new Sound();
 		
 		archer_concept_art = new JLabel();
 		archer_concept_art.setIcon(new ImageIcon("src/Assets/Gifs/csArcherIdle.gif"));
@@ -227,4 +229,17 @@ public class CharacterState extends JPanel {
 	public void setPanel_text_shadow(JTextArea panel_text_shadow) {
 		this.panel_text_shadow = panel_text_shadow;
 	}
+	
+	//Función Musica
+		public void playMusic(int i) {
+			
+			ChMusic.setFile(i);
+			ChMusic.play();
+			ChMusic.loop();
+		}
+		
+		public void stopMusic() {
+			
+			ChMusic.stop();
+		}
 }
