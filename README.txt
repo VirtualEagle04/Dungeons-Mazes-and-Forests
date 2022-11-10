@@ -22,3 +22,7 @@ Reorganización
 Funcionalidad Botones TitleState
 -Añadí funcionalidad a los botones del menú de inicio
 -La música pára cuando se cambia de State
+
+11/9/2022 7:15
+-Nuevas Carpetas para los Assets (Images, Music, Gifs)
+-Solución de algunos errores mínimos
