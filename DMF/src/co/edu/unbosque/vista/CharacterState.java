@@ -15,7 +15,7 @@ public class CharacterState extends JPanel {
 	private JButton csMage, csPaladin, csWarrior, csBarbarian, csArcher, csRogue;
 	private JButton volver, iniciar;
 	private JPanel panel_buttons, panel_art;
-	private JLabel bacground_principal, archer_concept_art;
+	private JLabel chBackground, archer_concept_art;
 	private JTextArea panel_text,panel_text_shadow;
 
 	public CharacterState() {
@@ -25,8 +25,8 @@ public class CharacterState extends JPanel {
 		setLayout(null);
 		setBackground(Color.DARK_GRAY);
 		
-		bacground_principal = new JLabel(new ImageIcon("src/Assets/bi.gif"));
-		bacground_principal.setBounds(0,0,1024,768);
+		chBackground = new JLabel(new ImageIcon("src/Assets/Gifs/chBackground.gif"));
+		chBackground.setBounds(0,0,1024,768);
 		
 		panel_buttons = new JPanel(null);
 		panel_buttons.setSize(480, 768);
@@ -46,46 +46,54 @@ public class CharacterState extends JPanel {
 		panel_text.setBounds(90,130,400,500);
 		panel_text.setVisible(false);
 		panel_text.setEditable(false);
-
+		
+		//Boton Mage
 		csMage = new JButton();
 		csMage.setLocation(40,80);
 		csMage.setSize(400,70);
-		csMage.setIcon(new ImageIcon("src/Assets/background_mage.png"));
+		csMage.setIcon(new ImageIcon("src/Assets/Images/background_mage.png"));
 		
+		//Boton Paladin
 		csPaladin = new JButton();
 		csPaladin.setLocation(40,180);
 		csPaladin.setSize(400,70);
-		csPaladin.setIcon(new ImageIcon("src/Assets/background_paladin.png"));
+		csPaladin.setIcon(new ImageIcon("src/Assets/Images/background_paladin.png"));
 		
-		
+		//Boton Warrior
 		csWarrior = new JButton();
 		csWarrior.setLocation(40,280);
 		csWarrior.setSize(400,70);
-		csWarrior.setIcon(new ImageIcon("src/Assets/background_warrior.jpg"));
+		csWarrior.setIcon(new ImageIcon("src/Assets/Images/background_warrior.jpg"));
 		
+		//Boton Barbarian
 		csBarbarian = new JButton();
 		csBarbarian.setLocation(40,380);
 		csBarbarian.setSize(400,70);
-		csBarbarian.setIcon(new ImageIcon("src/Assets/background_barbarian.png"));
+		csBarbarian.setIcon(new ImageIcon("src/Assets/Images/background_barbarian.png"));
 		
+		//Boton Archer
 		csArcher = new JButton();
 		csArcher.setLocation(40,480);
 		csArcher.setSize(400,70);
-		csArcher.setIcon(new ImageIcon("src/Assets/background_archer.jpg"));
+		csArcher.setIcon(new ImageIcon("src/Assets/Images/background_archer.jpg"));
+		
+		//Boton Rogue
+		csRogue = new JButton();
+		csRogue.setLocation(40,580);
+		csRogue.setSize(400,70);
+		csRogue.setIcon(new ImageIcon("src/Assets/Images/background_rogue.jpg"));
+		
 		
 		archer_concept_art = new JLabel();
-		archer_concept_art.setIcon(new ImageIcon("src/Assets/archer_concept_art.gif"));
+		archer_concept_art.setIcon(new ImageIcon("src/Assets/Gifs/csArcherIdle.gif"));
 		archer_concept_art.setSize(400,400);
 		archer_concept_art.setLocation(0,0);
 		archer_concept_art.setVisible(true);
 		
 		
-		csRogue = new JButton();
-		csRogue.setLocation(40,580);
-		csRogue.setSize(400,70);
-		csRogue.setIcon(new ImageIcon("src/Assets/background_rogue.jpg"));
+
 		
-		//character_art
+		//Character Preview
 		
 		panel_art.add(panel_text);
 		panel_art.add(archer_concept_art);
@@ -103,11 +111,11 @@ public class CharacterState extends JPanel {
 		
 		add(panel_buttons, JLayeredPane.MODAL_LAYER);
 		add(panel_art, JLayeredPane.MODAL_LAYER);
-		add(bacground_principal, JLayeredPane.DEFAULT_LAYER);
-		setVisible(true);
+		add(chBackground, JLayeredPane.DEFAULT_LAYER);
 
 	}
-
+	
+	//Getters & Setters
 	public JButton getCsMage() {
 		return csMage;
 	}
@@ -172,20 +180,51 @@ public class CharacterState extends JPanel {
 		this.iniciar = iniciar;
 	}
 
-	public JPanel getP1() {
-		return p1;
+	public JPanel getPanel_buttons() {
+		return panel_buttons;
 	}
 
-	public void setP1(JPanel p1) {
-		this.p1 = p1;
+	public void setPanel_buttons(JPanel panel_buttons) {
+		this.panel_buttons = panel_buttons;
 	}
 
-	public JLabel getFondo() {
-		return bacground_principal;
+	public JPanel getPanel_art() {
+		return panel_art;
 	}
 
-	public void setFondo(JLabel fondo) {
-		this.bacground_principal = fondo;
+	public void setPanel_art(JPanel panel_art) {
+		this.panel_art = panel_art;
 	}
 
+	public JLabel getChBackground() {
+		return chBackground;
+	}
+
+	public void setChBackground(JLabel chBackground) {
+		this.chBackground = chBackground;
+	}
+
+	public JLabel getArcher_concept_art() {
+		return archer_concept_art;
+	}
+
+	public void setArcher_concept_art(JLabel archer_concept_art) {
+		this.archer_concept_art = archer_concept_art;
+	}
+
+	public JTextArea getPanel_text() {
+		return panel_text;
+	}
+
+	public void setPanel_text(JTextArea panel_text) {
+		this.panel_text = panel_text;
+	}
+
+	public JTextArea getPanel_text_shadow() {
+		return panel_text_shadow;
+	}
+
+	public void setPanel_text_shadow(JTextArea panel_text_shadow) {
+		this.panel_text_shadow = panel_text_shadow;
+	}
 }

@@ -32,7 +32,7 @@ public class OptionsState extends JLayeredPane {
 	opTitleShadow.setSize(1024, 40);
 	opTitleShadow.setLocation(33, 33);
 	
-	opBackground = new JLabel(new ImageIcon("src/Assets/si.gif"));
+	opBackground = new JLabel(new ImageIcon("src/Assets/Gifs/opBackground.gif"));
 	opBackground.setLocation(0,0);
 	opBackground.setSize(1024, 768);
 	

@@ -20,7 +20,7 @@ public class TitleState extends JLayeredPane {
 		setLayout(null);
 		setBackground(Color.DARK_GRAY);
 
-		tsBackground = new JLabel(new ImageIcon("src/Assets/bosque.gif"));
+		tsBackground = new JLabel(new ImageIcon("src/Assets/Gifs/tsBackground.gif"));
 		tsBackground.setBounds(0, 0, 1024, 768);
 		
 		tsLogo = new JLabel();
@@ -95,7 +95,7 @@ public class TitleState extends JLayeredPane {
 		add(tsQuit, JLayeredPane.MODAL_LAYER);
 		add(tsCredits, JLayeredPane.MODAL_LAYER);
 
-			// Title
+		// Title
 		add(tsLogoShadow, JLayeredPane.PALETTE_LAYER);
 		add(tsLogo, JLayeredPane.MODAL_LAYER);
 		
