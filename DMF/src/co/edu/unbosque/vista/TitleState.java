@@ -2,6 +2,10 @@ package co.edu.unbosque.vista;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.FontFormatException;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -13,25 +17,39 @@ public class TitleState extends JLayeredPane {
 	private JButton tsNewGame, tsOptions, tsTutorial, tsQuit, tsCredits;
 	private JLabel tsLogo, tsBackground, tsLogoShadow;
 	private Sound tsMusic;
+	private Font Alagard ;
 
 	public TitleState() {
+		
+		//Inicialización y Empaquetamiento de la Fuente
+		try {
+			Alagard = Font.createFont(Font.TRUETYPE_FONT, new File("src/Assets/Fonts/alagard.ttf"));
+		} catch (FontFormatException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		//
+		
 		setSize(1024, 768);
 		setLocation(0, 0);
 		setLayout(null);
 		setBackground(Color.DARK_GRAY);
-
+		
 		tsBackground = new JLabel(new ImageIcon("src/Assets/Gifs/tsBackground.gif"));
 		tsBackground.setBounds(0, 0, 1024, 768);
 		
 		tsLogo = new JLabel();
-		tsLogo.setFont(new Font("Alagard", Font.ITALIC, 40));
+		tsLogo.setFont(Alagard);
+		tsLogo.setFont(tsLogo.getFont().deriveFont(Font.ITALIC, 40));
 		tsLogo.setForeground(Color.WHITE);
 		tsLogo.setText("Dungeons,\n Mazes and Forests");
 		tsLogo.setSize(1024, 40);
 		tsLogo.setLocation(230, 230);
 
 		tsLogoShadow = new JLabel();
-		tsLogoShadow.setFont(new Font("Alagard", Font.ITALIC, 40));
+		tsLogoShadow.setFont(Alagard);
+		tsLogoShadow.setFont(tsLogo.getFont().deriveFont(Font.ITALIC, 40));
 		tsLogoShadow.setForeground(Color.DARK_GRAY);
 		tsLogoShadow.setText("Dungeons,\n Mazes and Forests");
 		tsLogoShadow.setSize(1024, 40);
@@ -40,7 +58,8 @@ public class TitleState extends JLayeredPane {
 		tsNewGame = new JButton();
 		tsNewGame.setSize(250, 20);
 		tsNewGame.setText("New Game");
-		tsNewGame.setFont(new Font("Alagard", Font.ITALIC, 20));
+		tsNewGame.setFont(Alagard);
+		tsNewGame.setFont(tsLogo.getFont().deriveFont(Font.ITALIC, 20));
 		tsNewGame.setBackground(Color.DARK_GRAY);
 		tsNewGame.setForeground(Color.WHITE);
 		tsNewGame.setLocation(380, 330);
@@ -49,7 +68,8 @@ public class TitleState extends JLayeredPane {
 		tsOptions = new JButton();
 		tsOptions.setSize(250, 20);
 		tsOptions.setText("Options");
-		tsOptions.setFont(new Font("Alagard", Font.ITALIC, 20));
+		tsOptions.setFont(Alagard);
+		tsOptions.setFont(tsLogo.getFont().deriveFont(Font.ITALIC, 20));
 		tsOptions.setBackground(Color.DARK_GRAY);
 		tsOptions.setForeground(Color.WHITE);
 		tsOptions.setLocation(380, 370);
@@ -58,7 +78,8 @@ public class TitleState extends JLayeredPane {
 		tsTutorial = new JButton();
 		tsTutorial.setSize(250, 20);
 		tsTutorial.setText("How to Play");
-		tsTutorial.setFont(new Font("Alagard", Font.ITALIC, 20));
+		tsTutorial.setFont(Alagard);
+		tsTutorial.setFont(tsLogo.getFont().deriveFont(Font.ITALIC, 20));
 		tsTutorial.setBackground(Color.DARK_GRAY);
 		tsTutorial.setForeground(Color.WHITE);
 		tsTutorial.setLocation(380, 410);
@@ -67,7 +88,8 @@ public class TitleState extends JLayeredPane {
 		tsCredits = new JButton();
 		tsCredits.setSize(250, 20);
 		tsCredits.setText("Credits");
-		tsCredits.setFont(new Font("Alagard", Font.ITALIC, 20));
+		tsCredits.setFont(Alagard);
+		tsCredits.setFont(tsLogo.getFont().deriveFont(Font.ITALIC, 20));
 		tsCredits.setBackground(Color.DARK_GRAY);
 		tsCredits.setForeground(Color.WHITE);
 		tsCredits.setLocation(380, 450);
@@ -76,7 +98,8 @@ public class TitleState extends JLayeredPane {
 		tsQuit = new JButton();
 		tsQuit.setSize(250, 20);
 		tsQuit.setText("Quit");
-		tsQuit.setFont(new Font("Alagard", Font.ITALIC, 20));
+		tsQuit.setFont(Alagard);
+		tsQuit.setFont(tsLogo.getFont().deriveFont(Font.ITALIC, 20));
 		tsQuit.setBackground(Color.DARK_GRAY);
 		tsQuit.setForeground(Color.WHITE);
 		tsQuit.setLocation(380, 490);
@@ -185,6 +208,14 @@ public class TitleState extends JLayeredPane {
 
 	public void setTsMusic(Sound tsMusic) {
 		this.tsMusic = tsMusic;
+	}
+
+	public Font getAlagard() {
+		return Alagard;
+	}
+
+	public void setAlagard(Font alagard) {
+		Alagard = alagard;
 	}
 
 }
