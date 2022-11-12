@@ -25,7 +25,7 @@ public class Controlador implements ActionListener {
 
 	public Controlador() {
 		gameFrame = new GameFrame();
-		
+
 		gameFrame.add(tsState);
 		gameFrame.add(opState).setVisible(false);
 		gameFrame.add(chState).setVisible(false);
@@ -38,40 +38,49 @@ public class Controlador implements ActionListener {
 	}
 
 	public void agregarLectores() {
-		//Botones Titulo
+		// Title Buttons
 		tsState.getTsNewGame().addActionListener(this);
 		tsState.getTsNewGame().setActionCommand("new_game_button");
-		
+
 		tsState.getTsOptions().addActionListener(this);
 		tsState.getTsOptions().setActionCommand("options_button");
-		
+
 		tsState.getTsTutorial().addActionListener(this);
 		tsState.getTsTutorial().setActionCommand("tutorial_button");
-		
+
 		tsState.getTsCredits().addActionListener(this);
 		tsState.getTsCredits().setActionCommand("credits_button");
-		
+
 		tsState.getTsQuit().addActionListener(this);
-		tsState.getTsQuit().setActionCommand("quit_button");	
-		
-		//Botones Character Select
+		tsState.getTsQuit().setActionCommand("quit_button");
+
+		// Character Select Buttons
 		chState.getCsMage().addActionListener(this);
 		chState.getCsMage().setActionCommand("csMage");
-		
+
 		chState.getCsBarbarian().addActionListener(this);
 		chState.getCsBarbarian().setActionCommand("csBarbarian");
-		
+
 		chState.getCsArcher().addActionListener(this);
 		chState.getCsArcher().setActionCommand("csArcher");
-		
+
 		chState.getCsPaladin().addActionListener(this);
 		chState.getCsPaladin().setActionCommand("csPaladin");
-	
+
 		chState.getCsRogue().addActionListener(this);
 		chState.getCsRogue().setActionCommand("csRogue");
-		
+
 		chState.getCsWarrior().addActionListener(this);
 		chState.getCsWarrior().setActionCommand("csWarrior");
+		// Back buttons
+		chState.getBack_button().addActionListener(this);
+		chState.getBack_button().setActionCommand("cs_back_button");
+
+		opState.getBack_button().addActionListener(this);
+		opState.getBack_button().setActionCommand("op_back_button");
+
+		crState.getBack_button().addActionListener(this);
+		crState.getBack_button().setActionCommand("cr_back_button");
 	}
 
 	public void actionPerformed(ActionEvent e) {
@@ -111,31 +120,105 @@ public class Controlador implements ActionListener {
 			System.exit(0);
 			break;
 		}
-		case "csMage":{
-			
+		case "csMage": {
+
+			chState.getMage_concept_art().setVisible(true);
+			chState.getPanel_text().setVisible(false);
+			chState.getWarrior_concept_art().setVisible(false);
+			chState.getPaladin_concept_art().setVisible(false);
+			chState.getRogue_concept_art().setVisible(false);
+			chState.getArcher_concept_art().setVisible(false);
+			chState.getBarbarian_concept_art().setVisible(false);
+
 			break;
 		}
-		case "csWarrior":{
-			
+		case "csWarrior": {
+
+			chState.getWarrior_concept_art().setVisible(true);
+			chState.getPanel_text().setVisible(false);
+			chState.getPaladin_concept_art().setVisible(false);
+			chState.getRogue_concept_art().setVisible(false);
+			chState.getArcher_concept_art().setVisible(false);
+			chState.getBarbarian_concept_art().setVisible(false);
+			chState.getMage_concept_art().setVisible(false);
+
 			break;
 		}
-		case "csPaladin":{
-			
+		case "csPaladin": {
+
+			chState.getPaladin_concept_art().setVisible(true);
+			chState.getPanel_text().setVisible(false);
+			chState.getMage_concept_art().setVisible(false);
+			chState.getRogue_concept_art().setVisible(false);
+			chState.getArcher_concept_art().setVisible(false);
+			chState.getBarbarian_concept_art().setVisible(false);
+			chState.getWarrior_concept_art().setVisible(false);
+
 			break;
 		}
-		case "csRogue":{
-			
+		case "csRogue": {
+
+			chState.getRogue_concept_art().setVisible(true);
+			chState.getPanel_text().setVisible(false);
+			chState.getMage_concept_art().setVisible(false);
+			chState.getArcher_concept_art().setVisible(false);
+			chState.getBarbarian_concept_art().setVisible(false);
+			chState.getWarrior_concept_art().setVisible(false);
+			chState.getPaladin_concept_art().setVisible(false);
+
 			break;
 		}
-		case "csArcher":{
-			
+		case "csArcher": {
+
+			chState.getArcher_concept_art().setVisible(true);
+			chState.getPanel_text().setVisible(false);
+			chState.getMage_concept_art().setVisible(false);
+			chState.getBarbarian_concept_art().setVisible(false);
+			chState.getWarrior_concept_art().setVisible(false);
+			chState.getPaladin_concept_art().setVisible(false);
+			chState.getRogue_concept_art().setVisible(false);
+
 			break;
 		}
-		case "csBarbarian":{
-			
+		case "csBarbarian": {
+			chState.getBarbarian_concept_art().setVisible(true);
+			chState.getPanel_text().setVisible(false);
+			chState.getMage_concept_art().setVisible(false);
+			chState.getWarrior_concept_art().setVisible(false);
+			chState.getPaladin_concept_art().setVisible(false);
+			chState.getRogue_concept_art().setVisible(false);
+			chState.getArcher_concept_art().setVisible(false);
+
 			break;
 		}
-		
+		case "cs_back_button": {
+
+			chState.setVisible(false);
+			tsState.setVisible(true);
+			chState.stopMusic();
+			tsState.playMusic(0);
+
+			break;
+		}
+		case "cr_back_button": {
+
+			crState.setVisible(false);
+			tsState.setVisible(true);
+			crState.stopMusic();
+			tsState.playMusic(0);
+
+			break;
+		}
+		case "op_back_button": {
+
+			opState.setVisible(false);
+			tsState.setVisible(true);
+			opState.stopMusic();
+			tsState.playMusic(0);
+
+			break;
+		}
+
 		default:
 		}
 	}

@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 
@@ -15,6 +16,7 @@ public class OptionsState extends JLayeredPane {
 	private JLabel opTitle,opTitleShadow,opBackground;
 	private Sound OsMusic;
 	private Font Alagard;
+	private JButton back_button;
 	
 	public OptionsState() {
 	
@@ -33,13 +35,19 @@ public class OptionsState extends JLayeredPane {
 		setLayout(null);
 		setBackground(Color.DARK_GRAY);
 	
+		back_button = new JButton();
+		back_button.setLocation(10, 10);
+		back_button.setSize(90, 50);
+		back_button.setBackground(Color.darkGray);
+		back_button.setIcon(new ImageIcon("src/Assets/Images/back_button.jpg"));
+		
 		opTitle = new JLabel();
 		opTitle.setFont(Alagard);
 		opTitle.setFont(opTitle.getFont().deriveFont(Font.ITALIC, 40));
 		opTitle.setForeground(Color.WHITE);
 		opTitle.setText("Options");
 		opTitle.setSize(1024, 40);
-		opTitle.setLocation(30, 30);
+		opTitle.setLocation(410, 30);
 		
 		opTitleShadow = new JLabel();
 		opTitleShadow.setFont(Alagard);
@@ -47,7 +55,7 @@ public class OptionsState extends JLayeredPane {
 		opTitleShadow.setForeground(Color.DARK_GRAY);
 		opTitleShadow.setText("Options");
 		opTitleShadow.setSize(1024, 40);
-		opTitleShadow.setLocation(33, 33);
+		opTitleShadow.setLocation(413, 33);
 		
 		opBackground = new JLabel(new ImageIcon("src/Assets/Gifs/opBackground.gif"));
 		opBackground.setLocation(0,0);
@@ -57,6 +65,7 @@ public class OptionsState extends JLayeredPane {
 		
 		setVisible(true);
 		
+		add(back_button);
 		add(opTitle);
 		add(opTitleShadow);
 		add(opBackground);
@@ -64,10 +73,36 @@ public class OptionsState extends JLayeredPane {
 	}
 
 	//Getters & Setters
+	
+	
 	public JLabel getOpTitle() {
 		return opTitle;
 	}
 
+
+	public Sound getOsMusic() {
+		return OsMusic;
+	}
+
+	public void setOsMusic(Sound osMusic) {
+		OsMusic = osMusic;
+	}
+
+	public Font getAlagard() {
+		return Alagard;
+	}
+
+	public void setAlagard(Font alagard) {
+		Alagard = alagard;
+	}
+
+	public JButton getBack_button() {
+		return back_button;
+	}
+
+	public void setBack_button(JButton back_button) {
+		this.back_button = back_button;
+	}
 
 	public void setOpTitle(JLabel opTitle) {
 		this.opTitle = opTitle;
