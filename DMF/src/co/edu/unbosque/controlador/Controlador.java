@@ -124,6 +124,7 @@ public class Controlador implements ActionListener {
 
 			chState.getMage_concept_art().setVisible(true);
 			chState.getPanel_text().setVisible(false);
+			chState.getPanel_textShadow().setVisible(false);
 			chState.getWarrior_concept_art().setVisible(false);
 			chState.getPaladin_concept_art().setVisible(false);
 			chState.getRogue_concept_art().setVisible(false);
@@ -136,6 +137,7 @@ public class Controlador implements ActionListener {
 
 			chState.getWarrior_concept_art().setVisible(true);
 			chState.getPanel_text().setVisible(false);
+			chState.getPanel_textShadow().setVisible(false);
 			chState.getPaladin_concept_art().setVisible(false);
 			chState.getRogue_concept_art().setVisible(false);
 			chState.getArcher_concept_art().setVisible(false);
@@ -148,6 +150,7 @@ public class Controlador implements ActionListener {
 
 			chState.getPaladin_concept_art().setVisible(true);
 			chState.getPanel_text().setVisible(false);
+			chState.getPanel_textShadow().setVisible(false);
 			chState.getMage_concept_art().setVisible(false);
 			chState.getRogue_concept_art().setVisible(false);
 			chState.getArcher_concept_art().setVisible(false);
@@ -160,6 +163,7 @@ public class Controlador implements ActionListener {
 
 			chState.getRogue_concept_art().setVisible(true);
 			chState.getPanel_text().setVisible(false);
+			chState.getPanel_textShadow().setVisible(false);
 			chState.getMage_concept_art().setVisible(false);
 			chState.getArcher_concept_art().setVisible(false);
 			chState.getBarbarian_concept_art().setVisible(false);
@@ -172,6 +176,7 @@ public class Controlador implements ActionListener {
 
 			chState.getArcher_concept_art().setVisible(true);
 			chState.getPanel_text().setVisible(false);
+			chState.getPanel_textShadow().setVisible(false);
 			chState.getMage_concept_art().setVisible(false);
 			chState.getBarbarian_concept_art().setVisible(false);
 			chState.getWarrior_concept_art().setVisible(false);
@@ -183,6 +188,7 @@ public class Controlador implements ActionListener {
 		case "csBarbarian": {
 			chState.getBarbarian_concept_art().setVisible(true);
 			chState.getPanel_text().setVisible(false);
+			chState.getPanel_textShadow().setVisible(false);
 			chState.getMage_concept_art().setVisible(false);
 			chState.getWarrior_concept_art().setVisible(false);
 			chState.getPaladin_concept_art().setVisible(false);

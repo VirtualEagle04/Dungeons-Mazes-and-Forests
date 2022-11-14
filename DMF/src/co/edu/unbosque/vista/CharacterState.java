@@ -2,6 +2,9 @@ package co.edu.unbosque.vista;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.FontFormatException;
+import java.io.File;
+import java.io.IOException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -17,10 +20,20 @@ public class CharacterState extends JPanel {
 	private JPanel panel_buttons, panel_art;
 	private JLabel chBackground, archer_concept_art, barbarian_concept_art, warrior_concept_art, rogue_concept_art,
 			paladin_concept_art, mage_concept_art;
-	private JTextArea panel_text, panel_text_shadow;
+	private JTextArea panel_text, panel_textShadow;
 	private Sound ChMusic;
+	private Font Alagard;
 
 	public CharacterState() {
+		
+		try {
+			Alagard = Font.createFont(Font.TRUETYPE_FONT, new File("src/Assets/Fonts/alagard.ttf"));
+		} catch (FontFormatException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
 
 		setSize(1024, 768);
 		setLocation(0, 0);
@@ -39,21 +52,32 @@ public class CharacterState extends JPanel {
 		panel_buttons = new JPanel(null);
 		panel_buttons.setSize(480, 768);
 		panel_buttons.setLocation(0, 0);
-		panel_buttons.setBackground(Color.black);
+		panel_buttons.setBackground(new Color(0,0,0,180));
 
 		panel_art = new JPanel(null);
-		panel_art.setLocation(540, 60);
+		panel_art.setLocation(540, 125);
 		panel_art.setSize(400, 500);
 		panel_art.setBackground(Color.black);
 
 		panel_text = new JTextArea();
-		panel_text.setBackground(Color.black);
 		panel_text.setText("  CHOOSE \n\n       A \n\nCHARACTER");
-		panel_text.setFont(new Font("Alagard", Font.ITALIC, 40));
-		panel_text.setForeground(Color.white);
-		panel_text.setBounds(90, 130, 400, 500);
+		panel_text.setFont(Alagard);
+		panel_text.setFont(panel_text.getFont().deriveFont(Font.ITALIC, 40));
+		panel_text.setForeground(Color.WHITE);
+		panel_text.setBounds(90, 130, 220, 210);
 		panel_text.setVisible(true);
 		panel_text.setEditable(false);
+		panel_text.setOpaque(false);
+		
+		panel_textShadow = new JTextArea();
+		panel_textShadow.setText("  CHOOSE \n\n       A \n\nCHARACTER");
+		panel_textShadow.setFont(Alagard);
+		panel_textShadow.setFont(panel_textShadow.getFont().deriveFont(Font.ITALIC, 40));
+		panel_textShadow.setForeground(Color.DARK_GRAY);
+		panel_textShadow.setBounds(93, 133, 220, 210);
+		panel_textShadow.setVisible(true);
+		panel_textShadow.setEditable(false);
+		panel_textShadow.setOpaque(false);
 
 		// Boton Mage
 		csMage = new JButton();
@@ -132,6 +156,7 @@ public class CharacterState extends JPanel {
 		// Character Preview
 
 		panel_art.add(panel_text);
+		panel_art.add(panel_textShadow);
 		panel_art.add(archer_concept_art);
 		panel_art.add(barbarian_concept_art);
 		panel_art.add(warrior_concept_art);
@@ -294,12 +319,12 @@ public class CharacterState extends JPanel {
 		this.panel_text = panel_text;
 	}
 
-	public JTextArea getPanel_text_shadow() {
-		return panel_text_shadow;
+	public JTextArea getPanel_textShadow() {
+		return panel_textShadow;
 	}
 
-	public void setPanel_text_shadow(JTextArea panel_text_shadow) {
-		this.panel_text_shadow = panel_text_shadow;
+	public void setPanel_textShadow(JTextArea panel_textShadow) {
+		this.panel_textShadow = panel_textShadow;
 	}
 
 	public JButton getBack_button() {
