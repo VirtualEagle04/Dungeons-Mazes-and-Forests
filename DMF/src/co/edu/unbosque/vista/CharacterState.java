@@ -13,12 +13,12 @@ import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
-public class CharacterState extends JPanel {
+public class CharacterState extends JLayeredPane {
 	// Components
 	private JButton csMage, csPaladin, csWarrior, csBarbarian, csArcher, csRogue;
-	private JButton back_button, iniciar;
+	private JButton back_button, select_button;
 	private JPanel panel_buttons, panel_art;
-	private JLabel chBackground, archer_concept_art, barbarian_concept_art, warrior_concept_art, rogue_concept_art,
+	private JLabel chBackground,paBackground, archer_concept_art, barbarian_concept_art, warrior_concept_art, rogue_concept_art,
 			paladin_concept_art, mage_concept_art;
 	private JTextArea panel_text, panel_textShadow;
 	private Sound ChMusic;
@@ -55,9 +55,14 @@ public class CharacterState extends JPanel {
 		panel_buttons.setBackground(new Color(0,0,0,180));
 
 		panel_art = new JPanel(null);
-		panel_art.setLocation(540, 125);
+		panel_art.setLocation(540, 60);
 		panel_art.setSize(400, 500);
 		panel_art.setBackground(Color.black);
+		
+		paBackground = new JLabel();
+		paBackground.setIcon(new ImageIcon("src/Assets/Images/chStatePanelBG.png"));
+		paBackground.setLocation(0,0);
+		paBackground.setSize(400,500);
 
 		panel_text = new JTextArea();
 		panel_text.setText("  CHOOSE \n\n       A \n\nCHARACTER");
@@ -79,6 +84,16 @@ public class CharacterState extends JPanel {
 		panel_textShadow.setEditable(false);
 		panel_textShadow.setOpaque(false);
 
+		// Select Button
+		
+		select_button = new JButton();
+		select_button.setBounds(540,580,400,80);
+		select_button.setBackground(Color.black);
+		select_button.setText("SELECT");
+		select_button.setFont(Alagard);
+		select_button.setFont(select_button.getFont().deriveFont(Font.ITALIC, 40));
+		select_button.setForeground(Color.white);
+		
 		// Boton Mage
 		csMage = new JButton();
 		csMage.setLocation(40, 80);
@@ -175,11 +190,30 @@ public class CharacterState extends JPanel {
 		panel_buttons.add(back_button);
 
 		// panel & background
-
+		
+		panel_art.add(paBackground, JLayeredPane.DEFAULT_LAYER);
 		add(panel_buttons, JLayeredPane.MODAL_LAYER);
 		add(panel_art, JLayeredPane.MODAL_LAYER);
+		add(select_button, JLayeredPane.MODAL_LAYER);
 		add(chBackground, JLayeredPane.DEFAULT_LAYER);
+		
 
+	}
+
+	public JLabel getPaBackground() {
+		return paBackground;
+	}
+
+	public void setPaBackground(JLabel paBackground) {
+		this.paBackground = paBackground;
+	}
+
+	public Font getAlagard() {
+		return Alagard;
+	}
+
+	public void setAlagard(Font alagard) {
+		Alagard = alagard;
 	}
 
 	public JLabel getMage_concept_art() {
@@ -271,12 +305,12 @@ public class CharacterState extends JPanel {
 		this.csRogue = csRogue;
 	}
 
-	public JButton getIniciar() {
-		return iniciar;
+	public JButton getSelect_button() {
+		return select_button;
 	}
 
-	public void setIniciar(JButton iniciar) {
-		this.iniciar = iniciar;
+	public void setSelect_button(JButton select_button) {
+		this.select_button = select_button;
 	}
 
 	public JPanel getPanel_buttons() {
