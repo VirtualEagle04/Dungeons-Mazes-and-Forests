@@ -17,6 +17,7 @@ public class Sound {
 		soundURL[1] = getClass().getResource("/Assets/Music/DMF-OptionsMenu.wav");
 		soundURL[2] = getClass().getResource("/Assets/Music/DMF-CreditsMenu.wav");
 		soundURL[3] = getClass().getResource("/Assets/Music/DMF-CharacterSelection.wav");
+		soundURL[4] = getClass().getResource("/Assets/Music/DMF-HowToPlayMenu.wav");
 
 	}
 	
@@ -46,5 +47,6 @@ public class Sound {
 		
 		clip.stop();
 	}
+	
 
 }

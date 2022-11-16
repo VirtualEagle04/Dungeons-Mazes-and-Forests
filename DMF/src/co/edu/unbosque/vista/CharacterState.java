@@ -389,4 +389,6 @@ public class CharacterState extends JLayeredPane {
 
 		ChMusic.stop();
 	}
+	
+	
 }

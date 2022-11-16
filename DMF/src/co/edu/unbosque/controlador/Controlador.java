@@ -89,6 +89,7 @@ public class Controlador implements ActionListener {
 			tsState.setVisible(false);
 			tsState.stopMusic();
 			chState.playMusic(3);
+
 			chState.setVisible(true);
 
 			break;
@@ -104,6 +105,7 @@ public class Controlador implements ActionListener {
 		case "tutorial_button": {
 			tsState.setVisible(false);
 			tsState.stopMusic();
+			tuState.playMusic(4);
 
 			tuState.setVisible(true);
 			break;
