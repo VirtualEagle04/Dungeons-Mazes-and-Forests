@@ -2,6 +2,7 @@ package co.edu.unbosque.controlador;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Iterator;
 
 import co.edu.unbosque.vista.CharacterState;
 import co.edu.unbosque.vista.CreditsState;
@@ -215,7 +216,6 @@ public class Controlador implements ActionListener {
 		case "cs_select_button":{
 			
 			chState.setVisible(false);
-			chState.stopMusic();
 			prgState.setVisible(true);
 			
 			
