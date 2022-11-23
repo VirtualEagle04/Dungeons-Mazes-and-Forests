@@ -9,6 +9,7 @@ import co.edu.unbosque.vista.GameFrame;
 import co.edu.unbosque.vista.GameState;
 import co.edu.unbosque.vista.OptionsState;
 import co.edu.unbosque.vista.PauseState;
+import co.edu.unbosque.vista.PreGameState;
 import co.edu.unbosque.vista.TitleState;
 import co.edu.unbosque.vista.TutorialState;
 
@@ -22,6 +23,7 @@ public class Controlador implements ActionListener {
 	private PauseState pState = new PauseState();
 	private TutorialState tuState = new TutorialState();
 	private CreditsState crState = new CreditsState();
+	private PreGameState prgState = new PreGameState();
 
 	public Controlador() {
 		gameFrame = new GameFrame();
@@ -33,6 +35,7 @@ public class Controlador implements ActionListener {
 		gameFrame.add(pState).setVisible(false);
 		gameFrame.add(tuState).setVisible(false);
 		gameFrame.add(crState).setVisible(false);
+		gameFrame.add(prgState).setVisible(false);
 		agregarLectores();
 
 	}
@@ -72,6 +75,10 @@ public class Controlador implements ActionListener {
 
 		chState.getCsWarrior().addActionListener(this);
 		chState.getCsWarrior().setActionCommand("csWarrior");
+		
+		chState.getSelect_button().addActionListener(this);
+		chState.getSelect_button().setActionCommand("cs_select_button");
+		
 		// Back buttons
 		chState.getBack_button().addActionListener(this);
 		chState.getBack_button().setActionCommand("cs_back_button");
@@ -81,6 +88,12 @@ public class Controlador implements ActionListener {
 
 		crState.getBack_button().addActionListener(this);
 		crState.getBack_button().setActionCommand("cr_back_button");
+		
+		tuState.getBack_button().addActionListener(this);
+		tuState.getBack_button().setActionCommand("tu_back_button");
+		
+		prgState.getBack_button().addActionListener(this);
+		prgState.getBack_button().setActionCommand("prg_back_button");
 	}
 
 	public void actionPerformed(ActionEvent e) {
@@ -199,6 +212,15 @@ public class Controlador implements ActionListener {
 
 			break;
 		}
+		case "cs_select_button":{
+			
+			chState.setVisible(false);
+			chState.stopMusic();
+			prgState.setVisible(true);
+			
+			
+			break;
+		}
 		case "cs_back_button": {
 
 			chState.setVisible(false);
@@ -224,6 +246,23 @@ public class Controlador implements ActionListener {
 			opState.stopMusic();
 			tsState.playMusic(0);
 
+			break;
+		}
+		case "tu_back_button" :{
+
+			tuState.setVisible(false);
+			tuState.stopMusic();
+			tsState.playMusic(0);
+			tsState.setVisible(true);
+			
+			
+			break;
+		}
+		case "prg_back_button" :{
+			
+			prgState.setVisible(false);
+			chState.setVisible(true);
+			
 			break;
 		}
 

@@ -18,14 +18,14 @@ public class CharacterState extends JLayeredPane {
 	private JButton csMage, csPaladin, csWarrior, csBarbarian, csArcher, csRogue;
 	private JButton back_button, select_button;
 	private JPanel panel_buttons, panel_art;
-	private JLabel chBackground,paBackground, archer_concept_art, barbarian_concept_art, warrior_concept_art, rogue_concept_art,
-			paladin_concept_art, mage_concept_art;
+	private JLabel chBackground, paBackground, archer_concept_art, barbarian_concept_art, warrior_concept_art,
+			rogue_concept_art, paladin_concept_art, mage_concept_art;
 	private JTextArea panel_text, panel_textShadow;
 	private Sound ChMusic;
 	private Font Alagard;
 
 	public CharacterState() {
-		
+
 		try {
 			Alagard = Font.createFont(Font.TRUETYPE_FONT, new File("src/Assets/Fonts/alagard.ttf"));
 		} catch (FontFormatException e) {
@@ -33,7 +33,6 @@ public class CharacterState extends JLayeredPane {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
 
 		setSize(1024, 768);
 		setLocation(0, 0);
@@ -52,48 +51,43 @@ public class CharacterState extends JLayeredPane {
 		panel_buttons = new JPanel(null);
 		panel_buttons.setSize(480, 768);
 		panel_buttons.setLocation(0, 0);
-		panel_buttons.setBackground(new Color(0,0,0,180));
+		panel_buttons.setBackground(new Color(0, 0, 0, 180));
 
-		panel_art = new JPanel(null);
-		panel_art.setLocation(540, 60);
-		panel_art.setSize(400, 500);
-		panel_art.setBackground(Color.black);
-		
 		paBackground = new JLabel();
 		paBackground.setIcon(new ImageIcon("src/Assets/Images/chStatePanelBG.png"));
-		paBackground.setLocation(0,0);
-		paBackground.setSize(400,500);
+		paBackground.setLocation(540, 60);
+		paBackground.setSize(400, 500);
 
 		panel_text = new JTextArea();
 		panel_text.setText("  CHOOSE \n\n       A \n\nCHARACTER");
 		panel_text.setFont(Alagard);
 		panel_text.setFont(panel_text.getFont().deriveFont(Font.ITALIC, 40));
 		panel_text.setForeground(Color.WHITE);
-		panel_text.setBounds(90, 130, 220, 210);
+		panel_text.setBounds(640, 200, 220, 210);
 		panel_text.setVisible(true);
 		panel_text.setEditable(false);
 		panel_text.setOpaque(false);
-		
+
 		panel_textShadow = new JTextArea();
 		panel_textShadow.setText("  CHOOSE \n\n       A \n\nCHARACTER");
 		panel_textShadow.setFont(Alagard);
 		panel_textShadow.setFont(panel_textShadow.getFont().deriveFont(Font.ITALIC, 40));
 		panel_textShadow.setForeground(Color.DARK_GRAY);
-		panel_textShadow.setBounds(93, 133, 220, 210);
+		panel_textShadow.setBounds(643, 203, 220, 210);
 		panel_textShadow.setVisible(true);
 		panel_textShadow.setEditable(false);
 		panel_textShadow.setOpaque(false);
 
 		// Select Button
-		
+
 		select_button = new JButton();
-		select_button.setBounds(540,580,400,80);
+		select_button.setBounds(540, 580, 400, 80);
 		select_button.setBackground(Color.black);
 		select_button.setText("SELECT");
 		select_button.setFont(Alagard);
 		select_button.setFont(select_button.getFont().deriveFont(Font.ITALIC, 40));
 		select_button.setForeground(Color.white);
-		
+
 		// Boton Mage
 		csMage = new JButton();
 		csMage.setLocation(40, 80);
@@ -135,49 +129,49 @@ public class CharacterState extends JLayeredPane {
 		archer_concept_art = new JLabel();
 		archer_concept_art.setIcon(new ImageIcon("src/Assets/Gifs/csArcherldle.gif"));
 		archer_concept_art.setSize(400, 480);
-		archer_concept_art.setLocation(0, 20);
+		archer_concept_art.setLocation(540, 60);
 		archer_concept_art.setVisible(false);
 
 		barbarian_concept_art = new JLabel();
 		barbarian_concept_art.setIcon(new ImageIcon("src/Assets/Gifs/csBarbariandle.gif"));
 		barbarian_concept_art.setSize(400, 400);
-		barbarian_concept_art.setLocation(10, 40);
+		barbarian_concept_art.setLocation(540, 60);
 		barbarian_concept_art.setVisible(false);
 
 		warrior_concept_art = new JLabel();
 		warrior_concept_art.setIcon(new ImageIcon("src/Assets/Gifs/csWarriorldle.gif"));
 		warrior_concept_art.setSize(400, 480);
-		warrior_concept_art.setLocation(0, 20);
+		warrior_concept_art.setLocation(540, 60);
 		warrior_concept_art.setVisible(false);
 
 		mage_concept_art = new JLabel();
 		mage_concept_art.setIcon(new ImageIcon("src/Assets/Gifs/csMageldle.gif"));
 		mage_concept_art.setSize(400, 480);
-		mage_concept_art.setLocation(0, 20);
+		mage_concept_art.setLocation(540, 60);
 		mage_concept_art.setVisible(false);
 
 		paladin_concept_art = new JLabel();
 		paladin_concept_art.setIcon(new ImageIcon("src/Assets/Gifs/csPaladindle.gif"));
 		paladin_concept_art.setSize(400, 480);
-		paladin_concept_art.setLocation(0, 20);
+		paladin_concept_art.setLocation(540, 60);
 		paladin_concept_art.setVisible(false);
 
 		rogue_concept_art = new JLabel();
 		rogue_concept_art.setIcon(new ImageIcon("src/Assets/Gifs/csRogueldle.gif"));
 		rogue_concept_art.setSize(400, 480);
-		rogue_concept_art.setLocation(0, 20);
+		rogue_concept_art.setLocation(540, 60);
 		rogue_concept_art.setVisible(false);
 
 		// Character Preview
 
-		panel_art.add(panel_text);
-		panel_art.add(panel_textShadow);
-		panel_art.add(archer_concept_art);
-		panel_art.add(barbarian_concept_art);
-		panel_art.add(warrior_concept_art);
-		panel_art.add(mage_concept_art);
-		panel_art.add(paladin_concept_art);
-		panel_art.add(rogue_concept_art);
+		add(panel_text);
+		add(panel_textShadow);
+		add(archer_concept_art);
+		add(barbarian_concept_art);
+		add(warrior_concept_art);
+		add(mage_concept_art);
+		add(paladin_concept_art);
+		add(rogue_concept_art);
 
 		// buttons
 
@@ -190,13 +184,11 @@ public class CharacterState extends JLayeredPane {
 		panel_buttons.add(back_button);
 
 		// panel & background
-		
-		panel_art.add(paBackground, JLayeredPane.DEFAULT_LAYER);
+
+		add(paBackground, JLayeredPane.DEFAULT_LAYER);
 		add(panel_buttons, JLayeredPane.MODAL_LAYER);
-		add(panel_art, JLayeredPane.MODAL_LAYER);
 		add(select_button, JLayeredPane.MODAL_LAYER);
 		add(chBackground, JLayeredPane.DEFAULT_LAYER);
-		
 
 	}
 
@@ -389,6 +381,5 @@ public class CharacterState extends JLayeredPane {
 
 		ChMusic.stop();
 	}
-	
-	
+
 }
