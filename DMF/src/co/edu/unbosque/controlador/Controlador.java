@@ -232,7 +232,6 @@ public class Controlador implements ActionListener, KeyListener{
 			gameFrame.getTsState().setVisible(false);
 			gameFrame.getTsState().stopMusic();
 			gameFrame.getCrState().playMusic(2);
-
 			gameFrame.getCrState().setVisible(true);
 			break;
 		}
