@@ -7,9 +7,10 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.swing.JButton;
+import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 
-public class PauseState extends JPanel {
+public class PauseState extends JLayeredPane{
 
 	private Font Alagard;
 	private JPanel pause_panel;
@@ -67,7 +68,7 @@ public class PauseState extends JPanel {
 		pause_panel.add(options_button);
 		pause_panel.add(back_button);
 
-		add(pause_panel);
+		add(pause_panel, JLayeredPane.MODAL_LAYER);
 
 	}
 

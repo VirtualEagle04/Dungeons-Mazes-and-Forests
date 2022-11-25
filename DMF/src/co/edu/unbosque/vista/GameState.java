@@ -12,58 +12,61 @@ import javax.swing.JPanel;
 import co.edu.unbosque.controlador.Controlador;
 import co.edu.unbosque.vista.PlayerRender;
 
-public class GameState extends JPanel{
-	
+public class GameState extends JLayeredPane {
+
 	private Controlador c;
 	private JLabel[] celdas;
 	private JLayeredPane tablero;
 	private PlayerRender player;
 	private int[][] mazeMatrix;
-	
+	private JLabel gsBackground;
+
 	public GameState() {
 		setSize(1024, 768);
-		setLocation(0,0);
+		setLocation(0, 0);
 		setBackground(Color.LIGHT_GRAY);
 		setLayout(null);
 
+		gsBackground = new JLabel(new ImageIcon("src/Assets/Gifs/gsBackground.gif"));
+		gsBackground.setLocation(0, 0);
+		gsBackground.setSize(1024, 768);
+
 	}
-	
-	
+
 	public void drawMaze() {
 		c = new Controlador();
-		
+
 		tablero = new JLayeredPane();
 		tablero.setBackground(Color.WHITE);
 		tablero.setLayout(null);
-		tablero.setSize(32*(c.getColumns()+2), 32*(c.getRows()+2));
-		int mitadX = tablero.getWidth()/2;
-		int mitadY = tablero.getHeight()/2;
-		tablero.setLocation(512-mitadX, 364-mitadY);
-		
-		celdas = new JLabel[(c.getRows()+2) * (c.getColumns()+2)];
+		tablero.setSize(32 * (c.getColumns() + 2), 32 * (c.getRows() + 2));
+		int mitadX = tablero.getWidth() / 2;
+		int mitadY = tablero.getHeight() / 2;
+		tablero.setLocation(512 - mitadX, 364 - mitadY);
+
+		celdas = new JLabel[(c.getRows() + 2) * (c.getColumns() + 2)];
 		mazeMatrix = c.getMazeMatrix();
 
 		int pos_X = 0;
 		int pos_Y = 0;
-		
-		//Rows
+
+		// Rows
 		for (int i = 0; i < mazeMatrix.length; i++) {
-			//Columns
+			// Columns
 			for (int j = 0; j < mazeMatrix[i].length; j++) {
 				if (mazeMatrix[i][j] == 1) {
-					
-					//Last row
-					if(i == mazeMatrix.length-1) {
+
+					// Last row
+					if (i == mazeMatrix.length - 1) {
 						celdas[i] = new JLabel(new ImageIcon("src/Assets/Wall/Top.png"));
 						celdas[i].setSize(32, 32);
 						celdas[i].setLocation(pos_X, pos_Y);
 						pos_X += 32;
 						tablero.add(celdas[i]);
-					}
-					else {
-						//Top
+					} else {
+						// Top
 						try {
-							if(mazeMatrix[i+1][j] == 1) {
+							if (mazeMatrix[i + 1][j] == 1) {
 								celdas[i] = new JLabel(new ImageIcon("src/Assets/Wall/Top.png"));
 								celdas[i].setSize(32, 32);
 								celdas[i].setLocation(pos_X, pos_Y);
@@ -71,15 +74,15 @@ public class GameState extends JPanel{
 								tablero.add(celdas[i]);
 							}
 						} catch (ArrayIndexOutOfBoundsException e) {
-								celdas[i] = new JLabel(new ImageIcon("src/Assets/Wall/Top.png"));
-								celdas[i].setSize(32, 32);
-								celdas[i].setLocation(pos_X, pos_Y);
-								pos_X += 32;
-								tablero.add(celdas[i]);
+							celdas[i] = new JLabel(new ImageIcon("src/Assets/Wall/Top.png"));
+							celdas[i].setSize(32, 32);
+							celdas[i].setLocation(pos_X, pos_Y);
+							pos_X += 32;
+							tablero.add(celdas[i]);
 						}
-						//IndWall
+						// IndWall
 						try {
-							if (mazeMatrix[i+1][j] != 1) {
+							if (mazeMatrix[i + 1][j] != 1) {
 								celdas[i] = new JLabel(new ImageIcon("src/Assets/Wall/IndWall.png"));
 								celdas[i].setSize(32, 32);
 								celdas[i].setLocation(pos_X, pos_Y);
@@ -87,25 +90,25 @@ public class GameState extends JPanel{
 								tablero.add(celdas[i]);
 							}
 						} catch (ArrayIndexOutOfBoundsException e) {
-								celdas[i] = new JLabel(new ImageIcon("src/Assets/Wall/IndWall.png"));
-								celdas[i].setSize(32, 32);
-								celdas[i].setLocation(pos_X, pos_Y);
-								pos_X += 32;
-								tablero.add(celdas[i]);
+							celdas[i] = new JLabel(new ImageIcon("src/Assets/Wall/IndWall.png"));
+							celdas[i].setSize(32, 32);
+							celdas[i].setLocation(pos_X, pos_Y);
+							pos_X += 32;
+							tablero.add(celdas[i]);
 						}
 					}
-					
+
 				}
 				if (mazeMatrix[i][j] == 0) {
-					
+
 					Random rnd = new Random();
 					int temp = rnd.nextInt(((8 - 0) + 1) + 0);
-					
+
 					switch (temp) {
 					case 0: {
 						celdas[i] = new JLabel(new ImageIcon("src/Assets/Floor/floor1.png"));
 						celdas[i].setSize(32, 32);
-						celdas[i].setLocation(pos_X,pos_Y);
+						celdas[i].setLocation(pos_X, pos_Y);
 						pos_X += 32;
 						tablero.add(celdas[i]);
 						break;
@@ -113,7 +116,7 @@ public class GameState extends JPanel{
 					case 1: {
 						celdas[i] = new JLabel(new ImageIcon("src/Assets/Floor/floor2.png"));
 						celdas[i].setSize(32, 32);
-						celdas[i].setLocation(pos_X,pos_Y);
+						celdas[i].setLocation(pos_X, pos_Y);
 						pos_X += 32;
 						tablero.add(celdas[i]);
 						break;
@@ -121,7 +124,7 @@ public class GameState extends JPanel{
 					case 2: {
 						celdas[i] = new JLabel(new ImageIcon("src/Assets/Floor/floor3.png"));
 						celdas[i].setSize(32, 32);
-						celdas[i].setLocation(pos_X,pos_Y);
+						celdas[i].setLocation(pos_X, pos_Y);
 						pos_X += 32;
 						tablero.add(celdas[i]);
 						break;
@@ -129,7 +132,7 @@ public class GameState extends JPanel{
 					case 3: {
 						celdas[i] = new JLabel(new ImageIcon("src/Assets/Floor/floor4.png"));
 						celdas[i].setSize(32, 32);
-						celdas[i].setLocation(pos_X,pos_Y);
+						celdas[i].setLocation(pos_X, pos_Y);
 						pos_X += 32;
 						tablero.add(celdas[i]);
 						break;
@@ -137,7 +140,7 @@ public class GameState extends JPanel{
 					case 4: {
 						celdas[i] = new JLabel(new ImageIcon("src/Assets/Floor/floor6.png"));
 						celdas[i].setSize(32, 32);
-						celdas[i].setLocation(pos_X,pos_Y);
+						celdas[i].setLocation(pos_X, pos_Y);
 						pos_X += 32;
 						tablero.add(celdas[i]);
 						break;
@@ -145,7 +148,7 @@ public class GameState extends JPanel{
 					case 5: {
 						celdas[i] = new JLabel(new ImageIcon("src/Assets/Floor/floor7.png"));
 						celdas[i].setSize(32, 32);
-						celdas[i].setLocation(pos_X,pos_Y);
+						celdas[i].setLocation(pos_X, pos_Y);
 						pos_X += 32;
 						tablero.add(celdas[i]);
 						break;
@@ -153,7 +156,7 @@ public class GameState extends JPanel{
 					case 6: {
 						celdas[i] = new JLabel(new ImageIcon("src/Assets/Floor/floor8.png"));
 						celdas[i].setSize(32, 32);
-						celdas[i].setLocation(pos_X,pos_Y);
+						celdas[i].setLocation(pos_X, pos_Y);
 						pos_X += 32;
 						tablero.add(celdas[i]);
 						break;
@@ -161,7 +164,7 @@ public class GameState extends JPanel{
 					case 7: {
 						celdas[i] = new JLabel(new ImageIcon("src/Assets/Floor/floor9.png"));
 						celdas[i].setSize(32, 32);
-						celdas[i].setLocation(pos_X,pos_Y);
+						celdas[i].setLocation(pos_X, pos_Y);
 						pos_X += 32;
 						tablero.add(celdas[i]);
 						break;
@@ -169,50 +172,48 @@ public class GameState extends JPanel{
 					case 8: {
 						celdas[i] = new JLabel(new ImageIcon("src/Assets/Floor/floor10.png"));
 						celdas[i].setSize(32, 32);
-						celdas[i].setLocation(pos_X,pos_Y);
+						celdas[i].setLocation(pos_X, pos_Y);
 						pos_X += 32;
 						tablero.add(celdas[i]);
 						break;
 					}
 					default:
 					}
-					
 
 				}
-				
-				//Entradas y Salidas
-					if (mazeMatrix[i][j] == 3) {
-						celdas[i] = new JLabel(new ImageIcon("src/Assets/Wall/WallTileStart.png"));
-						celdas[i].setSize(32, 32);
-						celdas[i].setBackground(Color.GREEN);
-						celdas[i].setLocation(pos_X,pos_Y);
-						pos_X += 32;
-						tablero.add(celdas[i], JLayeredPane.DEFAULT_LAYER);
-						
-						player = new PlayerRender();
-						player.setLocation(celdas[i].getLocation());
-						tablero.add(player, JLayeredPane.DRAG_LAYER);
-						
-					}
-					if (mazeMatrix[i][j] == 4) {
-						celdas[i] = new JLabel(new ImageIcon("src/Assets/Wall/WallTileFinish.png"));
-						celdas[i].setSize(32, 32);
-						//celdas[i].setBackground(Color.RED);
-						celdas[i].setLocation(pos_X,pos_Y);
-						pos_X += 32;
-						tablero.add(celdas[i]);
-					}
-				//System.out.println("Checked: "+i+","+j);
+
+				// Entradas y Salidas
+				if (mazeMatrix[i][j] == 3) {
+					celdas[i] = new JLabel(new ImageIcon("src/Assets/Wall/WallTileStart.png"));
+					celdas[i].setSize(32, 32);
+					celdas[i].setBackground(Color.GREEN);
+					celdas[i].setLocation(pos_X, pos_Y);
+					pos_X += 32;
+					tablero.add(celdas[i], JLayeredPane.DEFAULT_LAYER);
+
+					player = new PlayerRender();
+					player.setLocation(celdas[i].getLocation());
+					tablero.add(player, JLayeredPane.DRAG_LAYER);
+
+				}
+				if (mazeMatrix[i][j] == 4) {
+					celdas[i] = new JLabel(new ImageIcon("src/Assets/Wall/WallTileFinish.png"));
+					celdas[i].setSize(32, 32);
+					// celdas[i].setBackground(Color.RED);
+					celdas[i].setLocation(pos_X, pos_Y);
+					pos_X += 32;
+					tablero.add(celdas[i]);
+				}
+				// System.out.println("Checked: "+i+","+j);
 			}
 			pos_X = 0;
 			pos_Y += 32;
 		}
 
-		
-		
 		add(tablero);
+		add(gsBackground, JLayeredPane.DEFAULT_LAYER);
 	}
-	
+
 	public Controlador getC() {
 		return c;
 	}
