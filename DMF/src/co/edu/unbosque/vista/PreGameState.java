@@ -19,9 +19,10 @@ public class PreGameState extends JLayeredPane {
 	private JButton back_button, start_button;
 	private JLabel prgBackground, characterInf, characterInf_shadow, character_name, character_name_shadow, indicator;
 	private JPanel panel_inf;
-	private Font Alagard;
+	private JTextField entrada_X, entrada_Y;
 	private JTextArea size_inf, size_inf_shadow;
-	private JTextField  labSizeX, labSizeY;
+	private Font Alagard;
+	
 
 	public PreGameState() {
 
@@ -91,7 +92,7 @@ public class PreGameState extends JLayeredPane {
 		start_button.setBackground(Color.black);
 		start_button.setSize(320, 60);
 		start_button.setLocation(464, 530);
-
+		
 		size_inf = new JTextArea();
 		size_inf.setEditable(false);
 		size_inf.setOpaque(false);
@@ -117,33 +118,34 @@ public class PreGameState extends JLayeredPane {
 		indicator.setBounds(494,302, 200,40);
 		indicator.setText("X:            Y:");
 		
-		labSizeX = new JTextField();
-		labSizeX.setBackground(Color.DARK_GRAY);
-		labSizeX.setFont(Alagard);
-		labSizeX.setFont(size_inf.getFont().deriveFont(Font.ITALIC, 18));
-		labSizeX.setForeground(Color.white);
-		labSizeX.setSize(80,40);
-		labSizeX.setLocation(524,300);
+		entrada_X = new JTextField();
+		entrada_X.setLocation(524, 300);
+		entrada_X.setSize(80, 40);
+		entrada_X.setEditable(true);
+		entrada_X.setFont(Alagard);
+		entrada_X.setFont(entrada_X.getFont().deriveFont(Font.ITALIC, 30));
+		entrada_X.setBackground(Color.DARK_GRAY);
+		entrada_X.setForeground(Color.WHITE);
 		
-		labSizeY = new JTextField();
-		labSizeY.setBackground(Color.DARK_GRAY);
-		labSizeY.setFont(Alagard);
-		labSizeY.setFont(size_inf.getFont().deriveFont(Font.ITALIC, 18));
-		labSizeY.setForeground(Color.white);
-		labSizeY.setSize(80,40);
-		labSizeY.setLocation(644,300);
+		entrada_Y = new JTextField();
+		entrada_Y.setLocation(644, 300);
+		entrada_Y.setSize(80, 40);
+		entrada_Y.setEditable(true);
+		entrada_Y.setFont(Alagard);
+		entrada_Y.setFont(entrada_Y.getFont().deriveFont(Font.ITALIC, 30));
+		entrada_Y.setBackground(Color.DARK_GRAY);
+		entrada_Y.setForeground(Color.WHITE);
 		
-		panel_inf.add(characterInf);
-		panel_inf.add(characterInf_shadow, JLayeredPane.DEFAULT_LAYER);
-		panel_inf.add(indicator);
+		panel_inf.add(entrada_Y);
+		panel_inf.add(entrada_X);
 		panel_inf.add(size_inf);
 		panel_inf.add(size_inf_shadow, JLayeredPane.DEFAULT_LAYER);
 		panel_inf.add(indicator);
+		panel_inf.add(characterInf);
+		panel_inf.add(characterInf_shadow, JLayeredPane.DEFAULT_LAYER);
 		panel_inf.add(start_button);
 		panel_inf.add(character_name);
 		panel_inf.add(character_name_shadow, JLayeredPane.DEFAULT_LAYER);
-		panel_inf.add(labSizeX);
-		panel_inf.add(labSizeY);
 
 		add(panel_inf, JLayeredPane.MODAL_LAYER);
 		add(back_button, JLayeredPane.MODAL_LAYER);
@@ -157,61 +159,9 @@ public class PreGameState extends JLayeredPane {
 		return character_name_shadow;
 	}
 
-
-
 	public void setCharacter_name_shadow(JLabel character_name_shadow) {
 		this.character_name_shadow = character_name_shadow;
 	}
-
-
-
-	public JTextArea getSize_inf() {
-		return size_inf;
-	}
-
-
-
-	public void setSize_inf(JTextArea size_inf) {
-		this.size_inf = size_inf;
-	}
-
-
-
-	public JTextArea getSize_inf_shadow() {
-		return size_inf_shadow;
-	}
-
-
-
-	public void setSize_inf_shadow(JTextArea size_inf_shadow) {
-		this.size_inf_shadow = size_inf_shadow;
-	}
-
-
-
-	public JTextField getLabSizeX() {
-		return labSizeX;
-	}
-
-
-
-	public void setLabSizeX(JTextField labSizeX) {
-		this.labSizeX = labSizeX;
-	}
-
-
-
-	public JTextField getLabSizeY() {
-		return labSizeY;
-	}
-
-
-
-	public void setLabSizeY(JTextField labSizeY) {
-		this.labSizeY = labSizeY;
-	}
-
-
 
 	public JButton getStart_button() {
 		return start_button;
@@ -275,6 +225,66 @@ public class PreGameState extends JLayeredPane {
 
 	public void setBack_button(JButton back_button) {
 		this.back_button = back_button;
+	}
+
+
+
+	public JLabel getIndicator() {
+		return indicator;
+	}
+
+
+
+	public void setIndicator(JLabel indicator) {
+		this.indicator = indicator;
+	}
+
+
+
+	public JTextField getEntrada_X() {
+		return entrada_X;
+	}
+
+
+
+	public void setEntrada_X(JTextField entrada_X) {
+		this.entrada_X = entrada_X;
+	}
+
+
+
+	public JTextField getEntrada_Y() {
+		return entrada_Y;
+	}
+
+
+
+	public void setEntrada_Y(JTextField entrada_Y) {
+		this.entrada_Y = entrada_Y;
+	}
+
+
+
+	public JTextArea getSize_inf() {
+		return size_inf;
+	}
+
+
+
+	public void setSize_inf(JTextArea size_inf) {
+		this.size_inf = size_inf;
+	}
+
+
+
+	public JTextArea getSize_inf_shadow() {
+		return size_inf_shadow;
+	}
+
+
+
+	public void setSize_inf_shadow(JTextArea size_inf_shadow) {
+		this.size_inf_shadow = size_inf_shadow;
 	}
 
 }
