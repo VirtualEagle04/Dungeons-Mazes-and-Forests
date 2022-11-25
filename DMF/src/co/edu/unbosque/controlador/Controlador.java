@@ -23,6 +23,7 @@ public class Controlador implements ActionListener, KeyListener{
 	private int intentos_generacion;
 	private boolean upP, downP, leftP, rightP;
 	private int posX, posY, desplazamiento;
+	boolean actualESC = false;
 	
 
 	public Controlador() {
@@ -55,13 +56,14 @@ public class Controlador implements ActionListener, KeyListener{
 	
 
 	
-	//Movimiento
+	
 				@Override
 				public void keyPressed(KeyEvent e) {
 					
 					int code = e.getKeyCode();
 					
-					if(code == KeyEvent.VK_W) {
+					//Movimiento
+					if(code == KeyEvent.VK_W || code == KeyEvent.VK_UP) {
 						
 						//Cuando el jugador trata de moverse fuera del length de la matriz
 						try {
@@ -76,7 +78,7 @@ public class Controlador implements ActionListener, KeyListener{
 						} catch (ArrayIndexOutOfBoundsException e2) {}
 			
 					}
-					if(code == KeyEvent.VK_S) {
+					if(code == KeyEvent.VK_S || code == KeyEvent.VK_DOWN) {
 						try {
 							 if (mazeMatrix[(posY/32)+1][posX/32] != 1) {
 									downP = true;
@@ -89,7 +91,7 @@ public class Controlador implements ActionListener, KeyListener{
 						} catch (ArrayIndexOutOfBoundsException e2) {}
 			
 					}
-					if(code == KeyEvent.VK_A) {
+					if(code == KeyEvent.VK_A || code == KeyEvent.VK_LEFT) {
 						try {
 							 if (mazeMatrix[posY/32][(posX/32)-1] != 1) {
 									setLeftP(true);
@@ -102,7 +104,7 @@ public class Controlador implements ActionListener, KeyListener{
 						} catch (ArrayIndexOutOfBoundsException e2) {}
 			
 					}
-					if(code == KeyEvent.VK_D) {
+					if(code == KeyEvent.VK_D || code == KeyEvent.VK_RIGHT) {
 						try {
 							 if (mazeMatrix[posY/32][(posX/32)+1] != 1) {
 									rightP = true;
@@ -114,6 +116,19 @@ public class Controlador implements ActionListener, KeyListener{
 							 }
 						} catch (ArrayIndexOutOfBoundsException e2) {}
 			
+					}
+
+					if(code == KeyEvent.VK_ESCAPE) {
+						
+						if(actualESC == false) {
+							gameFrame.getpState().setVisible(true);
+							actualESC = true;
+						}
+						else if (actualESC = true) {
+							gameFrame.getpState().setVisible(false);
+							actualESC = false;
+						}
+						
 					}
 				}
 			
@@ -134,6 +149,7 @@ public class Controlador implements ActionListener, KeyListener{
 					if(code == KeyEvent.VK_D) {
 						rightP = false;
 					}
+
 				}
 				@Override
 				public void keyTyped(KeyEvent e) {}
@@ -196,8 +212,22 @@ public class Controlador implements ActionListener, KeyListener{
 		gameFrame.getPrgState().getBack_button().addActionListener(this);
 		gameFrame.getPrgState().getBack_button().setActionCommand("prg_back_button");
 		
+		//Pre-Game Start Button
 		gameFrame.getPrgState().getStart_button().addActionListener(this);
 		gameFrame.getPrgState().getStart_button().setActionCommand("prg_start_button");
+		
+		
+		//Pause Buttons
+		gameFrame.getpState().getOptions_button().addActionListener(this);
+		gameFrame.getpState().getOptions_button().setActionCommand("pause_options_button");
+		
+		gameFrame.getpState().getResume_button().addActionListener(this);
+		gameFrame.getpState().getResume_button().setActionCommand("pause_resume_button");
+		
+		gameFrame.getpState().getBack_button().addActionListener(this);
+		gameFrame.getpState().getBack_button().setActionCommand("pause_back_button");
+		
+		
 		
 	}
 
@@ -400,7 +430,32 @@ public class Controlador implements ActionListener, KeyListener{
 				posY = gameFrame.getGameState().getPlayer().getY();
 				desplazamiento = 32;
 			}
+			break;
 			
+		}
+		case "pause_options_button": {
+			
+			gameFrame.getOpState().setVisible(true);
+			
+			gameFrame.getGameState().setVisible(false);
+			gameFrame.getpState().setVisible(false);
+
+			break;
+		}
+		case "pause_resume_button": {
+			
+			gameFrame.getpState().setVisible(false);
+			
+			break;
+		}
+		case "pause_back_button": {
+			
+			gameFrame.getpState().setVisible(false);
+			gameFrame.getGameState().setVisible(false);
+			
+			gameFrame.getTsState().setVisible(true);
+			
+			break;
 		}
 		default:
 		}

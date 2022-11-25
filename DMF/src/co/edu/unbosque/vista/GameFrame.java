@@ -1,6 +1,7 @@
 package co.edu.unbosque.vista;
 
 import javax.swing.JFrame;
+import javax.swing.JLayeredPane;
 
 public class GameFrame extends JFrame{
 	
@@ -37,7 +38,8 @@ public class GameFrame extends JFrame{
 		add(tsState).setVisible(true);
 		add(opState).setVisible(false);
 		add(chState).setVisible(false);
-		add(pState).setVisible(false);
+		add(pState, JLayeredPane.MODAL_LAYER);
+		this.pState.setVisible(false);
 		add(tuState).setVisible(false);
 		add(crState).setVisible(false);
 		add(prgState).setVisible(false);
