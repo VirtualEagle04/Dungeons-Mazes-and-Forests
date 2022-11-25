@@ -71,4 +71,44 @@ public class PauseState extends JPanel {
 
 	}
 
+	public Font getAlagard() {
+		return Alagard;
+	}
+
+	public void setAlagard(Font alagard) {
+		Alagard = alagard;
+	}
+
+	public JPanel getPause_panel() {
+		return pause_panel;
+	}
+
+	public void setPause_panel(JPanel pause_panel) {
+		this.pause_panel = pause_panel;
+	}
+
+	public JButton getResume_button() {
+		return resume_button;
+	}
+
+	public void setResume_button(JButton resume_button) {
+		this.resume_button = resume_button;
+	}
+
+	public JButton getOptions_button() {
+		return options_button;
+	}
+
+	public void setOptions_button(JButton options_button) {
+		this.options_button = options_button;
+	}
+
+	public JButton getBack_button() {
+		return back_button;
+	}
+
+	public void setBack_button(JButton back_button) {
+		this.back_button = back_button;
+	}
+
 }
