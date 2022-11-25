@@ -60,10 +60,10 @@ public class MazeBFS {
 		int min = BFS(x, y, h, w);
 		if (min != -1) {
 			//System.out.println("Menor numero de movimientos: " + min);
-			System.out.println("Laberinto con solucion");
+			//System.out.println("Laberinto con solucion");
 			solucion = true;
 		} else {
-			System.out.println("No hay solucion, generando nuevo laberinto");
+			//System.out.println("No hay solucion, generando nuevo laberinto");
 			solucion = false;
 		}
 		return solucion;
@@ -76,7 +76,7 @@ public class MazeBFS {
 			y = j;
 		}
 
-		System.out.println("Camino con menor numero de pasos: ");
+		//System.out.println("Camino con menor numero de pasos: ");
 		for (int i = 0; i < h; ++i) {
 			for (int j = 0; j < w; ++j) {
 				System.out.print(ady[i][j]+" ");

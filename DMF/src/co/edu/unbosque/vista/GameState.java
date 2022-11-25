@@ -17,9 +17,8 @@ public class GameState extends JPanel{
 	private Controlador c;
 	private JLabel[] celdas;
 	private JLayeredPane tablero;
-	private int[][] mazeMatrix;
-	private ArrayList<Integer> mazeMap;
 	private PlayerRender player;
+	private int[][] mazeMatrix;
 	
 	public GameState() {
 		setSize(1024, 768);
@@ -32,7 +31,6 @@ public class GameState extends JPanel{
 	
 	public void drawMaze() {
 		c = new Controlador();
-		mazeMap = new ArrayList<Integer>();
 		
 		tablero = new JLayeredPane();
 		tablero.setBackground(Color.WHITE);
@@ -44,7 +42,6 @@ public class GameState extends JPanel{
 		
 		celdas = new JLabel[(c.getRows()+2) * (c.getColumns()+2)];
 		mazeMatrix = c.getMazeMatrix();
-		mazeMap = c.getMazeMap();
 
 		int pos_X = 0;
 		int pos_Y = 0;
@@ -246,14 +243,6 @@ public class GameState extends JPanel{
 
 	public void setMazeMatrix(int[][] mazeMatrix) {
 		this.mazeMatrix = mazeMatrix;
-	}
-
-	public ArrayList<Integer> getMazeMap() {
-		return mazeMap;
-	}
-
-	public void setMazeMap(ArrayList<Integer> mazeMap) {
-		this.mazeMap = mazeMap;
 	}
 
 	public PlayerRender getPlayer() {
