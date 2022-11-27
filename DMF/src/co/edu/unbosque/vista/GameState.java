@@ -1,16 +1,13 @@
 package co.edu.unbosque.vista;
 
 import java.awt.Color;
-import java.util.ArrayList;
 import java.util.Random;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
-import javax.swing.JPanel;
 
 import co.edu.unbosque.controlador.Controlador;
-import co.edu.unbosque.vista.PlayerRender;
 
 public class GameState extends JLayeredPane {
 
@@ -18,6 +15,8 @@ public class GameState extends JLayeredPane {
 	private JLabel[] celdas;
 	private JLayeredPane tablero;
 	private PlayerRender player;
+	private EnemyRender enemy;
+	private KeyRender key;
 	private int[][] mazeMatrix;
 	private JLabel gsBackground;
 
@@ -180,6 +179,31 @@ public class GameState extends JLayeredPane {
 					default:
 					}
 
+				}
+				
+				// LLaves y Enemigos
+				if (mazeMatrix[i][j] == 2) {
+					celdas[i] = new JLabel(new ImageIcon("src/Assets/Floor/floor10.png"));
+					celdas[i].setSize(32, 32);
+					celdas[i].setLocation(pos_X, pos_Y);
+					pos_X += 32;
+					tablero.add(celdas[i], JLayeredPane.DEFAULT_LAYER);
+
+					enemy = new EnemyRender();
+					enemy.setLocation(celdas[i].getLocation());
+					tablero.add(enemy, JLayeredPane.MODAL_LAYER);
+				}
+
+				if (mazeMatrix[i][j] == 5) {
+					celdas[i] = new JLabel(new ImageIcon("src/Assets/Floor/floor4.png"));
+					celdas[i].setSize(32, 32);
+					celdas[i].setLocation(pos_X, pos_Y);
+					pos_X += 32;
+					tablero.add(celdas[i], JLayeredPane.DEFAULT_LAYER);
+
+					key = new KeyRender();
+					key.setLocation(celdas[i].getLocation());
+					tablero.add(key, JLayeredPane.MODAL_LAYER);
 				}
 
 				// Entradas y Salidas

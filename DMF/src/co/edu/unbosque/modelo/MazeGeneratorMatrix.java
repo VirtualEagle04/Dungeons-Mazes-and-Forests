@@ -62,9 +62,27 @@ public class MazeGeneratorMatrix {
 			
 			//Columns
 			for (int j = 1; j <= columns; j++) {
-				int temporal = rnd.nextInt(2);
+				int muroCamino = rnd.nextInt(2);
 				
-				maze[i][j] = temporal; //Elegir entre 1-0 para la posicion actual
+				//Muro
+				if (muroCamino == 1) {
+					maze[i][j] = 1;
+				}
+				//Camino
+				else if (muroCamino == 0) {
+					int enemigo_llave_camino = rnd.nextInt(20); //Elegir entre 0-1-2 para: camino, enemigo, llave
+					
+					if (enemigo_llave_camino == 0) {
+						maze[i][j] = 0; //Camino
+					}
+					else if (enemigo_llave_camino == 1) {
+						maze[i][j] = 2; //Enemigo
+					}
+					else if (enemigo_llave_camino == 2) {
+						maze[i][j] = 5; //LLave
+					}
+					
+				}
 			}
 			
 		}

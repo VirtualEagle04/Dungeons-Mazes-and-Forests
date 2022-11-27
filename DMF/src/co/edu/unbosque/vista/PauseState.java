@@ -58,7 +58,7 @@ public class PauseState extends JLayeredPane{
 
 		back_button = new JButton();
 		back_button.setBounds(80, 600, 320, 70);
-		back_button.setText("Quite Game");
+		back_button.setText("Quit Game");
 		back_button.setForeground(Color.white);
 		back_button.setFont(Alagard);
 		back_button.setFont(resume_button.getFont().deriveFont(Font.ITALIC, 25));

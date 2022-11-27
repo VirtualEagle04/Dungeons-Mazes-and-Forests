@@ -111,6 +111,7 @@ public class GameFrame extends JFrame{
 	public void setPrgState(PreGameState prgState) {
 		this.prgState = prgState;
 	}
+
 	
 	
 	

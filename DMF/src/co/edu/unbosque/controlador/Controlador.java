@@ -61,63 +61,90 @@ public class Controlador implements ActionListener, KeyListener{
 				public void keyPressed(KeyEvent e) {
 					
 					int code = e.getKeyCode();
-					
-					//Movimiento
-					if(code == KeyEvent.VK_W || code == KeyEvent.VK_UP) {
+					if (gameFrame.getpState().isVisible()) {
+						//No lee input, no permite que el jugador se mueva
+					}else {
 						
-						//Cuando el jugador trata de moverse fuera del length de la matriz
-						try {
-							 if (mazeMatrix[(posY/32)-1][posX/32] != 1) {
-									upP = true;
-//									System.out.println("W");
-									gameFrame.getGameState().getPlayer().setLocation(posX, posY-desplazamiento);
-									gameFrame.getGameState().getPlayer().repaint();
-									posX = gameFrame.getGameState().getPlayer().getX();
-									posY = gameFrame.getGameState().getPlayer().getY();
-							 }
-						} catch (ArrayIndexOutOfBoundsException e2) {}
-			
-					}
-					if(code == KeyEvent.VK_S || code == KeyEvent.VK_DOWN) {
-						try {
-							 if (mazeMatrix[(posY/32)+1][posX/32] != 1) {
-									downP = true;
-//									System.out.println("S");
-									gameFrame.getGameState().getPlayer().setLocation(posX, posY+desplazamiento);
-									gameFrame.getGameState().getPlayer().repaint();
-									posX = gameFrame.getGameState().getPlayer().getX();
-									posY = gameFrame.getGameState().getPlayer().getY();
-							 }
-						} catch (ArrayIndexOutOfBoundsException e2) {}
-			
-					}
-					if(code == KeyEvent.VK_A || code == KeyEvent.VK_LEFT) {
-						try {
-							 if (mazeMatrix[posY/32][(posX/32)-1] != 1) {
-									setLeftP(true);
-//									System.out.println("A");
-									gameFrame.getGameState().getPlayer().setLocation(posX-desplazamiento, posY);
-									gameFrame.getGameState().getPlayer().repaint();
-									posX = gameFrame.getGameState().getPlayer().getX();
-									posY = gameFrame.getGameState().getPlayer().getY();
-							 }
-						} catch (ArrayIndexOutOfBoundsException e2) {}
-			
-					}
-					if(code == KeyEvent.VK_D || code == KeyEvent.VK_RIGHT) {
-						try {
-							 if (mazeMatrix[posY/32][(posX/32)+1] != 1) {
-									rightP = true;
-//									System.out.println("D");
-									gameFrame.getGameState().getPlayer().setLocation(posX+desplazamiento, posY);
-									gameFrame.getGameState().getPlayer().repaint();
-									posX = gameFrame.getGameState().getPlayer().getX();
-									posY = gameFrame.getGameState().getPlayer().getY();
-							 }
-						} catch (ArrayIndexOutOfBoundsException e2) {}
-			
-					}
+						//Movimiento
+						if(code == KeyEvent.VK_W || code == KeyEvent.VK_UP) {
+							
+							//Cuando el jugador trata de moverse fuera del length de la matriz
+							try {
+								 if (mazeMatrix[(posY/32)-1][posX/32] != 1) {
+										upP = true;
+//										System.out.println("W");
+										gameFrame.getGameState().getPlayer().setLocation(posX, posY-desplazamiento);
+										gameFrame.getGameState().getPlayer().repaint();
+										posX = gameFrame.getGameState().getPlayer().getX();
+										posY = gameFrame.getGameState().getPlayer().getY();
+										
+//										if (mazeMatrix[posY/32][posX/32] == 4) {
+//											System.out.println("LLego");
+//										}	
+								 }
+							} catch (ArrayIndexOutOfBoundsException e2) {}
+				
+						}
+						if(code == KeyEvent.VK_S || code == KeyEvent.VK_DOWN) {
+							try {
+								 if (mazeMatrix[(posY/32)+1][posX/32] != 1) {
+										downP = true;
+//										System.out.println("S");
+										gameFrame.getGameState().getPlayer().setLocation(posX, posY+desplazamiento);
+										gameFrame.getGameState().getPlayer().repaint();
+										posX = gameFrame.getGameState().getPlayer().getX();
+										posY = gameFrame.getGameState().getPlayer().getY();
+										
+//										if (mazeMatrix[posY/32][posX/32] == 4) {
+//											System.out.println("LLego");
+//										}
+								 }
+							} catch (ArrayIndexOutOfBoundsException e2) {}
+				
+						}
+						if(code == KeyEvent.VK_A || code == KeyEvent.VK_LEFT) {
+							try {
+								 if (mazeMatrix[posY/32][(posX/32)-1] != 1) {
+										setLeftP(true);
+//										System.out.println("A");
+										gameFrame.getGameState().getPlayer().setLocation(posX-desplazamiento, posY);
+										gameFrame.getGameState().getPlayer().repaint();
+										posX = gameFrame.getGameState().getPlayer().getX();
+										posY = gameFrame.getGameState().getPlayer().getY();
+										
+//										if (mazeMatrix[posY/32][posX/32] == 4) {
+//											System.out.println("LLego");
+//										}
+								 }
+							} catch (ArrayIndexOutOfBoundsException e2) {}
+				
+						}
+						if(code == KeyEvent.VK_D || code == KeyEvent.VK_RIGHT) {
+							try {
+								 if (mazeMatrix[posY/32][(posX/32)+1] != 1) {
+										rightP = true;
+//										System.out.println("D");
+										gameFrame.getGameState().getPlayer().setLocation(posX+desplazamiento, posY);
+										gameFrame.getGameState().getPlayer().repaint();
+										posX = gameFrame.getGameState().getPlayer().getX();
+										posY = gameFrame.getGameState().getPlayer().getY();
+										
 
+								 }
+							} catch (ArrayIndexOutOfBoundsException e2) {}
+				
+						}
+						
+						//Chequea si la posicion actualizada actual es 4 (es decir, la salida)
+						if (mazeMatrix[posY/32][posX/32] == 4) {
+							System.out.println("LLego");
+
+							
+							//Ocultar el juego, mostrar passState, generar nuevo mazeMatrix, dibujar nuevo mazeMatrix
+						}
+
+					}
+					//Pausa
 					if(code == KeyEvent.VK_ESCAPE) {
 						
 						if(actualESC == false) {
@@ -130,6 +157,8 @@ public class Controlador implements ActionListener, KeyListener{
 						}
 						
 					}
+					
+
 				}
 			
 				@Override
@@ -447,6 +476,7 @@ public class Controlador implements ActionListener, KeyListener{
 		case "pause_resume_button": {
 			
 			gameFrame.getpState().setVisible(false);
+			this.actualESC = false;
 			
 			break;
 		}
