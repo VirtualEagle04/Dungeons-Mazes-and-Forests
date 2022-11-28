@@ -431,10 +431,11 @@ public class Controlador implements ActionListener, KeyListener{
 		}
 		case "prg_start_button" :{
 			
-
+			gameFrame.getGameState().playMusic(5);
 			//Recoge los valores ingresados en el JTextField, y los convierte a Integer
 			rows = Integer.parseInt(gameFrame.getPrgState().getEntrada_Y().getText());
 			columns = Integer.parseInt(gameFrame.getPrgState().getEntrada_X().getText());
+			
 			
 			//Condicional para el minimo (5) y el maximo (20)
 			if((rows < 5 || rows > 20) && (columns < 5 || columns > 20)) {

@@ -19,6 +19,7 @@ public class GameState extends JLayeredPane {
 	private KeyRender key;
 	private int[][] mazeMatrix;
 	private JLabel gsBackground;
+	private Sound GmMusic;
 
 	public GameState() {
 		setSize(1024, 768);
@@ -29,6 +30,8 @@ public class GameState extends JLayeredPane {
 		gsBackground = new JLabel(new ImageIcon("src/Assets/Gifs/gsBackground.gif"));
 		gsBackground.setLocation(0, 0);
 		gsBackground.setSize(1024, 768);
+		
+		GmMusic = new Sound();
 
 	}
 
@@ -236,6 +239,7 @@ public class GameState extends JLayeredPane {
 
 		add(tablero);
 		add(gsBackground, JLayeredPane.DEFAULT_LAYER);
+		
 	}
 
 	public Controlador getC() {
@@ -276,6 +280,18 @@ public class GameState extends JLayeredPane {
 
 	public void setPlayer(PlayerRender player) {
 		this.player = player;
+	}
+	
+	public void playMusic(int i) {
+
+		GmMusic.setFile(i);
+		GmMusic.play();
+		GmMusic.loop();
+	}
+
+	public void stopMusic() {
+
+		GmMusic.stop();
 	}
 
 }
