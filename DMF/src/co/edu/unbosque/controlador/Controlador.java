@@ -466,11 +466,7 @@ public class Controlador implements ActionListener, KeyListener{
 			}
 			else {
 				
-<<<<<<< Updated upstream
-				//Genera Laberinto con solución
-=======
 				//Genera Laberinto con solucion
->>>>>>> Stashed changes
 				this.newGame(rows, columns);
 				
 				gameFrame.getPrgState().setVisible(false);
