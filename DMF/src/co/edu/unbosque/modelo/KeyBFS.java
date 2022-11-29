@@ -3,7 +3,6 @@ package co.edu.unbosque.modelo;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Queue;
-import java.util.Scanner;
 
 import co.edu.unbosque.controlador.Controlador;
 
@@ -11,10 +10,10 @@ public class KeyBFS {
 
 	static Controlador c = new Controlador();
 
-	static final int tamañoMatriz = 400;
-	static int ady[][] = new int[tamañoMatriz][tamañoMatriz];
-	static boolean visitado[][] = new boolean[tamañoMatriz][tamañoMatriz];
-	static Coord prev[][] = new Coord[tamañoMatriz][tamañoMatriz];
+	static final int sizeMatriz = 400;
+	static int ady[][] = new int[sizeMatriz][sizeMatriz];
+	static boolean visitado[][] = new boolean[sizeMatriz][sizeMatriz];
+	static Coord prev[][] = new Coord[sizeMatriz][sizeMatriz];
 	
 	static int mazeMatrix[][];
 	private boolean solucion;
@@ -91,7 +90,7 @@ public class KeyBFS {
 		Queue<Coord> Q = new LinkedList<>();
 
 		Q.offer(inicial);
-		for (int i = 0; i < tamañoMatriz; i++) {
+		for (int i = 0; i < sizeMatriz; i++) {
 			Arrays.fill(visitado[i], false);
 		}
 

@@ -6,7 +6,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import co.edu.unbosque.modelo.MazeGeneratorMatrix;
 import co.edu.unbosque.vista.GameFrame;
@@ -475,7 +474,7 @@ public class Controlador implements ActionListener, KeyListener{
 			}
 			else {
 				
-				//Genera Laberinto con solución
+				//Genera Laberinto con soluciï¿½n
 				this.newGame(rows, columns);
 				
 				gameFrame.getPrgState().setVisible(false);
