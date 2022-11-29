@@ -17,9 +17,9 @@ import javax.swing.JTextField;
 public class PreGameState extends JLayeredPane {
 
 	private JButton back_button, start_button;
-	private JLabel prgBackground, characterInf, characterInf_shadow, character_name, character_name_shadow, indicator;
+	private JLabel prgBackground, characterInf, characterInf_shadow, character_name, character_name_shadow, indicator, enemigos_indicador, llaves_indicador;
 	private JPanel panel_inf;
-	private JTextField entrada_X, entrada_Y;
+	private JTextField entrada_X, entrada_Y, cantidad_llaves, cantidad_enemigos;
 	private JTextArea size_inf, size_inf_shadow;
 	private Font Alagard;
 	
@@ -53,15 +53,15 @@ public class PreGameState extends JLayeredPane {
 		panel_inf.setBackground(new Color(0, 0, 0, 160));
 
 		characterInf = new JLabel();
-		characterInf.setText("You have select: ");
+		characterInf.setText("You have selected: ");
 		characterInf.setFont(Alagard);
 		characterInf.setFont(characterInf.getFont().deriveFont(Font.ITALIC, 25));
 		characterInf.setForeground(Color.white);
 		characterInf.setLocation(80, 30);
-		characterInf.setSize(200, 40);
+		characterInf.setSize(230, 40);
 
 		characterInf_shadow = new JLabel();
-		characterInf_shadow.setText("You have select: ");
+		characterInf_shadow.setText("You have selected: ");
 		characterInf_shadow.setFont(Alagard);
 		characterInf_shadow.setFont(characterInf.getFont().deriveFont(Font.ITALIC, 25));
 		characterInf_shadow.setForeground(Color.DARK_GRAY);
@@ -71,7 +71,7 @@ public class PreGameState extends JLayeredPane {
 		character_name = new JLabel();
 		character_name.setLocation(103, 533);
 		character_name.setSize(215, 40);
-		character_name.setText("character name");
+		character_name.setText("Character Name");
 		character_name.setFont(Alagard);
 		character_name.setFont(character_name.getFont().deriveFont(Font.ITALIC, 25));
 		character_name.setForeground(Color.white);
@@ -79,7 +79,7 @@ public class PreGameState extends JLayeredPane {
 		character_name_shadow = new JLabel();
 		character_name_shadow.setLocation(106, 536);
 		character_name_shadow.setSize(215, 40);
-		character_name_shadow.setText("character name");
+		character_name_shadow.setText("Character Name");
 		character_name_shadow.setFont(Alagard);
 		character_name_shadow.setFont(character_name.getFont().deriveFont(Font.ITALIC, 25));
 		character_name_shadow.setForeground(Color.darkGray);
@@ -107,14 +107,15 @@ public class PreGameState extends JLayeredPane {
 		size_inf_shadow.setOpaque(false);
 		size_inf_shadow.setText("    Insert the maze\n             size\n \n    Min: 5   Max: 20");
 		size_inf_shadow.setFont(Alagard);
-		size_inf_shadow.setFont(size_inf.getFont().deriveFont(Font.ITALIC, 25));
+		size_inf_shadow.setFont(size_inf_shadow.getFont().deriveFont(Font.ITALIC, 25));
 		size_inf_shadow.setForeground(Color.DARK_GRAY);
 		size_inf_shadow.setBounds(507, 183, 300, 300);
 		
+		//Ancho y Largo del Laberinto
 		indicator = new JLabel();
 		indicator.setForeground(Color.white);
 		indicator.setFont(Alagard);
-		indicator.setFont(size_inf.getFont().deriveFont(Font.BOLD, 25));
+		indicator.setFont(indicator.getFont().deriveFont(Font.ITALIC, 25));
 		indicator.setBounds(494,302, 200,40);
 		indicator.setText("X:            Y:");
 		
@@ -126,6 +127,7 @@ public class PreGameState extends JLayeredPane {
 		entrada_X.setFont(entrada_X.getFont().deriveFont(Font.ITALIC, 30));
 		entrada_X.setBackground(Color.DARK_GRAY);
 		entrada_X.setForeground(Color.WHITE);
+		entrada_X.setToolTipText("Min: 5   Max: 20");
 		
 		entrada_Y = new JTextField();
 		entrada_Y.setLocation(644, 300);
@@ -135,7 +137,51 @@ public class PreGameState extends JLayeredPane {
 		entrada_Y.setFont(entrada_Y.getFont().deriveFont(Font.ITALIC, 30));
 		entrada_Y.setBackground(Color.DARK_GRAY);
 		entrada_Y.setForeground(Color.WHITE);
+		entrada_Y.setToolTipText("Min: 5   Max: 20");
 		
+		//Enemigos
+		cantidad_enemigos = new JTextField();
+		cantidad_enemigos.setLocation(644, 360);
+		cantidad_enemigos.setSize(80, 40);
+		cantidad_enemigos.setEditable(true);
+		cantidad_enemigos.setFont(Alagard);
+		cantidad_enemigos.setFont(cantidad_enemigos.getFont().deriveFont(Font.ITALIC, 30));
+		cantidad_enemigos.setBackground(Color.DARK_GRAY);
+		cantidad_enemigos.setForeground(Color.WHITE);
+		
+		enemigos_indicador = new JLabel();
+		enemigos_indicador.setForeground(Color.white);
+		enemigos_indicador.setFont(Alagard);
+		enemigos_indicador.setFont(enemigos_indicador.getFont().deriveFont(Font.ITALIC, 25));
+		enemigos_indicador.setBounds(450,360,200,40);
+		enemigos_indicador.setText("# of Enemies: ");
+		
+		//Llaves
+		cantidad_llaves = new JTextField();
+		cantidad_llaves.setLocation(644, 420);
+		cantidad_llaves.setSize(80, 40);
+		cantidad_llaves.setEditable(true);
+		cantidad_llaves.setFont(Alagard);
+		cantidad_llaves.setFont(cantidad_llaves.getFont().deriveFont(Font.ITALIC, 30));
+		cantidad_llaves.setBackground(Color.DARK_GRAY);
+		cantidad_llaves.setForeground(Color.WHITE);
+		cantidad_llaves.setToolTipText("Min: 2   Max: 5");
+		
+		llaves_indicador = new JLabel();
+		llaves_indicador.setForeground(Color.white);
+		llaves_indicador.setFont(Alagard);
+		llaves_indicador.setFont(llaves_indicador.getFont().deriveFont(Font.ITALIC, 22));
+		llaves_indicador.setBounds(450,420,200,40);
+		llaves_indicador.setText("# of Keys (2-5): ");
+		
+		
+		
+		
+		
+		panel_inf.add(cantidad_enemigos);
+		panel_inf.add(enemigos_indicador);
+		panel_inf.add(cantidad_llaves);
+		panel_inf.add(llaves_indicador);
 		panel_inf.add(entrada_Y);
 		panel_inf.add(entrada_X);
 		panel_inf.add(size_inf);
@@ -285,6 +331,54 @@ public class PreGameState extends JLayeredPane {
 
 	public void setSize_inf_shadow(JTextArea size_inf_shadow) {
 		this.size_inf_shadow = size_inf_shadow;
+	}
+
+
+
+	public JLabel getEnemigos_indicador() {
+		return enemigos_indicador;
+	}
+
+
+
+	public void setEnemigos_indicador(JLabel enemigos_indicador) {
+		this.enemigos_indicador = enemigos_indicador;
+	}
+
+
+
+	public JLabel getLlaves_indicador() {
+		return llaves_indicador;
+	}
+
+
+
+	public void setLlaves_indicador(JLabel llaves_indicador) {
+		this.llaves_indicador = llaves_indicador;
+	}
+
+
+
+	public JTextField getCantidad_llaves() {
+		return cantidad_llaves;
+	}
+
+
+
+	public void setCantidad_llaves(JTextField cantidad_llaves) {
+		this.cantidad_llaves = cantidad_llaves;
+	}
+
+
+
+	public JTextField getCantidad_enemigos() {
+		return cantidad_enemigos;
+	}
+
+
+
+	public void setCantidad_enemigos(JTextField cantidad_enemigos) {
+		this.cantidad_enemigos = cantidad_enemigos;
 	}
 
 }

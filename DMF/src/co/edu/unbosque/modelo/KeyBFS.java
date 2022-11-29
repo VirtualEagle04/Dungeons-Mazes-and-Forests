@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 import co.edu.unbosque.controlador.Controlador;
 
-public class MazeBFS {
+public class KeyBFS {
 
 	static Controlador c = new Controlador();
 
@@ -39,7 +39,7 @@ public class MazeBFS {
 		}
 	}
 
-	public MazeBFS(int[][] mazeMatrixInput) {
+	public boolean KeySearchBFS(int[][] mazeMatrixInput) {
 		mazeMatrix = mazeMatrixInput;
 
 		int x = 0, y = 0;
@@ -66,11 +66,12 @@ public class MazeBFS {
 			//System.out.println("No hay solucion, generando nuevo laberinto");
 			solucion = false;
 		}
+		return solucion;
 	}
 
 	static void print(int x, int y) {
 		for (int i = x, j = y; prev[i][j].d != -1; i = prev[x][y].x, j = prev[x][y].y) {
-			ady[i][j] = 5;
+			ady[i][j] = 8;
 			x = i;
 			y = j;
 		}
@@ -102,7 +103,7 @@ public class MazeBFS {
 
 			Q.poll();
 
-			if (ady[actual.x][actual.y] == 4) {
+			if (ady[actual.x][actual.y] == 5) {
 
 				print(actual.x, actual.y);
 

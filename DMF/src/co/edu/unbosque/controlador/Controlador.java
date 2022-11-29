@@ -5,24 +5,37 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import co.edu.unbosque.modelo.MazeGeneratorMatrix;
 import co.edu.unbosque.vista.GameFrame;
+import co.edu.unbosque.modelo.KeysHavePath;
+import co.edu.unbosque.modelo.Coord;
 import co.edu.unbosque.modelo.MazeBFS;
 
 public class Controlador implements ActionListener, KeyListener{
-
+	
+	//Conexiones
 	private GameFrame gameFrame;
 	private MazeGeneratorMatrix mazeGen;
 	private MazeBFS mazeBFS;
+	private KeysHavePath keys_have_path;
 	
+	//Info del Laberinto
 	private static int columns;
 	private static int rows;
+	private static int keys;
+	private static int enemies;
 	private static int[][] mazeMatrix;
+	private static ArrayList<Coord> llaves;
 	
-	private int intentos_generacion;
+	//Movimiento
 	private boolean upP, downP, leftP, rightP;
 	private int posX, posY, desplazamiento;
+	
+	//Varios
+	private int intentos_generacion;
 	boolean actualESC = false;
 	
 
@@ -38,16 +51,33 @@ public class Controlador implements ActionListener, KeyListener{
 	}
 	
 	public void newGame(int rows, int columns) {
-		boolean generar;
-		mazeGen = new MazeGeneratorMatrix();
-		mazeBFS = new MazeBFS();
+		boolean generar = false;;
+		llaves = new ArrayList<Coord>();
 		
 		//Generar laberintos hasta generar uno con solucion
 		do {
-			mazeMatrix = mazeGen.generateMaze(rows, columns);
-			generar = mazeBFS.MazeBFS(mazeMatrix);
-			intentos_generacion++;
+			mazeGen = new MazeGeneratorMatrix(rows, columns);
+			mazeMatrix = mazeGen.getMaze();
+			llaves = mazeGen.getLlaves();
+			keys_have_path = new KeysHavePath();
+			mazeBFS = new MazeBFS(mazeMatrix);
 			
+			for (int i = 0; i < mazeMatrix.length; i++) {
+				for (int j = 0; j < mazeMatrix[i].length; j++) {
+					//System.out.print(mazeMatrix[i][j]+" ");
+				}
+				//System.out.print("\n");
+			}
+			//System.out.println();
+			
+			
+			boolean laberinto = mazeBFS.isSolucion();
+			boolean llaves = keys_have_path.isSolucion_total();
+			
+			if (laberinto && llaves) {
+				generar = true;
+			}
+			intentos_generacion++;
 		} while (generar == false);
 		
 		
@@ -62,7 +92,6 @@ public class Controlador implements ActionListener, KeyListener{
 					
 					int code = e.getKeyCode();
 					if (gameFrame.getpState().isVisible()) {
-						//No lee input, no permite que el jugador se mueva
 					}else {
 						
 						//Movimiento
@@ -72,15 +101,10 @@ public class Controlador implements ActionListener, KeyListener{
 							try {
 								 if (mazeMatrix[(posY/32)-1][posX/32] != 1) {
 										upP = true;
-//										System.out.println("W");
 										gameFrame.getGameState().getPlayer().setLocation(posX, posY-desplazamiento);
 										gameFrame.getGameState().getPlayer().repaint();
 										posX = gameFrame.getGameState().getPlayer().getX();
-										posY = gameFrame.getGameState().getPlayer().getY();
-										
-//										if (mazeMatrix[posY/32][posX/32] == 4) {
-//											System.out.println("LLego");
-//										}	
+										posY = gameFrame.getGameState().getPlayer().getY();	
 								 }
 							} catch (ArrayIndexOutOfBoundsException e2) {}
 				
@@ -89,15 +113,10 @@ public class Controlador implements ActionListener, KeyListener{
 							try {
 								 if (mazeMatrix[(posY/32)+1][posX/32] != 1) {
 										downP = true;
-//										System.out.println("S");
 										gameFrame.getGameState().getPlayer().setLocation(posX, posY+desplazamiento);
 										gameFrame.getGameState().getPlayer().repaint();
 										posX = gameFrame.getGameState().getPlayer().getX();
 										posY = gameFrame.getGameState().getPlayer().getY();
-										
-//										if (mazeMatrix[posY/32][posX/32] == 4) {
-//											System.out.println("LLego");
-//										}
 								 }
 							} catch (ArrayIndexOutOfBoundsException e2) {}
 				
@@ -106,15 +125,10 @@ public class Controlador implements ActionListener, KeyListener{
 							try {
 								 if (mazeMatrix[posY/32][(posX/32)-1] != 1) {
 										setLeftP(true);
-//										System.out.println("A");
 										gameFrame.getGameState().getPlayer().setLocation(posX-desplazamiento, posY);
 										gameFrame.getGameState().getPlayer().repaint();
 										posX = gameFrame.getGameState().getPlayer().getX();
 										posY = gameFrame.getGameState().getPlayer().getY();
-										
-//										if (mazeMatrix[posY/32][posX/32] == 4) {
-//											System.out.println("LLego");
-//										}
 								 }
 							} catch (ArrayIndexOutOfBoundsException e2) {}
 				
@@ -123,7 +137,6 @@ public class Controlador implements ActionListener, KeyListener{
 							try {
 								 if (mazeMatrix[posY/32][(posX/32)+1] != 1) {
 										rightP = true;
-//										System.out.println("D");
 										gameFrame.getGameState().getPlayer().setLocation(posX+desplazamiento, posY);
 										gameFrame.getGameState().getPlayer().repaint();
 										posX = gameFrame.getGameState().getPlayer().getX();
@@ -427,15 +440,24 @@ public class Controlador implements ActionListener, KeyListener{
 			gameFrame.getPrgState().setVisible(false);
 			gameFrame.getChState().setVisible(true);
 			
+			gameFrame.getPrgState().getEntrada_X().setText("");
+			gameFrame.getPrgState().getEntrada_Y().setText("");
+			
+			gameFrame.getPrgState().getEntrada_X().setBackground(Color.DARK_GRAY);
+			gameFrame.getPrgState().getEntrada_Y().setBackground(Color.DARK_GRAY);
+			
+			gameFrame.getPrgState().getCantidad_llaves().setBackground(Color.DARK_GRAY);
+			
 			break;
 		}
 		case "prg_start_button" :{
 			
-			gameFrame.getGameState().playMusic(5);
+
 			//Recoge los valores ingresados en el JTextField, y los convierte a Integer
 			rows = Integer.parseInt(gameFrame.getPrgState().getEntrada_Y().getText());
 			columns = Integer.parseInt(gameFrame.getPrgState().getEntrada_X().getText());
-			
+			keys = Integer.parseInt(gameFrame.getPrgState().getCantidad_llaves().getText());
+			enemies = Integer.parseInt(gameFrame.getPrgState().getCantidad_enemigos().getText());
 			
 			//Condicional para el minimo (5) y el maximo (20)
 			if((rows < 5 || rows > 20) && (columns < 5 || columns > 20)) {
@@ -444,6 +466,12 @@ public class Controlador implements ActionListener, KeyListener{
 				
 				gameFrame.getPrgState().getEntrada_X().setBackground(Color.RED);
 				gameFrame.getPrgState().getEntrada_X().setText("");
+	
+			}
+			//Condicional para el minimo (2) y el maximo (5)
+			if(keys < 2 || keys > 5) {
+				gameFrame.getPrgState().getCantidad_llaves().setBackground(Color.RED);
+				gameFrame.getPrgState().getCantidad_llaves().setText("");
 			}
 			else {
 				
@@ -607,6 +635,30 @@ public class Controlador implements ActionListener, KeyListener{
 
 	public void setDesplazamiento(int desplazamiento) {
 		this.desplazamiento = desplazamiento;
+	}
+
+	public static int getKeys() {
+		return keys;
+	}
+
+	public static void setKeys(int keys) {
+		Controlador.keys = keys;
+	}
+
+	public static int getEnemies() {
+		return enemies;
+	}
+
+	public static void setEnemies(int enemies) {
+		Controlador.enemies = enemies;
+	}
+
+	public static ArrayList<Coord> getLlaves() {
+		return llaves;
+	}
+
+	public static void setLlaves(ArrayList<Coord> llaves) {
+		Controlador.llaves = llaves;
 	}
 
 }
