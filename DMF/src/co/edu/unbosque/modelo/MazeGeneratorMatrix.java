@@ -19,6 +19,9 @@ public class MazeGeneratorMatrix {
 		c = new Controlador();
 		int keys = c.getKeys();
 		int enemies = c.getEnemies();
+		ceros = new ArrayList<Coord>();
+		llaves = new ArrayList<Coord>();
+		enemigos = new ArrayList<Coord>();
 		
 		maze = new int[rows+2][columns+2]; //Dimensiones del usuario + bordes (arriba, abajo, izq, drch)
 		Random rnd = new Random();
@@ -48,77 +51,102 @@ public class MazeGeneratorMatrix {
 					//Arriba / Abajo
 					if (temp == 0) {
 						//Inicio Borde Arriba
-						//int posInicio = rnd.nextInt(columns + 1 - 1) + 1;  // (max + 1 - min) + min
 						maze[0][1] = 3; 
 						
 						//Final Borde Abajo
-						//int posFinal = rnd.nextInt(columns + 1 - 1) + 1;
 						maze[maze.length-1][columns] = 4;
 						
 					}
 					//Izquierda / Derecha
 					else if (temp == 1) {
 						//Inicio Borde Izquierda
-						//int posInicio = rnd.nextInt(rows + 1 - 1) + 1;
 						maze[2][0] = 3;
 						
 						//Final Borde Derecha
-						//int posFinal = rnd.nextInt(rows + 1 - 1) + 1;
 						maze[rows][columns+1] = 4;
 					}
+
 		
-		//Para almacenar las coordenadas X, Y de todos los ceros en la matriz
-		ceros = new ArrayList<Coord>();
+		int muros_max = (columns/2)+1;
 		
 		//Rows
 		for (int i = 1; i <= rows; i++) {
+			int conteo_muros_max = muros_max;
 			//Columns
 			for (int j = 1; j <= columns; j++) {
+				
 				int cero_uno = rnd.nextInt(2);
 				
-				if(cero_uno == 0) {
+				if(conteo_muros_max != 0) {
+					if(cero_uno == 1) {
+						conteo_muros_max--;
+						maze[i][j] = cero_uno;
+					}
+					else if (cero_uno == 0) {
+						maze[i][j] = cero_uno;
+						ceros.add(new Coord(i, j));
+					}
+				}else {
+					maze[i][j] = 0;
 					ceros.add(new Coord(i, j));
 				}
-				
-				maze[i][j] = cero_uno;
 			}
 		}
 		
-		llaves = new ArrayList<Coord>();
-		enemigos = new ArrayList<Coord>();
-		
-
-		
 		//Llaves
 		for (int i = 1; i <= keys; i++) {
-			int pos_temp = rnd.nextInt(ceros.size());
+			int index_temp = rnd.nextInt(ceros.size());
 
-			int tempRow = ceros.get(pos_temp).getRow();
-			int tempCol = ceros.get(pos_temp).getCol();
+			int tempRow = ceros.get(index_temp).getRow();
+			int tempCol = ceros.get(index_temp).getCol();
 			
 			llaves.add(new Coord(tempRow, tempCol));
 			maze[tempRow][tempCol] = 5;
 			
-			ceros.remove(pos_temp);
+			ceros.remove(index_temp);
 		}
+		//Debug
+		System.out.println("Posiciones 0 despues de poner llaves: ");
+		for (Coord coord : ceros) {
+			System.out.println("("+coord.getRow()+", "+coord.getCol()+")");
+		}
+		
 		
 		//Enemigos
 		for (int i = 1; i <= enemies; i++) {			
-			int pos_temp = rnd.nextInt(ceros.size());
+			int index_temp = rnd.nextInt(ceros.size());
+			System.out.println(ceros.get(index_temp).getRow()+", "+ceros.get(index_temp).getCol());
 			
-			int tempRow = ceros.get(pos_temp).getRow();
-			int tempCol = ceros.get(pos_temp).getCol();
+			int tempRow = ceros.get(index_temp).getRow();
+			int tempCol = ceros.get(index_temp).getCol();
 
 			enemigos.add(new Coord(tempRow, tempCol));
 			maze[tempRow][tempCol] = 2;
 			
-			ceros.remove(pos_temp);
+			ceros.remove(index_temp);
 		}
 		
-
+		//Debug
+		System.out.println("Posiciones 0 despues de poner enemigos: ");
+		for (Coord coord : ceros) {
+			System.out.println("("+coord.getRow()+", "+coord.getCol()+")");
+		}
+		System.out.println();
 		
-
-		maze = maze;
+		//Debug
+		for (int i = 0; i < maze.length; i++) {
+			for (int j = 0; j < maze[i].length; j++) {
+				System.out.print(maze[i][j]+" ");
+			}
+			System.out.print("\n");
+		}
+		
+		
+		//Debug
+		System.out.println("Coords llaves: ");
+		for (Coord coordLlave : llaves) {
+			System.out.println("("+coordLlave.getRow()+", "+coordLlave.getCol()+")");
+		}
 	}
 
 

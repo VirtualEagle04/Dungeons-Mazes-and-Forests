@@ -59,29 +59,20 @@ public class Controlador implements ActionListener, KeyListener{
 			mazeGen = new MazeGeneratorMatrix(rows, columns);
 			mazeMatrix = mazeGen.getMaze();
 			llaves = mazeGen.getLlaves();
-			keys_have_path = new KeysHavePath();
+			
+			//BFS Maze
 			mazeBFS = new MazeBFS(mazeMatrix);
-			
-			for (int i = 0; i < mazeMatrix.length; i++) {
-				for (int j = 0; j < mazeMatrix[i].length; j++) {
-					//System.out.print(mazeMatrix[i][j]+" ");
-				}
-				//System.out.print("\n");
-			}
-			//System.out.println();
-			
-			
 			boolean laberinto = mazeBFS.isSolucion();
-			boolean llaves = keys_have_path.isSolucion_total();
 			
-			if (laberinto && llaves) {
+			//BFS Keys
+			keys_have_path = new KeysHavePath(llaves, mazeMatrix);
+			boolean llavesBFS = keys_have_path.isSolucionable();
+			
+			if (laberinto && llavesBFS) {
 				generar = true;
 			}
 			intentos_generacion++;
 		} while (generar == false);
-		
-		
-//		System.out.println("Numero de intentos en la generacion: "+intentos_generacion);
 	}
 	
 
@@ -475,7 +466,11 @@ public class Controlador implements ActionListener, KeyListener{
 			}
 			else {
 				
+<<<<<<< Updated upstream
 				//Genera Laberinto con solución
+=======
+				//Genera Laberinto con solucion
+>>>>>>> Stashed changes
 				this.newGame(rows, columns);
 				
 				gameFrame.getPrgState().setVisible(false);

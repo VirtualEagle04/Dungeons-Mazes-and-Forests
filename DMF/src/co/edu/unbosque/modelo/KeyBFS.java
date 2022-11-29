@@ -43,8 +43,11 @@ public class KeyBFS {
 		mazeMatrix = mazeMatrixInput;
 
 		int x = 0, y = 0;
-		h = c.getRows() + 2;
-		w = c.getColumns() + 2;
+		h = mazeMatrix.length;
+		w = mazeMatrix[0].length;
+		
+		//h = c.getRows() + 2;
+		//w = c.getColumns() + 2;
 
 		//Busca coordenada del inicio (3)
 		for (int i = 0; i < mazeMatrix.length; i++) {
@@ -59,11 +62,8 @@ public class KeyBFS {
 		}
 		int min = BFS(x, y, h, w);
 		if (min != -1) {
-			//System.out.println("Menor numero de movimientos: " + min);
-			//System.out.println("Laberinto con solucion");
 			solucion = true;
 		} else {
-			//System.out.println("No hay solucion, generando nuevo laberinto");
 			solucion = false;
 		}
 		return solucion;
@@ -75,14 +75,6 @@ public class KeyBFS {
 			x = i;
 			y = j;
 		}
-		
-//		for (int i = 0; i < h; ++i) {
-//			for (int j = 0; j < w; ++j) {
-//				System.out.print(ady[i][j]+" ");
-//			}
-//			System.out.print("\n");
-//		}
-//		System.out.println("\n");
 	}
 
 	static int BFS(int x, int y, int h, int w) {
