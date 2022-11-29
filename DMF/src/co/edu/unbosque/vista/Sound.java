@@ -18,7 +18,7 @@ public class Sound {
 		soundURL[2] = getClass().getResource("/Assets/Music/DMF-CreditsMenu.wav");
 		soundURL[3] = getClass().getResource("/Assets/Music/DMF-CharacterSelection.wav");
 		soundURL[4] = getClass().getResource("/Assets/Music/DMF-HowToPlayMenu.wav");
-		soundURL[5] = getClass().getResource("/Assets/Music/DMF-GameMusicCut.wav");
+		soundURL[5] = getClass().getResource("/Assets/Music/DMF-GameSoundComp.wav");
 
 	}
 	
