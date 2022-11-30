@@ -13,11 +13,11 @@ public class Sound {
 	
 	public Sound() {
 		
-		soundURL[0] = getClass().getResource("/Assets/Music/DMF-MainTitle.wav");
-		soundURL[1] = getClass().getResource("/Assets/Music/DMF-OptionsMenu.wav");
-		soundURL[2] = getClass().getResource("/Assets/Music/DMF-CreditsMenu.wav");
-		soundURL[3] = getClass().getResource("/Assets/Music/DMF-CharacterSelection.wav");
-		soundURL[4] = getClass().getResource("/Assets/Music/DMF-HowToPlayMenu.wav");
+		soundURL[0] = getClass().getResource("/Assets/Music/DMF-MainTitleComp.wav");
+		soundURL[1] = getClass().getResource("/Assets/Music/DMF-OptionsMenuComp.wav");
+		soundURL[2] = getClass().getResource("/Assets/Music/DMF-CreditsMenuComp.wav");
+		soundURL[3] = getClass().getResource("/Assets/Music/DMF-CharacterSelectionComp.wav");
+		soundURL[4] = getClass().getResource("/Assets/Music/DMF-HowToPlayMenuComp.wav");
 		soundURL[5] = getClass().getResource("/Assets/Music/DMF-GameSoundComp.wav");
 
 	}
