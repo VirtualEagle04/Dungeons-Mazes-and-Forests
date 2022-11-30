@@ -6,7 +6,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import co.edu.unbosque.modelo.MazeGeneratorMatrix;
 import co.edu.unbosque.vista.GameFrame;
@@ -59,29 +58,20 @@ public class Controlador implements ActionListener, KeyListener{
 			mazeGen = new MazeGeneratorMatrix(rows, columns);
 			mazeMatrix = mazeGen.getMaze();
 			llaves = mazeGen.getLlaves();
-			keys_have_path = new KeysHavePath();
+			
+			//BFS Maze
 			mazeBFS = new MazeBFS(mazeMatrix);
-			
-			for (int i = 0; i < mazeMatrix.length; i++) {
-				for (int j = 0; j < mazeMatrix[i].length; j++) {
-					//System.out.print(mazeMatrix[i][j]+" ");
-				}
-				//System.out.print("\n");
-			}
-			//System.out.println();
-			
-			
 			boolean laberinto = mazeBFS.isSolucion();
-			boolean llaves = keys_have_path.isSolucion_total();
 			
-			if (laberinto && llaves) {
+			//BFS Keys
+			keys_have_path = new KeysHavePath(llaves, mazeMatrix);
+			boolean llavesBFS = keys_have_path.isSolucionable();
+			
+			if (laberinto && llavesBFS) {
 				generar = true;
 			}
 			intentos_generacion++;
 		} while (generar == false);
-		
-		
-//		System.out.println("Numero de intentos en la generacion: "+intentos_generacion);
 	}
 	
 
@@ -454,6 +444,7 @@ public class Controlador implements ActionListener, KeyListener{
 			
 
 			//Recoge los valores ingresados en el JTextField, y los convierte a Integer
+			gameFrame.getGameState().playMusic(5);
 			rows = Integer.parseInt(gameFrame.getPrgState().getEntrada_Y().getText());
 			columns = Integer.parseInt(gameFrame.getPrgState().getEntrada_X().getText());
 			keys = Integer.parseInt(gameFrame.getPrgState().getCantidad_llaves().getText());
@@ -474,8 +465,6 @@ public class Controlador implements ActionListener, KeyListener{
 				gameFrame.getPrgState().getCantidad_llaves().setText("");
 			}
 			else {
-				
-				//Genera Laberinto con solución
 				this.newGame(rows, columns);
 				
 				gameFrame.getPrgState().setVisible(false);

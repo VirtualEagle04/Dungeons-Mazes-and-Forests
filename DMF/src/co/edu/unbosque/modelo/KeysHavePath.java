@@ -6,58 +6,69 @@ import co.edu.unbosque.controlador.Controlador;
 
 public class KeysHavePath {
 	
-	private Controlador c;
 	private KeyBFS keyBFS;
 
-	private int[][] mazeMatrix;
-	private int[][] individualKeyMatrix;
-	private ArrayList<Coord> llaves;
-
+	private int[][] maze;
+	private ArrayList<Coord> coord_llaves;
 
 	private boolean[] solucionLlaves;
-	private boolean solucion_total = true;
+	private boolean solucionable = true;
 
-	public KeysHavePath() {
-		c = new Controlador();
-		llaves = new ArrayList<Coord>();
-		mazeMatrix = c.getMazeMatrix();
-		llaves = c.getLlaves();
+	public KeysHavePath(ArrayList<Coord> llaves, int[][] mazeMatrix) {
+		
+		maze = mazeMatrix;
+		coord_llaves = llaves;
 		keyBFS = new KeyBFS();
 
-		solucionLlaves = new boolean[llaves.size()];
+		solucionLlaves = new boolean[coord_llaves.size()]; //booleano para guardar el resultado del BFS del inicio hasta cada llave
 		int solLlaveIndex = 0;
 		
-		for (Coord coordLlave : llaves) {
+		for (Coord coordLlave : coord_llaves) {
 			
-			individualKeyMatrix = mazeMatrix;
-			//individualKeyMatrix[r][c] == 2 ||
-			//Rows
-			for (int r = 0; r < individualKeyMatrix.length; r++) {
-				//Columns
-				for (int c = 0; c < individualKeyMatrix[r].length; c++) {
+			int[][] individualKeyMatrix = maze;
+			//individualKeyMatrix[i][j] == 2 || 
+			for (int i = 0; i < individualKeyMatrix.length; i++) {
+
+				for (int j = 0; j < individualKeyMatrix[i].length; j++) {
+					
 					//Reemplazar todo enemigo y llave (excepto la actual), por un camino = 0
-					if ( (individualKeyMatrix[r][c] == 5 && (r != coordLlave.getRow() && c != coordLlave.getCol()))){
-						individualKeyMatrix[r][c] = 0;
+					if ((individualKeyMatrix[i][j] == 5 && (i != coordLlave.getRow() && j != coordLlave.getCol()))){
+						individualKeyMatrix[i][j] = 0;
 					}
 				}
+				
+//				//Debug
+//				System.out.println("Laberinto reemplazado: ");
+//				for (int r = 0; r < individualKeyMatrix.length; r++) {
+//					for (int c = 0; c < individualKeyMatrix[i].length; c++) {
+//						System.out.print(individualKeyMatrix[r][c]+" ");
+//					}
+//					System.out.print("\n");
+//				}
+				
+				
 			}
 			solucionLlaves[solLlaveIndex] = keyBFS.KeySearchBFS(individualKeyMatrix);
 			solLlaveIndex++;
 		}
 		//Comprobar que para cada llave, haya un camino
-		for (boolean element : solucionLlaves) {
-			if (element == false) {
-				solucion_total = false;
-
+		for (boolean solLlave : solucionLlaves) {
+			System.out.println(solLlave);
+			if(solLlave == true){
+				solucionable = true;
+			}
+			else if(solLlave == false){
+				solucionable = false;
+				break;
 			}
 		}
 	}
 
-	public boolean isSolucion_total() {
-		return solucion_total;
+	public boolean isSolucionable() {
+		return solucionable;
 	}
 
-	public void setSolucion_total(boolean solucion_total) {
-		this.solucion_total = solucion_total;
+	public void setSolucionable(boolean solucionable) {
+		this.solucionable = solucionable;
 	}
 }
