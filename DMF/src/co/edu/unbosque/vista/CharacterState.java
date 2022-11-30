@@ -17,9 +17,10 @@ public class CharacterState extends JLayeredPane {
 	// Components
 	private JButton csMage, csPaladin, csWarrior, csBarbarian, csArcher, csRogue;
 	private JButton back_button, select_button;
-	private JPanel panel_buttons, panel_art;
+	private JLayeredPane panel_art;
+	private JPanel panel_buttons;
 	private JLabel chBackground, paBackground, archer_concept_art, barbarian_concept_art, warrior_concept_art,
-			rogue_concept_art, paladin_concept_art, mage_concept_art;
+			rogue_concept_art, paladin_concept_art, mage_concept_art, character_select;
 	private JTextArea panel_text, panel_textShadow;
 	private Sound ChMusic;
 	private Font Alagard;
@@ -55,15 +56,20 @@ public class CharacterState extends JLayeredPane {
 
 		paBackground = new JLabel();
 		paBackground.setIcon(new ImageIcon("src/Assets/Images/chStatePanelBG.png"));
-		paBackground.setLocation(540, 60);
 		paBackground.setSize(400, 500);
+		paBackground.setLocation(0, 0);
+
+		panel_art = new JLayeredPane();
+		panel_art.setBackground(new Color(0, 0, 0, 0));
+		panel_art.setSize(400, 500);
+		panel_art.setLocation(540, 60);
 
 		panel_text = new JTextArea();
 		panel_text.setText("  CHOOSE \n\n       A \n\nCHARACTER");
 		panel_text.setFont(Alagard);
 		panel_text.setFont(panel_text.getFont().deriveFont(Font.ITALIC, 40));
 		panel_text.setForeground(Color.WHITE);
-		panel_text.setBounds(640, 200, 220, 210);
+		panel_text.setBounds(100, 140, 220, 210);
 		panel_text.setVisible(true);
 		panel_text.setEditable(false);
 		panel_text.setOpaque(false);
@@ -73,7 +79,7 @@ public class CharacterState extends JLayeredPane {
 		panel_textShadow.setFont(Alagard);
 		panel_textShadow.setFont(panel_textShadow.getFont().deriveFont(Font.ITALIC, 40));
 		panel_textShadow.setForeground(Color.DARK_GRAY);
-		panel_textShadow.setBounds(643, 203, 220, 210);
+		panel_textShadow.setBounds(103, 143, 220, 210);
 		panel_textShadow.setVisible(true);
 		panel_textShadow.setEditable(false);
 		panel_textShadow.setOpaque(false);
@@ -87,6 +93,14 @@ public class CharacterState extends JLayeredPane {
 		select_button.setFont(Alagard);
 		select_button.setFont(select_button.getFont().deriveFont(Font.ITALIC, 40));
 		select_button.setForeground(Color.white);
+
+		character_select = new JLabel();
+		character_select.setText("Select a character to continue");
+		character_select.setForeground(Color.red);
+		character_select.setFont(Alagard);
+		character_select.setFont(character_select.getFont().deriveFont(Font.BOLD, 20));
+		character_select.setBounds(590, 660, 320, 20);
+		character_select.setVisible(false);
 
 		// Boton Mage
 		csMage = new JButton();
@@ -129,49 +143,51 @@ public class CharacterState extends JLayeredPane {
 		archer_concept_art = new JLabel();
 		archer_concept_art.setIcon(new ImageIcon("src/Assets/Gifs/csArcherldle.gif"));
 		archer_concept_art.setSize(400, 480);
-		archer_concept_art.setLocation(540, 60);
+		archer_concept_art.setLocation(0, 0);
 		archer_concept_art.setVisible(false);
 
 		barbarian_concept_art = new JLabel();
 		barbarian_concept_art.setIcon(new ImageIcon("src/Assets/Gifs/csBarbariandle.gif"));
 		barbarian_concept_art.setSize(400, 400);
-		barbarian_concept_art.setLocation(540, 60);
+		barbarian_concept_art.setLocation(10, 50);
 		barbarian_concept_art.setVisible(false);
 
 		warrior_concept_art = new JLabel();
 		warrior_concept_art.setIcon(new ImageIcon("src/Assets/Gifs/csWarriorldle.gif"));
 		warrior_concept_art.setSize(400, 480);
-		warrior_concept_art.setLocation(540, 60);
+		warrior_concept_art.setLocation(0, 0);
 		warrior_concept_art.setVisible(false);
 
 		mage_concept_art = new JLabel();
 		mage_concept_art.setIcon(new ImageIcon("src/Assets/Gifs/csMageldle.gif"));
 		mage_concept_art.setSize(400, 480);
-		mage_concept_art.setLocation(540, 60);
+		mage_concept_art.setLocation(0, 0);
 		mage_concept_art.setVisible(false);
 
 		paladin_concept_art = new JLabel();
 		paladin_concept_art.setIcon(new ImageIcon("src/Assets/Gifs/csPaladindle.gif"));
 		paladin_concept_art.setSize(400, 480);
-		paladin_concept_art.setLocation(540, 60);
+		paladin_concept_art.setLocation(0, 0);
 		paladin_concept_art.setVisible(false);
 
 		rogue_concept_art = new JLabel();
 		rogue_concept_art.setIcon(new ImageIcon("src/Assets/Gifs/csRogueldle.gif"));
 		rogue_concept_art.setSize(400, 480);
-		rogue_concept_art.setLocation(540, 60);
+		rogue_concept_art.setLocation(0, 0);
 		rogue_concept_art.setVisible(false);
 
 		// Character Preview
 
-		add(panel_text);
-		add(panel_textShadow);
-		add(archer_concept_art);
-		add(barbarian_concept_art);
-		add(warrior_concept_art);
-		add(mage_concept_art);
-		add(paladin_concept_art);
-		add(rogue_concept_art);
+		add(panel_art);
+		panel_art.add(panel_text);
+		panel_art.add(panel_textShadow, JLayeredPane.DEFAULT_LAYER);
+		panel_art.add(archer_concept_art);
+		panel_art.add(barbarian_concept_art);
+		panel_art.add(warrior_concept_art);
+		panel_art.add(mage_concept_art);
+		panel_art.add(paladin_concept_art);
+		panel_art.add(rogue_concept_art);
+		panel_art.add(paBackground, JLayeredPane.DEFAULT_LAYER);
 
 		// buttons
 
@@ -185,11 +201,10 @@ public class CharacterState extends JLayeredPane {
 
 		// panel & background
 
-		add(paBackground, JLayeredPane.DEFAULT_LAYER);
+		add(character_select);
 		add(panel_buttons, JLayeredPane.MODAL_LAYER);
 		add(select_button, JLayeredPane.MODAL_LAYER);
 		add(chBackground, JLayeredPane.DEFAULT_LAYER);
-
 	}
 
 	public JLabel getPaBackground() {
@@ -313,11 +328,11 @@ public class CharacterState extends JLayeredPane {
 		this.panel_buttons = panel_buttons;
 	}
 
-	public JPanel getPanel_art() {
+	public JLayeredPane getPanel_art() {
 		return panel_art;
 	}
 
-	public void setPanel_art(JPanel panel_art) {
+	public void setPanel_art(JLayeredPane panel_art) {
 		this.panel_art = panel_art;
 	}
 
