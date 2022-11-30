@@ -444,6 +444,7 @@ public class Controlador implements ActionListener, KeyListener{
 			
 
 			//Recoge los valores ingresados en el JTextField, y los convierte a Integer
+			gameFrame.getGameState().playMusic(5);
 			rows = Integer.parseInt(gameFrame.getPrgState().getEntrada_Y().getText());
 			columns = Integer.parseInt(gameFrame.getPrgState().getEntrada_X().getText());
 			keys = Integer.parseInt(gameFrame.getPrgState().getCantidad_llaves().getText());
