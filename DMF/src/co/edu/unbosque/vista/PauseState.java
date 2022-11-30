@@ -6,15 +6,18 @@ import java.awt.FontFormatException;
 import java.io.File;
 import java.io.IOException;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 
-public class PauseState extends JLayeredPane{
+public class PauseState extends JLayeredPane {
 
 	private Font Alagard;
 	private JPanel pause_panel;
 	private JButton resume_button, options_button, back_button;
+	private JLabel controls_text, controls_text_shadow, image_keys_wasd, image_keys_arrows;
 
 	public PauseState() {
 
@@ -64,9 +67,34 @@ public class PauseState extends JLayeredPane{
 		back_button.setFont(resume_button.getFont().deriveFont(Font.ITALIC, 25));
 		back_button.setBackground(Color.DARK_GRAY);
 
+		controls_text = new JLabel();
+		controls_text.setText("Controls");
+		controls_text.setFont(Alagard);
+		controls_text.setFont(resume_button.getFont().deriveFont(Font.ITALIC, 25));
+		controls_text.setForeground(Color.white);
+		controls_text.setBounds(190, 260, 200, 25);
+
+		controls_text_shadow = new JLabel();
+		controls_text_shadow.setText("Controls");
+		controls_text_shadow.setFont(Alagard);
+		controls_text_shadow.setFont(resume_button.getFont().deriveFont(Font.ITALIC, 25));
+		controls_text_shadow.setForeground(Color.DARK_GRAY);
+		controls_text_shadow.setBounds(193, 263, 200, 25);
+
+		image_keys_wasd = new JLabel(new ImageIcon("src/Assets/Images/keys_indicator_wasd.png"));
+		image_keys_wasd.setBounds(140, 290, 192, 128);
+
+		image_keys_arrows = new JLabel(new ImageIcon("src/Assets/Images/keys_indicator_arrows.png"));
+		image_keys_arrows.setBounds(140, 438, 192, 128);
+
 		pause_panel.add(resume_button);
 		pause_panel.add(options_button);
 		pause_panel.add(back_button);
+		pause_panel.add(controls_text);
+		pause_panel.add(controls_text_shadow);
+		pause_panel.add(image_keys_arrows);
+		pause_panel.add(image_keys_wasd);
+		
 
 		add(pause_panel, JLayeredPane.MODAL_LAYER);
 

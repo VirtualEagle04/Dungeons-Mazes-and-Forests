@@ -1,6 +1,10 @@
 package co.edu.unbosque.vista;
 
 import java.awt.Color;
+import java.awt.Font;
+import java.awt.FontFormatException;
+import java.io.File;
+import java.io.IOException;
 import java.util.Random;
 
 import javax.swing.ImageIcon;
@@ -18,15 +22,41 @@ public class GameState extends JLayeredPane {
 	private EnemyRender enemy;
 	private KeyRender key;
 	private int[][] mazeMatrix;
-	private JLabel gsBackground;
+	private JLabel gsBackground, esc_button, pause_text;
 	private Sound GmMusic;
+	private Font Alagard;
 
 	public GameState() {
+		
+
+		// Inicialización y Empaquetamiento de la Fuente
+
+		try {
+			Alagard = Font.createFont(Font.TRUETYPE_FONT, new File("src/Assets/Fonts/alagard.ttf"));
+		} catch (FontFormatException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		//
+		
 		setSize(1024, 768);
 		setLocation(0, 0);
 		setBackground(Color.LIGHT_GRAY);
 		setLayout(null);
 
+		esc_button = new JLabel(new ImageIcon("src/Assets/Images/key_esc.png"));
+		esc_button.setBounds(0,15,128,64);
+		
+		pause_text = new JLabel();
+		pause_text.setText("Pause");
+		pause_text.setBounds(30,85,128,25);
+		pause_text.setFont(Alagard);
+		pause_text.setForeground(Color.white);
+		pause_text.setFont(pause_text.getFont().deriveFont(Font.ITALIC, 25));
+		
+		
 		gsBackground = new JLabel(new ImageIcon("src/Assets/Gifs/gsBackground.gif"));
 		gsBackground.setLocation(0, 0);
 		gsBackground.setSize(1024, 768);
@@ -237,9 +267,69 @@ public class GameState extends JLayeredPane {
 			pos_Y += 32;
 		}
 
+		add(esc_button);
+		add(pause_text);
 		add(tablero);
 		add(gsBackground, JLayeredPane.DEFAULT_LAYER);
 		
+	}
+	
+	
+
+	public EnemyRender getEnemy() {
+		return enemy;
+	}
+
+	public void setEnemy(EnemyRender enemy) {
+		this.enemy = enemy;
+	}
+
+	public KeyRender getKey() {
+		return key;
+	}
+
+	public void setKey(KeyRender key) {
+		this.key = key;
+	}
+
+	public JLabel getGsBackground() {
+		return gsBackground;
+	}
+
+	public void setGsBackground(JLabel gsBackground) {
+		this.gsBackground = gsBackground;
+	}
+
+	public JLabel getEsc_button() {
+		return esc_button;
+	}
+
+	public void setEsc_button(JLabel esc_button) {
+		this.esc_button = esc_button;
+	}
+
+	public JLabel getPause_text() {
+		return pause_text;
+	}
+
+	public void setPause_text(JLabel pause_text) {
+		this.pause_text = pause_text;
+	}
+
+	public Sound getGmMusic() {
+		return GmMusic;
+	}
+
+	public void setGmMusic(Sound gmMusic) {
+		GmMusic = gmMusic;
+	}
+
+	public Font getAlagard() {
+		return Alagard;
+	}
+
+	public void setAlagard(Font alagard) {
+		Alagard = alagard;
 	}
 
 	public Controlador getC() {
