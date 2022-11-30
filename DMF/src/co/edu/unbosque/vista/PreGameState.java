@@ -14,6 +14,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import co.edu.unbosque.controlador.Controlador;
+
 public class PreGameState extends JLayeredPane {
 
 	private JButton back_button, start_button;
@@ -25,9 +27,12 @@ public class PreGameState extends JLayeredPane {
 	private JTextField entrada_X, entrada_Y, cantidad_llaves, cantidad_enemigos;
 	private JTextArea size_inf, size_inf_shadow;
 	private Font Alagard;
+	private Controlador c;
 
 	public PreGameState() {
 
+		Controlador c = new Controlador();
+		
 		try {
 			Alagard = Font.createFont(Font.TRUETYPE_FONT, new File("src/Assets/Fonts/alagard.ttf"));
 		} catch (FontFormatException e) {
@@ -76,7 +81,7 @@ public class PreGameState extends JLayeredPane {
 		characterInf_shadow.setSize(230, 40);
 
 		character_name = new JLabel();
-		character_name.setLocation(123, 553);
+		character_name.setLocation(193, 553);
 		character_name.setSize(215, 40);
 		character_name.setText("Character Name");
 		character_name.setFont(Alagard);
@@ -84,7 +89,7 @@ public class PreGameState extends JLayeredPane {
 		character_name.setForeground(Color.white);
 
 		character_name_shadow = new JLabel();
-		character_name_shadow.setLocation(126, 556);
+		character_name_shadow.setLocation(196, 556);
 		character_name_shadow.setSize(215, 40);
 		character_name_shadow.setText("Character Name");
 		character_name_shadow.setFont(Alagard);
@@ -129,7 +134,7 @@ public class PreGameState extends JLayeredPane {
 		barbarian_concept_art.setSize(400, 400);
 		barbarian_concept_art.setLocation(30, 100);
 		barbarian_concept_art.setVisible(false);
-
+		
 		warrior_concept_art = new JLabel();
 		warrior_concept_art.setIcon(new ImageIcon("src/Assets/Gifs/csWarriorldle.gif"));
 		warrior_concept_art.setSize(400, 480);
@@ -218,6 +223,7 @@ public class PreGameState extends JLayeredPane {
 		llaves_indicador.setText("# of Keys (2-5): ");
 
 		//
+		
 		//
 
 		panel_inf.add(cantidad_enemigos);
@@ -248,6 +254,7 @@ public class PreGameState extends JLayeredPane {
 		add(prgBackground, JLayeredPane.DEFAULT_LAYER);
 
 	}
+	
 
 	public JLabel getPrg_artBackground() {
 		return prg_artBackground;
@@ -475,6 +482,14 @@ public class PreGameState extends JLayeredPane {
 
 	public void setCantidad_enemigos(JTextField cantidad_enemigos) {
 		this.cantidad_enemigos = cantidad_enemigos;
+	}
+
+	public Controlador getC() {
+		return c;
+	}
+
+	public void setC(Controlador c) {
+		this.c = c;
 	}
 
 }
