@@ -9,11 +9,14 @@ import java.util.ArrayList;
 
 import co.edu.unbosque.modelo.MazeGeneratorMatrix;
 import co.edu.unbosque.vista.GameFrame;
+import co.edu.unbosque.vista.PreGameState;
 import co.edu.unbosque.modelo.KeysHavePath;
 import co.edu.unbosque.modelo.Coord;
 import co.edu.unbosque.modelo.MazeBFS;
 
 public class Controlador implements ActionListener, KeyListener{
+	
+	private String select_button;
 	
 	//Conexiones
 	private GameFrame gameFrame;
@@ -40,6 +43,7 @@ public class Controlador implements ActionListener, KeyListener{
 
 	public Controlador() {
 
+		select_button = "";
 	}
 	
 	public void run() {
@@ -381,6 +385,88 @@ public class Controlador implements ActionListener, KeyListener{
 		}
 		case "cs_select_button":{
 			
+			select_button = "";
+			
+			boolean archer = gameFrame.getChState().getArcher_concept_art().isVisible();
+			boolean warrior = gameFrame.getChState().getWarrior_concept_art().isVisible();
+			boolean barbarian = gameFrame.getChState().getBarbarian_concept_art().isVisible();
+			boolean mage = gameFrame.getChState().getMage_concept_art().isVisible();
+			boolean paladin = gameFrame.getChState().getPaladin_concept_art().isVisible();
+			boolean rogue = gameFrame.getChState().getRogue_concept_art().isVisible();
+			
+			if (archer == false && warrior == false && barbarian == false && mage == false && paladin == false && rogue == false) {
+				
+				gameFrame.getChState().getCharacter_select().setVisible(true);
+				
+				break;
+				
+			}else if (archer == true) {
+				select_button += "Archer";
+			}else if (warrior == true) {
+				select_button += "Warrior";
+			}else if(barbarian == true) {
+				select_button += "Barbarian";
+			}else if (mage == true) {
+				select_button += "Mage";
+			}else if (paladin == true) {
+				select_button += "Paladin";
+			}else if (rogue == true) {
+				select_button += "Rogue";
+			}
+			switch (select_button) {
+			case "Archer": {
+				
+				gameFrame.getPrgState().getArcher_concept_art().setVisible(true);
+				gameFrame.getPrgState().getCharacter_name().setText("Archer");
+				gameFrame.getPrgState().getCharacter_name_shadow().setText("Archer");
+				
+				
+				break;
+			}
+			case "Warrior":{
+				
+				gameFrame.getPrgState().getWarrior_concept_art().setVisible(true);
+				gameFrame.getPrgState().getCharacter_name().setText("Warrior");
+				gameFrame.getPrgState().getCharacter_name_shadow().setText("Warrior");
+				
+				
+				break;
+			}
+			case "Paladin":{
+				
+				gameFrame.getPrgState().getPaladin_concept_art().setVisible(true);
+				gameFrame.getPrgState().getCharacter_name().setText("Paladin");
+				gameFrame.getPrgState().getCharacter_name_shadow().setText("Paladin");
+				
+				
+				break;
+			}
+			case "Barbarian":{
+				
+				gameFrame.getPrgState().getBarbarian_concept_art().setVisible(true);
+				gameFrame.getPrgState().getCharacter_name().setText("Barbarian");
+				gameFrame.getPrgState().getCharacter_name_shadow().setText("Barbarian");
+				
+				break;
+			}
+			case "Rogue":{
+				
+				gameFrame.getPrgState().getRogue_concept_art().setVisible(true);
+				gameFrame.getPrgState().getCharacter_name().setText("Rogue");
+				gameFrame.getPrgState().getCharacter_name_shadow().setText("Rogue");
+				
+				break;
+			}
+			case "Mage":{
+				
+				gameFrame.getPrgState().getMage_concept_art().setVisible(true);
+				gameFrame.getPrgState().getCharacter_name().setText("Mage");
+				gameFrame.getPrgState().getCharacter_name_shadow().setText("Mage");
+				
+				break;
+			}
+			default:
+			}
 			gameFrame.getChState().setVisible(false);
 			gameFrame.getPrgState().setVisible(true);
 			
@@ -435,6 +521,14 @@ public class Controlador implements ActionListener, KeyListener{
 			
 			gameFrame.getPrgState().getEntrada_X().setBackground(Color.DARK_GRAY);
 			gameFrame.getPrgState().getEntrada_Y().setBackground(Color.DARK_GRAY);
+			
+			gameFrame.getPrgState().getBarbarian_concept_art().setVisible(false);
+			gameFrame.getPrgState().getArcher_concept_art().setVisible(false);
+			gameFrame.getPrgState().getWarrior_concept_art().setVisible(false);
+			gameFrame.getPrgState().getRogue_concept_art().setVisible(false);
+			gameFrame.getPrgState().getMage_concept_art().setVisible(false);
+			gameFrame.getPrgState().getPaladin_concept_art().setVisible(false);
+			gameFrame.getChState().getCharacter_select().setVisible(false);
 			
 			gameFrame.getPrgState().getCantidad_llaves().setBackground(Color.DARK_GRAY);
 			
@@ -514,8 +608,34 @@ public class Controlador implements ActionListener, KeyListener{
 	
 	
 	//Getters & Setters
+	
+	
 	public GameFrame getGameFrame() {
 		return gameFrame;
+	}
+
+	public String getSelect_button() {
+		return select_button;
+	}
+
+	public void setSelect_button(String select_button) {
+		this.select_button = select_button;
+	}
+
+	public KeysHavePath getKeys_have_path() {
+		return keys_have_path;
+	}
+
+	public void setKeys_have_path(KeysHavePath keys_have_path) {
+		this.keys_have_path = keys_have_path;
+	}
+
+	public boolean isActualESC() {
+		return actualESC;
+	}
+
+	public void setActualESC(boolean actualESC) {
+		this.actualESC = actualESC;
 	}
 
 	public void setGameFrame(GameFrame gameFrame) {

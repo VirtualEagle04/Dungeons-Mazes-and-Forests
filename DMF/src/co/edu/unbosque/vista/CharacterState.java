@@ -206,6 +206,20 @@ public class CharacterState extends JLayeredPane {
 		add(select_button, JLayeredPane.MODAL_LAYER);
 		add(chBackground, JLayeredPane.DEFAULT_LAYER);
 	}
+	
+	
+
+	public JLabel getCharacter_select() {
+		return character_select;
+	}
+
+
+
+	public void setCharacter_select(JLabel character_select) {
+		this.character_select = character_select;
+	}
+
+
 
 	public JLabel getPaBackground() {
 		return paBackground;
