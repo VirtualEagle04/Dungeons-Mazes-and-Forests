@@ -464,12 +464,6 @@ public class Controlador implements ActionListener, KeyListener{
 				gameFrame.getPrgState().getCantidad_llaves().setText("");
 			}
 			else {
-				
-<<<<<<< HEAD
-				//Genera Laberinto con soluci�n
-=======
-				//Genera Laberinto con solucion
->>>>>>> Lógica
 				this.newGame(rows, columns);
 				
 				gameFrame.getPrgState().setVisible(false);
