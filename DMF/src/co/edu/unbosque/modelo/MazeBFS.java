@@ -77,7 +77,12 @@ public class MazeBFS {
 			x = i;
 			y = j;
 		}
+		coordsCamino.remove(0);
 		
+//		for (co.edu.unbosque.modelo.Coord coordCamino : coordsCamino) {
+//			System.out.println("("+coordCamino.getRow()+", "+coordCamino.getCol()+")");
+//		}
+//		
 //		for (int i = 0; i < h; ++i) {
 //			for (int j = 0; j < w; ++j) {
 //				System.out.print(ady[i][j]+" ");
@@ -143,7 +148,7 @@ public class MazeBFS {
 		this.solucion = solucion;
 	}
 
-	public static ArrayList<co.edu.unbosque.modelo.Coord> getCoordsCamino() {
+	public ArrayList<co.edu.unbosque.modelo.Coord> getCoordsCamino() {
 		return coordsCamino;
 	}
 

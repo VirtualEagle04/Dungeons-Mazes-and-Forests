@@ -9,7 +9,8 @@ public class MazeGeneratorMatrix {
 	
 	private ArrayList<Coord> ceros;
 	private ArrayList<Coord> llaves;
-	private ArrayList<Coord> enemigos;
+	private ArrayList<Coord> coordsLethal;
+	private ArrayList<Coord> coordsStormy;
 	private Controlador c;
 	private int[][] maze;
 
@@ -18,10 +19,12 @@ public class MazeGeneratorMatrix {
 	public MazeGeneratorMatrix(int rows, int columns) {
 		c = new Controlador();
 		int keys = c.getKeys();
-		int enemies = c.getEnemies();
+		int lethal = c.getLethal();
+		int stormy = c.getStormy();
 		ceros = new ArrayList<Coord>();
 		llaves = new ArrayList<Coord>();
-		enemigos = new ArrayList<Coord>();
+		coordsLethal = new ArrayList<Coord>();
+		coordsStormy = new ArrayList<Coord>();
 		
 		maze = new int[rows+2][columns+2]; //Dimensiones del usuario + bordes (arriba, abajo, izq, drch)
 		Random rnd = new Random();
@@ -95,15 +98,29 @@ public class MazeGeneratorMatrix {
 		
 		
 		
-		//Enemigos
-		for (int i = 1; i <= enemies; i++) {			
+		//Lethal
+		for (int i = 1; i <= lethal; i++) {			
 			int index_temp = rnd.nextInt(ceros.size());
 			
 			int tempRow = ceros.get(index_temp).getRow();
 			int tempCol = ceros.get(index_temp).getCol();
 
-			enemigos.add(new Coord(tempRow, tempCol));
+			coordsLethal.add(new Coord(tempRow, tempCol));
 			maze[tempRow][tempCol] = 2;
+			
+			ceros.remove(index_temp);
+		}
+		
+		
+		//Stormy
+		for (int i = 1; i <= stormy; i++) {
+			int index_temp = rnd.nextInt(ceros.size());
+			
+			int tempRow = ceros.get(index_temp).getRow();
+			int tempCol = ceros.get(index_temp).getCol();
+			
+			coordsStormy.add(new Coord(tempRow, tempCol));
+			maze[tempRow][tempCol] = 6;
 			
 			ceros.remove(index_temp);
 		}
@@ -135,13 +152,19 @@ public class MazeGeneratorMatrix {
 		this.ceros = ceros;
 	}
 
-	public ArrayList<Coord> getEnemigos() {
-		return enemigos;
+	public ArrayList<Coord> getCoordsLethal() {
+		return coordsLethal;
 	}
 
-	public void setEnemigos(ArrayList<Coord> enemigos) {
-		this.enemigos = enemigos;
+	public void setCoordsLethal(ArrayList<Coord> coordsLethal) {
+		this.coordsLethal = coordsLethal;
 	}
-	
-	
+
+	public ArrayList<Coord> getCoordsStormy() {
+		return coordsStormy;
+	}
+
+	public void setCoordsStormy(ArrayList<Coord> coordsStormy) {
+		this.coordsStormy = coordsStormy;
+	}
 }

@@ -26,12 +26,15 @@ public class Controlador implements ActionListener, KeyListener{
 	private static int columns;
 	private static int rows;
 	private static int keys;
-	private static int enemies;
+	private static int lethal;
+	private static int stormy;
 	private static int[][] mazeMatrix;
 	
 	//Movimiento
 	private boolean upP, downP, leftP, rightP;
 	private int posX, posY, desplazamiento;
+	private int llaves_acumuladas;
+	private int mov_max;
 	
 	//Varios
 	private int intentos_generacion;
@@ -41,7 +44,7 @@ public class Controlador implements ActionListener, KeyListener{
 
 	public Controlador() {
 
-		select_button = "";
+		
 	}
 	
 	public void run() {
@@ -520,6 +523,9 @@ public class Controlador implements ActionListener, KeyListener{
 			
 			gameFrame.getPrgState().getEntrada_X().setText("");
 			gameFrame.getPrgState().getEntrada_Y().setText("");
+			gameFrame.getPrgState().getCantidad_llaves().setText("");
+			gameFrame.getPrgState().getCantidad_lethal().setText("");
+			gameFrame.getPrgState().getCantidad_stormy().setText("");
 			
 			gameFrame.getPrgState().getEntrada_X().setBackground(Color.DARK_GRAY);
 			gameFrame.getPrgState().getEntrada_Y().setBackground(Color.DARK_GRAY);
@@ -537,14 +543,16 @@ public class Controlador implements ActionListener, KeyListener{
 			break;
 		}
 		case "prg_start_button" :{
-			
+			//Resetea todos los valores
+			int confirmacion_gen = 0;
 
+			
 			//Recoge los valores ingresados en el JTextField, y los convierte a Integer
-			gameFrame.getGameState().playMusic(5);
 			rows = Integer.parseInt(gameFrame.getPrgState().getEntrada_Y().getText());
 			columns = Integer.parseInt(gameFrame.getPrgState().getEntrada_X().getText());
 			keys = Integer.parseInt(gameFrame.getPrgState().getCantidad_llaves().getText());
-			enemies = Integer.parseInt(gameFrame.getPrgState().getCantidad_enemigos().getText());
+			lethal = Integer.parseInt(gameFrame.getPrgState().getCantidad_lethal().getText());
+			stormy = Integer.parseInt(gameFrame.getPrgState().getCantidad_stormy().getText());
 			
 			//Condicional para el minimo (5) y el maximo (20)
 			if((rows < 5 || rows > 20) && (columns < 5 || columns > 20)) {
@@ -555,12 +563,41 @@ public class Controlador implements ActionListener, KeyListener{
 				gameFrame.getPrgState().getEntrada_X().setText("");
 	
 			}
+			else {
+				gameFrame.getPrgState().getEntrada_Y().setBackground(Color.DARK_GRAY);
+				gameFrame.getPrgState().getEntrada_X().setBackground(Color.DARK_GRAY);
+				confirmacion_gen++;
+			}
 			//Condicional para el minimo (2) y el maximo (5)
 			if(keys < 2 || keys > 5) {
 				gameFrame.getPrgState().getCantidad_llaves().setBackground(Color.RED);
 				gameFrame.getPrgState().getCantidad_llaves().setText("");
 			}
 			else {
+				gameFrame.getPrgState().getCantidad_llaves().setBackground(Color.DARK_GRAY);
+				confirmacion_gen++;
+			}
+			//Condicional para el minimo (1) y el maximo (keys) de los enemigos Lethal
+			if(lethal < 1 || lethal > keys) {
+				gameFrame.getPrgState().getCantidad_lethal().setBackground(Color.RED);
+				gameFrame.getPrgState().getCantidad_lethal().setText("");
+			}
+			else {
+				gameFrame.getPrgState().getCantidad_lethal().setBackground(Color.DARK_GRAY);
+				confirmacion_gen++;
+			}
+			//Condicional para el minimo (1) y el maximo (stormy) de los enemigos Stormy
+			if(stormy < 1 || stormy > keys) {
+				gameFrame.getPrgState().getCantidad_stormy().setBackground(Color.RED);
+				gameFrame.getPrgState().getCantidad_stormy().setText("");
+			}
+			else {
+				gameFrame.getPrgState().getCantidad_stormy().setBackground(Color.DARK_GRAY);
+				confirmacion_gen++;
+			}
+			
+			if(confirmacion_gen == 4) {
+				gameFrame.getGameState().playMusic(5);
 				this.newGame(rows, columns);
 				
 				gameFrame.getPrgState().setVisible(false);
@@ -608,14 +645,7 @@ public class Controlador implements ActionListener, KeyListener{
 	}
 
 	
-	
 	//Getters & Setters
-	
-	
-	public GameFrame getGameFrame() {
-		return gameFrame;
-	}
-
 	public String getSelect_button() {
 		return select_button;
 	}
@@ -623,13 +653,9 @@ public class Controlador implements ActionListener, KeyListener{
 	public void setSelect_button(String select_button) {
 		this.select_button = select_button;
 	}
-	
-	public boolean isActualESC() {
-		return actualESC;
-	}
 
-	public void setActualESC(boolean actualESC) {
-		this.actualESC = actualESC;
+	public GameFrame getGameFrame() {
+		return gameFrame;
 	}
 
 	public void setGameFrame(GameFrame gameFrame) {
@@ -642,6 +668,22 @@ public class Controlador implements ActionListener, KeyListener{
 
 	public void setMazeGen(MazeGeneratorMatrix mazeGen) {
 		this.mazeGen = mazeGen;
+	}
+
+	public MazeBFS getMazeBFS() {
+		return mazeBFS;
+	}
+
+	public void setMazeBFS(MazeBFS mazeBFS) {
+		this.mazeBFS = mazeBFS;
+	}
+
+	public KeyGeneratorMatrix getKeyGen() {
+		return keyGen;
+	}
+
+	public void setKeyGen(KeyGeneratorMatrix keyGen) {
+		this.keyGen = keyGen;
 	}
 
 	public static int getColumns() {
@@ -660,36 +702,36 @@ public class Controlador implements ActionListener, KeyListener{
 		Controlador.rows = rows;
 	}
 
+	public static int getKeys() {
+		return keys;
+	}
+
+	public static void setKeys(int keys) {
+		Controlador.keys = keys;
+	}
+
+	public static int getLethal() {
+		return lethal;
+	}
+
+	public static void setLethal(int lethal) {
+		Controlador.lethal = lethal;
+	}
+
+	public static int getStormy() {
+		return stormy;
+	}
+
+	public static void setStormy(int stormy) {
+		Controlador.stormy = stormy;
+	}
+
 	public static int[][] getMazeMatrix() {
 		return mazeMatrix;
 	}
 
 	public static void setMazeMatrix(int[][] mazeMatrix) {
 		Controlador.mazeMatrix = mazeMatrix;
-	}
-
-	public int getIntentos_generacion() {
-		return intentos_generacion;
-	}
-
-	public void setIntentos_generacion(int intentos_generacion) {
-		this.intentos_generacion = intentos_generacion;
-	}
-
-	public MazeBFS getMazeBFS() {
-		return mazeBFS;
-	}
-
-	public void setMazeBFS(MazeBFS mazeBFS) {
-		this.mazeBFS = mazeBFS;
-	}
-
-	public boolean isLeftP() {
-		return leftP;
-	}
-
-	public void setLeftP(boolean leftP) {
-		this.leftP = leftP;
 	}
 
 	public boolean isUpP() {
@@ -706,6 +748,14 @@ public class Controlador implements ActionListener, KeyListener{
 
 	public void setDownP(boolean downP) {
 		this.downP = downP;
+	}
+
+	public boolean isLeftP() {
+		return leftP;
+	}
+
+	public void setLeftP(boolean leftP) {
+		this.leftP = leftP;
 	}
 
 	public boolean isRightP() {
@@ -740,20 +790,27 @@ public class Controlador implements ActionListener, KeyListener{
 		this.desplazamiento = desplazamiento;
 	}
 
-	public static int getKeys() {
-		return keys;
+	public int getIntentos_generacion() {
+		return intentos_generacion;
 	}
 
-	public static void setKeys(int keys) {
-		Controlador.keys = keys;
+	public void setIntentos_generacion(int intentos_generacion) {
+		this.intentos_generacion = intentos_generacion;
 	}
 
-	public static int getEnemies() {
-		return enemies;
+	public boolean isActualESC() {
+		return actualESC;
 	}
 
-	public static void setEnemies(int enemies) {
-		Controlador.enemies = enemies;
+	public void setActualESC(boolean actualESC) {
+		this.actualESC = actualESC;
 	}
 
+	public ArrayList<co.edu.unbosque.modelo.Coord> getCoordsCamino() {
+		return coordsCamino;
+	}
+
+	public void setCoordsCamino(ArrayList<co.edu.unbosque.modelo.Coord> coordsCamino) {
+		this.coordsCamino = coordsCamino;
+	}
 }

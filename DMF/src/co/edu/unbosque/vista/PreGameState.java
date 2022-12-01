@@ -14,26 +14,21 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-import co.edu.unbosque.controlador.Controlador;
-
 public class PreGameState extends JLayeredPane {
 
 	private JButton back_button, start_button;
 	private JLabel prgBackground, characterInf, characterInf_shadow, character_name, character_name_shadow, indicator,
-			enemigos_indicador, llaves_indicador, prg_artBackground;
+			lethal, stormy, llaves_indicador, prg_artBackground;
 	private JLabel archer_concept_art, barbarian_concept_art, warrior_concept_art, rogue_concept_art,
 			paladin_concept_art, mage_concept_art;
 	private JPanel panel_inf;
-	private JTextField entrada_X, entrada_Y, cantidad_llaves, cantidad_enemigos;
+	private JTextField entrada_X, entrada_Y, cantidad_llaves, cantidad_lethal, cantidad_stormy;
 	private JTextArea size_inf, size_inf_shadow;
 	private Font Alagard;
-	private Controlador c;
 	private Sound PrgMusic;
 
 	public PreGameState() {
 
-		Controlador c = new Controlador();
-		
 		try {
 			Alagard = Font.createFont(Font.TRUETYPE_FONT, new File("src/Assets/Fonts/alagard.ttf"));
 		} catch (FontFormatException e) {
@@ -113,7 +108,7 @@ public class PreGameState extends JLayeredPane {
 		size_inf.setFont(Alagard);
 		size_inf.setFont(size_inf.getFont().deriveFont(Font.ITALIC, 25));
 		size_inf.setForeground(Color.white);
-		size_inf.setBounds(504, 180, 300, 100);
+		size_inf.setBounds(504, 100, 300, 100);
 
 		size_inf_shadow = new JTextArea();
 		size_inf_shadow.setEditable(false);
@@ -122,7 +117,7 @@ public class PreGameState extends JLayeredPane {
 		size_inf_shadow.setFont(Alagard);
 		size_inf_shadow.setFont(size_inf_shadow.getFont().deriveFont(Font.ITALIC, 25));
 		size_inf_shadow.setForeground(Color.DARK_GRAY);
-		size_inf_shadow.setBounds(507, 183, 300, 300);
+		size_inf_shadow.setBounds(507, 103, 300, 300);
 
 		archer_concept_art = new JLabel();
 		archer_concept_art.setIcon(new ImageIcon("src/Assets/Gifs/csArcherldle.gif"));
@@ -135,7 +130,7 @@ public class PreGameState extends JLayeredPane {
 		barbarian_concept_art.setSize(400, 400);
 		barbarian_concept_art.setLocation(30, 100);
 		barbarian_concept_art.setVisible(false);
-		
+
 		warrior_concept_art = new JLabel();
 		warrior_concept_art.setIcon(new ImageIcon("src/Assets/Gifs/csWarriorldle.gif"));
 		warrior_concept_art.setSize(400, 480);
@@ -165,11 +160,11 @@ public class PreGameState extends JLayeredPane {
 		indicator.setForeground(Color.white);
 		indicator.setFont(Alagard);
 		indicator.setFont(indicator.getFont().deriveFont(Font.ITALIC, 25));
-		indicator.setBounds(494, 302, 200, 40);
+		indicator.setBounds(494, 222, 200, 40);
 		indicator.setText("X:            Y:");
 
 		entrada_X = new JTextField();
-		entrada_X.setLocation(524, 300);
+		entrada_X.setLocation(524, 220);
 		entrada_X.setSize(80, 40);
 		entrada_X.setEditable(true);
 		entrada_X.setFont(Alagard);
@@ -179,7 +174,7 @@ public class PreGameState extends JLayeredPane {
 		entrada_X.setToolTipText("Min: 5   Max: 20");
 
 		entrada_Y = new JTextField();
-		entrada_Y.setLocation(644, 300);
+		entrada_Y.setLocation(644, 220);
 		entrada_Y.setSize(80, 40);
 		entrada_Y.setEditable(true);
 		entrada_Y.setFont(Alagard);
@@ -189,21 +184,37 @@ public class PreGameState extends JLayeredPane {
 		entrada_Y.setToolTipText("Min: 5   Max: 20");
 
 		// Enemigos
-		cantidad_enemigos = new JTextField();
-		cantidad_enemigos.setLocation(644, 360);
-		cantidad_enemigos.setSize(80, 40);
-		cantidad_enemigos.setEditable(true);
-		cantidad_enemigos.setFont(Alagard);
-		cantidad_enemigos.setFont(cantidad_enemigos.getFont().deriveFont(Font.ITALIC, 30));
-		cantidad_enemigos.setBackground(Color.DARK_GRAY);
-		cantidad_enemigos.setForeground(Color.WHITE);
+		cantidad_lethal = new JTextField();
+		cantidad_lethal.setLocation(644, 352);
+		cantidad_lethal.setSize(80, 40);
+		cantidad_lethal.setEditable(true);
+		cantidad_lethal.setFont(Alagard);
+		cantidad_lethal.setFont(cantidad_lethal.getFont().deriveFont(Font.ITALIC, 30));
+		cantidad_lethal.setBackground(Color.DARK_GRAY);
+		cantidad_lethal.setForeground(Color.WHITE);
 
-		enemigos_indicador = new JLabel();
-		enemigos_indicador.setForeground(Color.white);
-		enemigos_indicador.setFont(Alagard);
-		enemigos_indicador.setFont(enemigos_indicador.getFont().deriveFont(Font.ITALIC, 25));
-		enemigos_indicador.setBounds(450, 360, 200, 40);
-		enemigos_indicador.setText("# of Enemies: ");
+		lethal = new JLabel();
+		lethal.setForeground(Color.white);
+		lethal.setFont(Alagard);
+		lethal.setFont(lethal.getFont().deriveFont(Font.ITALIC, 25));
+		lethal.setBounds(475, 352, 200, 40);
+		lethal.setText("# of Lethal: ");
+
+		cantidad_stormy = new JTextField();
+		cantidad_stormy.setLocation(644, 285);
+		cantidad_stormy.setSize(80, 40);
+		cantidad_stormy.setEditable(true);
+		cantidad_stormy.setFont(Alagard);
+		cantidad_stormy.setFont(cantidad_stormy.getFont().deriveFont(Font.ITALIC, 30));
+		cantidad_stormy.setBackground(Color.DARK_GRAY);
+		cantidad_stormy.setForeground(Color.WHITE);
+
+		stormy = new JLabel();
+		stormy.setForeground(Color.white);
+		stormy.setFont(Alagard);
+		stormy.setFont(stormy.getFont().deriveFont(Font.ITALIC, 25));
+		stormy.setBounds(475, 285, 200, 40);
+		stormy.setText("# of Stormy: ");
 
 		// Llaves
 		cantidad_llaves = new JTextField();
@@ -215,22 +226,23 @@ public class PreGameState extends JLayeredPane {
 		cantidad_llaves.setBackground(Color.DARK_GRAY);
 		cantidad_llaves.setForeground(Color.WHITE);
 		cantidad_llaves.setToolTipText("Min: 2   Max: 5");
-		
+
 		PrgMusic = new Sound();
 
 		llaves_indicador = new JLabel();
 		llaves_indicador.setForeground(Color.white);
 		llaves_indicador.setFont(Alagard);
-		llaves_indicador.setFont(llaves_indicador.getFont().deriveFont(Font.ITALIC, 22));
-		llaves_indicador.setBounds(450, 420, 200, 40);
+		llaves_indicador.setFont(llaves_indicador.getFont().deriveFont(Font.ITALIC, 25));
+		llaves_indicador.setBounds(450, 420, 300, 40);
 		llaves_indicador.setText("# of Keys (2-5): ");
 
 		//
-		
-		//
 
-		panel_inf.add(cantidad_enemigos);
-		panel_inf.add(enemigos_indicador);
+		//
+		panel_inf.add(cantidad_stormy);
+		panel_inf.add(cantidad_lethal);
+		panel_inf.add(lethal);
+		panel_inf.add(stormy);
 		panel_inf.add(cantidad_llaves);
 		panel_inf.add(llaves_indicador);
 		panel_inf.add(entrada_Y);
@@ -259,10 +271,126 @@ public class PreGameState extends JLayeredPane {
 	}
 	
 
+	public void playSE(int i) {
+
+		PrgMusic.setFile(i);
+		PrgMusic.play();
+	}
+
+
+	public JButton getBack_button() {
+		return back_button;
+	}
+
+
+	public void setBack_button(JButton back_button) {
+		this.back_button = back_button;
+	}
+
+
+	public JButton getStart_button() {
+		return start_button;
+	}
+
+
+	public void setStart_button(JButton start_button) {
+		this.start_button = start_button;
+	}
+
+
+	public JLabel getPrgBackground() {
+		return prgBackground;
+	}
+
+
+	public void setPrgBackground(JLabel prgBackground) {
+		this.prgBackground = prgBackground;
+	}
+
+
+	public JLabel getCharacterInf() {
+		return characterInf;
+	}
+
+
+	public void setCharacterInf(JLabel characterInf) {
+		this.characterInf = characterInf;
+	}
+
+
+	public JLabel getCharacterInf_shadow() {
+		return characterInf_shadow;
+	}
+
+
+	public void setCharacterInf_shadow(JLabel characterInf_shadow) {
+		this.characterInf_shadow = characterInf_shadow;
+	}
+
+
+	public JLabel getCharacter_name() {
+		return character_name;
+	}
+
+
+	public void setCharacter_name(JLabel character_name) {
+		this.character_name = character_name;
+	}
+
+
+	public JLabel getCharacter_name_shadow() {
+		return character_name_shadow;
+	}
+
+
+	public void setCharacter_name_shadow(JLabel character_name_shadow) {
+		this.character_name_shadow = character_name_shadow;
+	}
+
+
+	public JLabel getIndicator() {
+		return indicator;
+	}
+
+
+	public void setIndicator(JLabel indicator) {
+		this.indicator = indicator;
+	}
+
+
+	public JLabel getLethal() {
+		return lethal;
+	}
+
+
+	public void setLethal(JLabel lethal) {
+		this.lethal = lethal;
+	}
+
+
+	public JLabel getStormy() {
+		return stormy;
+	}
+
+
+	public void setStormy(JLabel stormy) {
+		this.stormy = stormy;
+	}
+
+
+	public JLabel getLlaves_indicador() {
+		return llaves_indicador;
+	}
+
+
+	public void setLlaves_indicador(JLabel llaves_indicador) {
+		this.llaves_indicador = llaves_indicador;
+	}
+
+
 	public JLabel getPrg_artBackground() {
 		return prg_artBackground;
 	}
-
 
 
 	public void setPrg_artBackground(JLabel prg_artBackground) {
@@ -270,11 +398,9 @@ public class PreGameState extends JLayeredPane {
 	}
 
 
-
 	public JLabel getArcher_concept_art() {
 		return archer_concept_art;
 	}
-
 
 
 	public void setArcher_concept_art(JLabel archer_concept_art) {
@@ -282,11 +408,9 @@ public class PreGameState extends JLayeredPane {
 	}
 
 
-
 	public JLabel getBarbarian_concept_art() {
 		return barbarian_concept_art;
 	}
-
 
 
 	public void setBarbarian_concept_art(JLabel barbarian_concept_art) {
@@ -294,11 +418,9 @@ public class PreGameState extends JLayeredPane {
 	}
 
 
-
 	public JLabel getWarrior_concept_art() {
 		return warrior_concept_art;
 	}
-
 
 
 	public void setWarrior_concept_art(JLabel warrior_concept_art) {
@@ -306,11 +428,9 @@ public class PreGameState extends JLayeredPane {
 	}
 
 
-
 	public JLabel getRogue_concept_art() {
 		return rogue_concept_art;
 	}
-
 
 
 	public void setRogue_concept_art(JLabel rogue_concept_art) {
@@ -318,11 +438,9 @@ public class PreGameState extends JLayeredPane {
 	}
 
 
-
 	public JLabel getPaladin_concept_art() {
 		return paladin_concept_art;
 	}
-
 
 
 	public void setPaladin_concept_art(JLabel paladin_concept_art) {
@@ -330,11 +448,9 @@ public class PreGameState extends JLayeredPane {
 	}
 
 
-
 	public JLabel getMage_concept_art() {
 		return mage_concept_art;
 	}
-
 
 
 	public void setMage_concept_art(JLabel mage_concept_art) {
@@ -342,163 +458,103 @@ public class PreGameState extends JLayeredPane {
 	}
 
 
-
-	public JLabel getCharacter_name_shadow() {
-		return character_name_shadow;
-	}
-
-	public void setCharacter_name_shadow(JLabel character_name_shadow) {
-		this.character_name_shadow = character_name_shadow;
-	}
-
-	public JButton getStart_button() {
-		return start_button;
-	}
-
-	public void setStart_button(JButton start_button) {
-		this.start_button = start_button;
-	}
-
-	public JLabel getPrgBackground() {
-		return prgBackground;
-	}
-
-	public void setPrgBackground(JLabel prgBackground) {
-		this.prgBackground = prgBackground;
-	}
-
-	public JLabel getCharacterInf() {
-		return characterInf;
-	}
-
-	public void setCharacterInf(JLabel characterInf) {
-		this.characterInf = characterInf;
-	}
-
-	public JLabel getCharacterInf_shadow() {
-		return characterInf_shadow;
-	}
-
-	public void setCharacterInf_shadow(JLabel characterInf_shadow) {
-		this.characterInf_shadow = characterInf_shadow;
-	}
-
-	public JLabel getCharacter_name() {
-		return character_name;
-	}
-
-	public void setCharacter_name(JLabel character_name) {
-		this.character_name = character_name;
-	}
-
 	public JPanel getPanel_inf() {
 		return panel_inf;
 	}
+
 
 	public void setPanel_inf(JPanel panel_inf) {
 		this.panel_inf = panel_inf;
 	}
 
-	public Font getAlagard() {
-		return Alagard;
-	}
-
-	public void setAlagard(Font alagard) {
-		Alagard = alagard;
-	}
-
-	public JButton getBack_button() {
-		return back_button;
-	}
-
-	public void setBack_button(JButton back_button) {
-		this.back_button = back_button;
-	}
-
-	public JLabel getIndicator() {
-		return indicator;
-	}
-
-	public void setIndicator(JLabel indicator) {
-		this.indicator = indicator;
-	}
 
 	public JTextField getEntrada_X() {
 		return entrada_X;
 	}
 
+
 	public void setEntrada_X(JTextField entrada_X) {
 		this.entrada_X = entrada_X;
 	}
+
 
 	public JTextField getEntrada_Y() {
 		return entrada_Y;
 	}
 
+
 	public void setEntrada_Y(JTextField entrada_Y) {
 		this.entrada_Y = entrada_Y;
 	}
 
-	public JTextArea getSize_inf() {
-		return size_inf;
-	}
-
-	public void setSize_inf(JTextArea size_inf) {
-		this.size_inf = size_inf;
-	}
-
-	public JTextArea getSize_inf_shadow() {
-		return size_inf_shadow;
-	}
-
-	public void setSize_inf_shadow(JTextArea size_inf_shadow) {
-		this.size_inf_shadow = size_inf_shadow;
-	}
-
-	public JLabel getEnemigos_indicador() {
-		return enemigos_indicador;
-	}
-
-	public void setEnemigos_indicador(JLabel enemigos_indicador) {
-		this.enemigos_indicador = enemigos_indicador;
-	}
-
-	public JLabel getLlaves_indicador() {
-		return llaves_indicador;
-	}
-
-	public void setLlaves_indicador(JLabel llaves_indicador) {
-		this.llaves_indicador = llaves_indicador;
-	}
 
 	public JTextField getCantidad_llaves() {
 		return cantidad_llaves;
 	}
 
+
 	public void setCantidad_llaves(JTextField cantidad_llaves) {
 		this.cantidad_llaves = cantidad_llaves;
 	}
 
-	public JTextField getCantidad_enemigos() {
-		return cantidad_enemigos;
+
+	public JTextField getCantidad_lethal() {
+		return cantidad_lethal;
 	}
 
-	public void setCantidad_enemigos(JTextField cantidad_enemigos) {
-		this.cantidad_enemigos = cantidad_enemigos;
+
+	public void setCantidad_lethal(JTextField cantidad_lethal) {
+		this.cantidad_lethal = cantidad_lethal;
 	}
 
-	public Controlador getC() {
-		return c;
+
+	public JTextField getCantidad_stormy() {
+		return cantidad_stormy;
 	}
 
-	public void setC(Controlador c) {
-		this.c = c;
+
+	public void setCantidad_stormy(JTextField cantidad_stormy) {
+		this.cantidad_stormy = cantidad_stormy;
 	}
-	
-public void playSE(int i) {
-		
-		PrgMusic.setFile(i);
-		PrgMusic.play();
+
+
+	public JTextArea getSize_inf() {
+		return size_inf;
+	}
+
+
+	public void setSize_inf(JTextArea size_inf) {
+		this.size_inf = size_inf;
+	}
+
+
+	public JTextArea getSize_inf_shadow() {
+		return size_inf_shadow;
+	}
+
+
+	public void setSize_inf_shadow(JTextArea size_inf_shadow) {
+		this.size_inf_shadow = size_inf_shadow;
+	}
+
+
+	public Font getAlagard() {
+		return Alagard;
+	}
+
+
+	public void setAlagard(Font alagard) {
+		Alagard = alagard;
+	}
+
+
+	public Sound getPrgMusic() {
+		return PrgMusic;
+	}
+
+
+	public void setPrgMusic(Sound prgMusic) {
+		PrgMusic = prgMusic;
 	}
 
 }

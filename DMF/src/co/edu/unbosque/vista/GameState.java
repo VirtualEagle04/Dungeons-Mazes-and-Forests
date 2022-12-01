@@ -214,7 +214,7 @@ public class GameState extends JLayeredPane {
 
 				}
 				
-				// LLaves y Enemigos
+				// Lethal
 				if (mazeMatrix[i][j] == 2) {
 					celdas[i] = new JLabel(new ImageIcon("src/Assets/Floor/floor10.png"));
 					celdas[i].setSize(32, 32);
@@ -222,9 +222,24 @@ public class GameState extends JLayeredPane {
 					pos_X += 32;
 					tablero.add(celdas[i], JLayeredPane.DEFAULT_LAYER);
 
-					enemy = new EnemyRender();
-					enemy.setLocation(celdas[i].getLocation());
-					tablero.add(enemy, JLayeredPane.MODAL_LAYER);
+					EnemyRender lethal = new EnemyRender();
+					lethal.lethalRender();
+					lethal.setLocation(celdas[i].getLocation());
+					tablero.add(lethal, JLayeredPane.MODAL_LAYER);
+				}
+				
+				//Stormy
+				if(mazeMatrix[i][j] == 6) {
+					celdas[i] = new JLabel(new ImageIcon("src/Assets/Floor/floor10.png"));
+					celdas[i].setSize(32, 32);
+					celdas[i].setLocation(pos_X, pos_Y);
+					pos_X += 32;
+					tablero.add(celdas[i], JLayeredPane.DEFAULT_LAYER);
+					
+					EnemyRender stormy = new EnemyRender();
+					stormy.stormyRender();
+					stormy.setLocation(celdas[i].getLocation());
+					tablero.add(stormy, JLayeredPane.MODAL_LAYER);
 				}
 
 				if (mazeMatrix[i][j] == 5) {
