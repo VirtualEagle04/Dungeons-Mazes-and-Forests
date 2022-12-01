@@ -9,9 +9,7 @@ import java.util.ArrayList;
 
 import co.edu.unbosque.modelo.MazeGeneratorMatrix;
 import co.edu.unbosque.vista.GameFrame;
-import co.edu.unbosque.vista.PreGameState;
-import co.edu.unbosque.modelo.KeysHavePath;
-import co.edu.unbosque.modelo.Coord;
+import co.edu.unbosque.modelo.KeyGeneratorMatrix;
 import co.edu.unbosque.modelo.MazeBFS;
 
 public class Controlador implements ActionListener, KeyListener{
@@ -22,7 +20,7 @@ public class Controlador implements ActionListener, KeyListener{
 	private GameFrame gameFrame;
 	private MazeGeneratorMatrix mazeGen;
 	private MazeBFS mazeBFS;
-	private KeysHavePath keys_have_path;
+	private KeyGeneratorMatrix keyGen;
 	
 	//Info del Laberinto
 	private static int columns;
@@ -30,7 +28,6 @@ public class Controlador implements ActionListener, KeyListener{
 	private static int keys;
 	private static int enemies;
 	private static int[][] mazeMatrix;
-	private static ArrayList<Coord> llaves;
 	
 	//Movimiento
 	private boolean upP, downP, leftP, rightP;
@@ -39,6 +36,7 @@ public class Controlador implements ActionListener, KeyListener{
 	//Varios
 	private int intentos_generacion;
 	boolean actualESC = false;
+	private ArrayList<co.edu.unbosque.modelo.Coord> coordsCamino;
 	
 
 	public Controlador() {
@@ -54,28 +52,27 @@ public class Controlador implements ActionListener, KeyListener{
 	}
 	
 	public void newGame(int rows, int columns) {
-		boolean generar = false;;
-		llaves = new ArrayList<Coord>();
+		boolean generar = false;
 		
 		//Generar laberintos hasta generar uno con solucion
 		do {
 			mazeGen = new MazeGeneratorMatrix(rows, columns);
 			mazeMatrix = mazeGen.getMaze();
-			llaves = mazeGen.getLlaves();
 			
 			//BFS Maze
 			mazeBFS = new MazeBFS(mazeMatrix);
 			boolean laberinto = mazeBFS.isSolucion();
+			coordsCamino = mazeBFS.getCoordsCamino();
 			
-			//BFS Keys
-			keys_have_path = new KeysHavePath(llaves, mazeMatrix);
-			boolean llavesBFS = keys_have_path.isSolucionable();
-			
-			if (laberinto && llavesBFS) {
+			if (laberinto) {
 				generar = true;
 			}
 			intentos_generacion++;
 		} while (generar == false);
+		
+		keyGen = new KeyGeneratorMatrix(mazeMatrix, coordsCamino);
+		
+		mazeMatrix = keyGen.getMatrizConLlaves();
 	}
 	
 
@@ -626,15 +623,7 @@ public class Controlador implements ActionListener, KeyListener{
 	public void setSelect_button(String select_button) {
 		this.select_button = select_button;
 	}
-
-	public KeysHavePath getKeys_have_path() {
-		return keys_have_path;
-	}
-
-	public void setKeys_have_path(KeysHavePath keys_have_path) {
-		this.keys_have_path = keys_have_path;
-	}
-
+	
 	public boolean isActualESC() {
 		return actualESC;
 	}
@@ -765,14 +754,6 @@ public class Controlador implements ActionListener, KeyListener{
 
 	public static void setEnemies(int enemies) {
 		Controlador.enemies = enemies;
-	}
-
-	public static ArrayList<Coord> getLlaves() {
-		return llaves;
-	}
-
-	public static void setLlaves(ArrayList<Coord> llaves) {
-		Controlador.llaves = llaves;
 	}
 
 }

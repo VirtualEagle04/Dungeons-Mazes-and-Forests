@@ -67,7 +67,7 @@ public class MazeGeneratorMatrix {
 					}
 
 		
-		int muros_max = (columns/2)+1;
+		int muros_max = (columns/2);
 		
 		//Rows
 		for (int i = 1; i <= rows; i++) {
@@ -93,29 +93,11 @@ public class MazeGeneratorMatrix {
 			}
 		}
 		
-		//Llaves
-		for (int i = 1; i <= keys; i++) {
-			int index_temp = rnd.nextInt(ceros.size());
-
-			int tempRow = ceros.get(index_temp).getRow();
-			int tempCol = ceros.get(index_temp).getCol();
-			
-			llaves.add(new Coord(tempRow, tempCol));
-			maze[tempRow][tempCol] = 5;
-			
-			ceros.remove(index_temp);
-		}
-		//Debug
-		System.out.println("Posiciones 0 despues de poner llaves: ");
-		for (Coord coord : ceros) {
-			System.out.println("("+coord.getRow()+", "+coord.getCol()+")");
-		}
 		
 		
 		//Enemigos
 		for (int i = 1; i <= enemies; i++) {			
 			int index_temp = rnd.nextInt(ceros.size());
-			System.out.println(ceros.get(index_temp).getRow()+", "+ceros.get(index_temp).getCol());
 			
 			int tempRow = ceros.get(index_temp).getRow();
 			int tempCol = ceros.get(index_temp).getCol();
@@ -124,28 +106,6 @@ public class MazeGeneratorMatrix {
 			maze[tempRow][tempCol] = 2;
 			
 			ceros.remove(index_temp);
-		}
-		
-		//Debug
-		System.out.println("Posiciones 0 despues de poner enemigos: ");
-		for (Coord coord : ceros) {
-			System.out.println("("+coord.getRow()+", "+coord.getCol()+")");
-		}
-		System.out.println();
-		
-		//Debug
-		for (int i = 0; i < maze.length; i++) {
-			for (int j = 0; j < maze[i].length; j++) {
-				System.out.print(maze[i][j]+" ");
-			}
-			System.out.print("\n");
-		}
-		
-		
-		//Debug
-		System.out.println("Coords llaves: ");
-		for (Coord coordLlave : llaves) {
-			System.out.println("("+coordLlave.getRow()+", "+coordLlave.getCol()+")");
 		}
 	}
 

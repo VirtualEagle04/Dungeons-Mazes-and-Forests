@@ -1,5 +1,6 @@
 package co.edu.unbosque.modelo;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -18,6 +19,7 @@ public class MazeBFS {
 	
 	static int mazeMatrix[][];
 	private boolean solucion;
+	private static ArrayList<co.edu.unbosque.modelo.Coord> coordsCamino = new ArrayList<co.edu.unbosque.modelo.Coord>();
 	
 	
 	static int dx[] = { 0, 0, 1, -1 };
@@ -70,7 +72,8 @@ public class MazeBFS {
 
 	static void print(int x, int y) {
 		for (int i = x, j = y; prev[i][j].d != -1; i = prev[x][y].x, j = prev[x][y].y) {
-			ady[i][j] = 5;
+			ady[i][j] = 8;
+			coordsCamino.add(new co.edu.unbosque.modelo.Coord(i, j));
 			x = i;
 			y = j;
 		}
@@ -138,5 +141,13 @@ public class MazeBFS {
 
 	public void setSolucion(boolean solucion) {
 		this.solucion = solucion;
+	}
+
+	public static ArrayList<co.edu.unbosque.modelo.Coord> getCoordsCamino() {
+		return coordsCamino;
+	}
+
+	public static void setCoordsCamino(ArrayList<co.edu.unbosque.modelo.Coord> coordsCamino) {
+		MazeBFS.coordsCamino = coordsCamino;
 	}
 }
