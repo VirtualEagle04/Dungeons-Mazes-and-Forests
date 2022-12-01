@@ -379,9 +379,9 @@ public class GameState extends JLayeredPane {
 		GmMusic.loop();
 	}
 
-	public void stopMusic() {
+	public void stopMusic(int i) {
 
-		GmMusic.stop();
+		GmMusic.stop(i);
 	}
 
 }

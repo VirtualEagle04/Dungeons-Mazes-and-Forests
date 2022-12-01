@@ -271,7 +271,8 @@ public class Controlador implements ActionListener, KeyListener{
 		switch (e.getActionCommand()) {
 		case "new_game_button": {
 			gameFrame.getTsState().setVisible(false);
-			gameFrame.getTsState().stopMusic();
+			gameFrame.getTsState().stopMusic(0);
+			gameFrame.getChState().playSE(6);
 			gameFrame.getChState().playMusic(3);
 
 			gameFrame.getChState().setVisible(true);
@@ -280,7 +281,8 @@ public class Controlador implements ActionListener, KeyListener{
 		}
 		case "options_button": {
 			gameFrame.getTsState().setVisible(false);
-			gameFrame.getTsState().stopMusic();
+			gameFrame.getTsState().stopMusic(0);
+			gameFrame.getOpState().playSE(8);
 			gameFrame.getOpState().playMusic(1);
 
 			gameFrame.getOpState().setVisible(true);
@@ -288,7 +290,8 @@ public class Controlador implements ActionListener, KeyListener{
 		}
 		case "tutorial_button": {
 			gameFrame.getTsState().setVisible(false);
-			gameFrame.getTsState().stopMusic();
+			gameFrame.getTsState().stopMusic(0);
+			gameFrame.getTuState().playSE(7);
 			gameFrame.getTuState().playMusic(4);
 
 			gameFrame.getTuState().setVisible(true);
@@ -296,7 +299,8 @@ public class Controlador implements ActionListener, KeyListener{
 		}
 		case "credits_button": {
 			gameFrame.getTsState().setVisible(false);
-			gameFrame.getTsState().stopMusic();
+			gameFrame.getTsState().stopMusic(0);
+			gameFrame.getCrState().playSE(7);
 			gameFrame.getCrState().playMusic(2);
 			
 			gameFrame.getCrState().setVisible(true);
@@ -387,6 +391,7 @@ public class Controlador implements ActionListener, KeyListener{
 			
 			select_button = "";
 			
+			gameFrame.getPrgState().playSE(9);
 			boolean archer = gameFrame.getChState().getArcher_concept_art().isVisible();
 			boolean warrior = gameFrame.getChState().getWarrior_concept_art().isVisible();
 			boolean barbarian = gameFrame.getChState().getBarbarian_concept_art().isVisible();
@@ -477,7 +482,7 @@ public class Controlador implements ActionListener, KeyListener{
 
 			gameFrame.getChState().setVisible(false);
 			gameFrame.getTsState().setVisible(true);
-			gameFrame.getChState().stopMusic();
+			gameFrame.getChState().stopMusic(3);
 			gameFrame.getTsState().playMusic(0);
 
 			break;
@@ -486,7 +491,7 @@ public class Controlador implements ActionListener, KeyListener{
 
 			gameFrame.getCrState().setVisible(false);
 			gameFrame.getTsState().setVisible(true);
-			gameFrame.getCrState().stopMusic();
+			gameFrame.getCrState().stopMusic(2);
 			gameFrame.getTsState().playMusic(0);
 
 			break;
@@ -495,7 +500,7 @@ public class Controlador implements ActionListener, KeyListener{
 
 			gameFrame.getOpState().setVisible(false);
 			gameFrame.getTsState().setVisible(true);
-			gameFrame.getOpState().stopMusic();
+			gameFrame.getOpState().stopMusic(1);
 			gameFrame.getTsState().playMusic(0);
 
 			break;
@@ -503,7 +508,7 @@ public class Controlador implements ActionListener, KeyListener{
 		case "tu_back_button" :{
 
 			gameFrame.getTuState().setVisible(false);
-			gameFrame.getTuState().stopMusic();
+			gameFrame.getTuState().stopMusic(4);
 			gameFrame.getTsState().playMusic(0);
 			
 			gameFrame.getTsState().setVisible(true);
@@ -562,7 +567,7 @@ public class Controlador implements ActionListener, KeyListener{
 				this.newGame(rows, columns);
 				
 				gameFrame.getPrgState().setVisible(false);
-				gameFrame.getChState().stopMusic();
+				gameFrame.getChState().stopMusic(3);
 				
 				//Dibuja y Muestra el laberinto
 				gameFrame.getGameState().drawMaze();

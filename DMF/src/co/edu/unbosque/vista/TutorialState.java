@@ -107,9 +107,15 @@ public class TutorialState extends JLayeredPane {
 		tuMusic.loop();
 	}
 
-	public void stopMusic() {
+	public void stopMusic(int i) {
 
-		tuMusic.stop();
+		tuMusic.stop(i);
+	}
+	
+	public void playSE(int i) {
+		
+		tuMusic.setFile(i);
+		tuMusic.play();
 	}
 
 }

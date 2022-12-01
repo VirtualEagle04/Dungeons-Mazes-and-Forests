@@ -319,9 +319,15 @@ public class OptionsState extends JLayeredPane {
 		OsMusic.loop();
 	}
 
-	public void stopMusic() {
+	public void stopMusic(int i) {
 
-		OsMusic.stop();
+		OsMusic.stop(i);
+	}
+	
+	public void playSE(int i) {
+		
+		OsMusic.setFile(i);
+		OsMusic.play();
 	}
 
 }
