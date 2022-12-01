@@ -46,6 +46,8 @@ public class PreGameState extends JLayeredPane {
 		setLocation(0, 0);
 		setLayout(null);
 		setBackground(Color.DARK_GRAY);
+		
+		//invert initial position -> boton toggle
 
 		back_button = new JButton();
 		back_button.setLocation(10, 10);
@@ -259,6 +261,8 @@ public class PreGameState extends JLayeredPane {
 	}
 	
 
+	
+	
 	public JLabel getPrg_artBackground() {
 		return prg_artBackground;
 	}
