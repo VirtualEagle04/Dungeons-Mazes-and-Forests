@@ -19,6 +19,10 @@ public class Sound {
 		soundURL[3] = getClass().getResource("/Assets/Music/DMF-CharacterSelectionComp.wav");
 		soundURL[4] = getClass().getResource("/Assets/Music/DMF-HowToPlayMenuComp.wav");
 		soundURL[5] = getClass().getResource("/Assets/Music/DMF-GameSoundComp.wav");
+		soundURL[6] = getClass().getResource("/Assets/Music/DMF-NewGameSE.wav");
+		soundURL[7] = getClass().getResource("/Assets/Music/DMF-ButtomsSE.wav");
+		soundURL[8] = getClass().getResource("/Assets/Music/DMF-OptionsMenuSE.wav");
+		soundURL[9] = getClass().getResource("/Assets/Music/DMF-PlayerSelectionSE.wav");
 
 	}
 	
@@ -44,7 +48,7 @@ public class Sound {
 		clip.loop(Clip.LOOP_CONTINUOUSLY);
 	}
 	
-	public void stop() {
+	public void stop(int i) {
 		
 		clip.stop();
 	}
