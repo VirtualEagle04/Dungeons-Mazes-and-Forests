@@ -616,7 +616,7 @@ public class Controlador implements ActionListener, KeyListener {
 			lethal = Integer.parseInt(gameFrame.getPrgState().getCantidad_lethal().getText());
 			stormy = Integer.parseInt(gameFrame.getPrgState().getCantidad_stormy().getText());
 
-			// Condicional para el minimo (5) y el maximo (20)
+			// Condicional para las dimensiones del Laberinto
 			if ((rows < 5 || rows > 20) && (columns < 5 || columns > 20)) {
 				gameFrame.getPrgState().getEntrada_Y().setBackground(Color.RED);
 				gameFrame.getPrgState().getEntrada_Y().setText("");
@@ -629,7 +629,7 @@ public class Controlador implements ActionListener, KeyListener {
 				gameFrame.getPrgState().getEntrada_X().setBackground(Color.DARK_GRAY);
 				confirmacion_gen++;
 			}
-			// Condicional para el minimo (2) y el maximo (5)
+			// Condicional de las Llaves
 			if (keys < 2 || keys > 5) {
 				gameFrame.getPrgState().getCantidad_llaves().setBackground(Color.RED);
 				gameFrame.getPrgState().getCantidad_llaves().setText("");
@@ -637,23 +637,23 @@ public class Controlador implements ActionListener, KeyListener {
 				gameFrame.getPrgState().getCantidad_llaves().setBackground(Color.DARK_GRAY);
 				confirmacion_gen++;
 			}
-			// Condicional para el minimo (1) y el maximo (keys) de los enemigos Lethal
-			if (lethal < 1 || lethal > keys) {
+			// Condicional de los Asesinos Letales
+			if (lethal < 1 || lethal > keys || lethal == rows || stormy == columns) {
 				gameFrame.getPrgState().getCantidad_lethal().setBackground(Color.RED);
 				gameFrame.getPrgState().getCantidad_lethal().setText("");
 			} else {
 				gameFrame.getPrgState().getCantidad_lethal().setBackground(Color.DARK_GRAY);
 				confirmacion_gen++;
 			}
-			// Condicional para el minimo (1) y el maximo (stormy) de los enemigos Stormy
-			if (stormy < 1 || stormy > keys) {
+			// Condicional de los Tormentosos
+			if (stormy < 1 || stormy > keys || stormy == rows || stormy == columns) {
 				gameFrame.getPrgState().getCantidad_stormy().setBackground(Color.RED);
 				gameFrame.getPrgState().getCantidad_stormy().setText("");
 			} else {
 				gameFrame.getPrgState().getCantidad_stormy().setBackground(Color.DARK_GRAY);
 				confirmacion_gen++;
 			}
-
+			//Verificacion para todas las condiciones anteriores
 			if (confirmacion_gen == 4) {
 				gameFrame.getGameState().playMusic(5);
 				this.newGame(rows, columns);
