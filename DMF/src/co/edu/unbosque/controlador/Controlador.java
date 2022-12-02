@@ -327,6 +327,9 @@ public class Controlador implements ActionListener, KeyListener {
 
 		gameFrame.getpState().getBack_button().addActionListener(this);
 		gameFrame.getpState().getBack_button().setActionCommand("pause_back_button");
+		
+		gameFrame.getpState().getInstructions_button().addActionListener(this);
+		gameFrame.getpState().getInstructions_button().setActionCommand("pause_instruction_button");
 
 	}
 
@@ -675,10 +678,19 @@ public class Controlador implements ActionListener, KeyListener {
 		}
 		case "pause_options_button": {
 
-			gameFrame.getOpState().setVisible(true);
 
-			gameFrame.getGameState().setVisible(false);
-			gameFrame.getpState().setVisible(false);
+			boolean options = gameFrame.getpState().getPanel_op().isVisible();
+			boolean instructions = gameFrame.getpState().getPanel_tu().isVisible();
+
+			if (options == true) {
+				gameFrame.getpState().getPanel_op().setVisible(false);
+			} else {
+				gameFrame.getpState().getPanel_op().setVisible(true);
+			}
+
+			if (instructions == true) {
+				gameFrame.getpState().getPanel_tu().setVisible(false);
+			}
 
 			break;
 		}
@@ -697,6 +709,12 @@ public class Controlador implements ActionListener, KeyListener {
 			gameFrame.getTsState().setVisible(true);
 
 			break;
+		}
+		case "pause_instruction_button": {
+
+			gameFrame.getpState().getPanel_tu().setVisible(true);
+			gameFrame.getpState().getPanel_op().setVisible(false);
+
 		}
 		default:
 		}
