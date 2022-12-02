@@ -440,17 +440,21 @@ public class Controlador implements ActionListener, KeyListener{
 			
 			select_button = "";
 			
-			gameFrame.getPrgState().playSE(9);
 			boolean archer = gameFrame.getChState().getArcher_concept_art().isVisible();
 			boolean warrior = gameFrame.getChState().getWarrior_concept_art().isVisible();
 			boolean barbarian = gameFrame.getChState().getBarbarian_concept_art().isVisible();
 			boolean mage = gameFrame.getChState().getMage_concept_art().isVisible();
 			boolean paladin = gameFrame.getChState().getPaladin_concept_art().isVisible();
 			boolean rogue = gameFrame.getChState().getRogue_concept_art().isVisible();
+
+			if(rogue == true || warrior == true || barbarian == true || mage == true || paladin == true || archer == true) {
+				gameFrame.getPrgState().playSE(9);
+			}
 			
 			if (archer == false && warrior == false && barbarian == false && mage == false && paladin == false && rogue == false) {
 				
 				gameFrame.getChState().getCharacter_select().setVisible(true);
+				
 				
 				break;
 				
