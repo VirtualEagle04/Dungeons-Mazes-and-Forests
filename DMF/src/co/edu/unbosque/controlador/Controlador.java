@@ -49,10 +49,10 @@ public class Controlador implements ActionListener, KeyListener {
 	private ArrayList<KeyRender> listaLlaves;
 	private ArrayList<EnemyRender> listaLethal;
 	private ArrayList<EnemyRender> listaStormy;
-	
 
-	//Contructor donde no tiene que ir NADA
-	public Controlador() {}
+	// Contructor donde no tiene que ir NADA
+	public Controlador() {
+	}
 
 	public void run() {
 
@@ -83,7 +83,7 @@ public class Controlador implements ActionListener, KeyListener {
 		keyGen = new KeyGeneratorMatrix(mazeMatrix, coordsCamino);
 
 		mazeMatrix = keyGen.getMatrizConLlaves();
-		mov_max = rows*columns;
+		mov_max = rows * columns;
 
 	}
 
@@ -133,87 +133,110 @@ public class Controlador implements ActionListener, KeyListener {
 							Random rnd = new Random();
 							
 							for (EnemyRender lethal_enemy : listaLethal) {
-								int direccion = rnd.nextInt(4 - 1) + 1;
+								int lethal_posX = lethal_enemy.getX();
+								int lethal_posY = lethal_enemy.getY();
 								
-								switch (direccion) {
-									//Norte
-									case 1: {
-										//Colisiones de los Enemigos
-										if(mazeMatrix[(lethal_enemy.getY()/32)-1][lethal_enemy.getX()] != 1) {
-											lethal_enemy.setLocation(lethal_enemy.getX(), lethal_enemy.getY()-desplazamiento);
-											lethal_enemy.repaint();
-											break;
-										}
+								
+								int direccion = rnd.nextInt(5 - 1) + 1;
+								System.out.println(direccion);
+								
+								if(direccion == 1) {
+									System.out.println("1");
+									//Colisiones de los Enemigos
+									if(mazeMatrix[(lethal_posY / 32)-1][lethal_posX / 32] != 1) {
+										System.out.println("No hay muro");
+										lethal_enemy.setLocation(lethal_enemy.getX(), lethal_enemy.getY()-desplazamiento);
+										gameFrame.getGameState().repaint();
+										lethal_enemy.repaint();
+										break;
 									}
-									//Sur
-									case 2: {
-										//Colisiones de los Enemigos
-										if(mazeMatrix[(lethal_enemy.getY()/32)+1][lethal_enemy.getX()] != 1) {
-											lethal_enemy.setLocation(lethal_enemy.getX(), lethal_enemy.getY()+desplazamiento);
-											lethal_enemy.repaint();
-											break;
-										}
+								}
+								if(direccion == 2) {
+									System.out.println("2");
+									//Colisiones de los Enemigos
+									if(mazeMatrix[(lethal_posY / 32)+1][lethal_posX / 32] != 1) {
+										System.out.println("No hay muro");
+										lethal_enemy.setLocation(lethal_enemy.getX(), lethal_enemy.getY()+desplazamiento);
+										gameFrame.getGameState().repaint();
+										lethal_enemy.repaint();
+										break;
 									}
-									//Izq
-									case 3: {
-										//Colisiones de los Enemigos
-										if(mazeMatrix[(lethal_enemy.getY()/32)][lethal_enemy.getX()-1] != 1) {
-											lethal_enemy.setLocation(lethal_enemy.getX()-desplazamiento, lethal_enemy.getY());
-											lethal_enemy.repaint();
-											break;
-										}
+								}
+								if(direccion == 3) {
+									System.out.println("3");
+									//Colisiones de los Enemigos
+									if(mazeMatrix[(lethal_posY / 32)][(lethal_posX / 32)-1] != 1) {
+										System.out.println("No hay muro");
+										lethal_enemy.setLocation(lethal_enemy.getX()-desplazamiento, lethal_enemy.getY());
+										gameFrame.getGameState().repaint();
+										lethal_enemy.repaint();
+										break;
 									}
-									//Drch
-									case 4: {
-										//Colisiones de los Enemigos
-										if(mazeMatrix[(lethal_enemy.getY()/32)][lethal_enemy.getX()+1] != 1) {
-											lethal_enemy.setLocation(lethal_enemy.getX()+desplazamiento, lethal_enemy.getY());
-											lethal_enemy.repaint();
-											break;
-										}
+								}
+								if(direccion == 4) {
+									System.out.println("4");
+									//Colisiones de los Enemigos
+									if(mazeMatrix[(lethal_posY / 32)][(lethal_posX / 32)+1] != 1) {
+										System.out.println("No hay muro");
+										lethal_enemy.setLocation(lethal_enemy.getX()+desplazamiento, lethal_enemy.getY());
+										gameFrame.getGameState().repaint();
+										lethal_enemy.repaint();
+										break;
 									}
 								}
 							}
+								
 							
 							for (EnemyRender stormy_enemy : listaStormy) {
-								int direccion = rnd.nextInt(4 - 1) + 1;
+								int stormy_posX = stormy_enemy.getX();
+								int stormy_posY = stormy_enemy.getY();
 								
-								switch (direccion) {
-									//Norte
-									case 1: {
-										//Colisiones de los Enemigos
-										if(mazeMatrix[(stormy_enemy.getY()/32)-1][stormy_enemy.getX()] != 1) {
-											stormy_enemy.setLocation(stormy_enemy.getX(), stormy_enemy.getY()-desplazamiento);
-											stormy_enemy.repaint();
-											break;
-										}
+								
+								int direccion = rnd.nextInt(5 - 1) + 1;
+								System.out.println(direccion);
+								
+								if(direccion == 1) {
+									System.out.println("1");
+									//Colisiones de los Enemigos
+									if(mazeMatrix[(stormy_posY / 32)-1][stormy_posX / 32] != 1) {
+										System.out.println("No hay muro");
+										stormy_enemy.setLocation(stormy_enemy.getX(), stormy_enemy.getY()-desplazamiento);
+										gameFrame.getGameState().repaint();
+										stormy_enemy.repaint();
+										break;
 									}
-									//Sur
-									case 2: {
-										//Colisiones de los Enemigos
-										if(mazeMatrix[(stormy_enemy.getY()/32)+1][stormy_enemy.getX()] != 1) {
-											stormy_enemy.setLocation(stormy_enemy.getX(), stormy_enemy.getY()+desplazamiento);
-											stormy_enemy.repaint();
-											break;
-										}
+								}
+								if(direccion == 2) {
+									System.out.println("2");
+									//Colisiones de los Enemigos
+									if(mazeMatrix[(stormy_posY / 32)+1][stormy_posX / 32] != 1) {
+										System.out.println("No hay muro");
+										stormy_enemy.setLocation(stormy_enemy.getX(), stormy_enemy.getY()+desplazamiento);
+										gameFrame.getGameState().repaint();
+										stormy_enemy.repaint();
+										break;
 									}
-									//Izq
-									case 3: {
-										//Colisiones de los Enemigos
-										if(mazeMatrix[(stormy_enemy.getY()/32)][stormy_enemy.getX()-1] != 1) {
-											stormy_enemy.setLocation(stormy_enemy.getX()-desplazamiento, stormy_enemy.getY());
-											stormy_enemy.repaint();
-											break;
-										}
+								}
+								if(direccion == 3) {
+									System.out.println("3");
+									//Colisiones de los Enemigos
+									if(mazeMatrix[(stormy_posY / 32)][(stormy_posX / 32)-1] != 1) {
+										System.out.println("No hay muro");
+										stormy_enemy.setLocation(stormy_enemy.getX()-desplazamiento, stormy_enemy.getY());
+										gameFrame.getGameState().repaint();
+										stormy_enemy.repaint();
+										break;
 									}
-									//Drch
-									case 4: {
-										//Colisiones de los Enemigos
-										if(mazeMatrix[(stormy_enemy.getY()/32)][stormy_enemy.getX()+1] != 1) {
-											stormy_enemy.setLocation(stormy_enemy.getX()+desplazamiento, stormy_enemy.getY());
-											stormy_enemy.repaint();
-											break;
-										}
+								}
+								if(direccion == 4) {
+									System.out.println("4");
+									//Colisiones de los Enemigos
+									if(mazeMatrix[(stormy_posY / 32)][(stormy_posX / 32)+1] != 1) {
+										System.out.println("No hay muro");
+										stormy_enemy.setLocation(stormy_enemy.getX()+desplazamiento, stormy_enemy.getY());
+										gameFrame.getGameState().repaint();
+										stormy_enemy.repaint();
+										break;
 									}
 								}
 							}
@@ -259,87 +282,110 @@ public class Controlador implements ActionListener, KeyListener {
 							Random rnd = new Random();
 							
 							for (EnemyRender lethal_enemy : listaLethal) {
-								int direccion = rnd.nextInt(4 - 1) + 1;
+								int lethal_posX = lethal_enemy.getX();
+								int lethal_posY = lethal_enemy.getY();
 								
-								switch (direccion) {
-									//Norte
-									case 1: {
-										//Colisiones de los Enemigos
-										if(mazeMatrix[(lethal_enemy.getY()/32)-1][lethal_enemy.getX()] != 1) {
-											lethal_enemy.setLocation(lethal_enemy.getX(), lethal_enemy.getY()-desplazamiento);
-											lethal_enemy.repaint();
-											break;
-										}
+								
+								int direccion = rnd.nextInt(5 - 1) + 1;
+								System.out.println(direccion);
+								
+								if(direccion == 1) {
+									System.out.println("1");
+									//Colisiones de los Enemigos
+									if(mazeMatrix[(lethal_posY / 32)-1][lethal_posX / 32] != 1) {
+										System.out.println("No hay muro");
+										lethal_enemy.setLocation(lethal_enemy.getX(), lethal_enemy.getY()-desplazamiento);
+										gameFrame.getGameState().repaint();
+										lethal_enemy.repaint();
+										break;
 									}
-									//Sur
-									case 2: {
-										//Colisiones de los Enemigos
-										if(mazeMatrix[(lethal_enemy.getY()/32)+1][lethal_enemy.getX()] != 1) {
-											lethal_enemy.setLocation(lethal_enemy.getX(), lethal_enemy.getY()+desplazamiento);
-											lethal_enemy.repaint();
-											break;
-										}
+								}
+								if(direccion == 2) {
+									System.out.println("2");
+									//Colisiones de los Enemigos
+									if(mazeMatrix[(lethal_posY / 32)+1][lethal_posX / 32] != 1) {
+										System.out.println("No hay muro");
+										lethal_enemy.setLocation(lethal_enemy.getX(), lethal_enemy.getY()+desplazamiento);
+										gameFrame.getGameState().repaint();
+										lethal_enemy.repaint();
+										break;
 									}
-									//Izq
-									case 3: {
-										//Colisiones de los Enemigos
-										if(mazeMatrix[(lethal_enemy.getY()/32)][lethal_enemy.getX()-1] != 1) {
-											lethal_enemy.setLocation(lethal_enemy.getX()-desplazamiento, lethal_enemy.getY());
-											lethal_enemy.repaint();
-											break;
-										}
+								}
+								if(direccion == 3) {
+									System.out.println("3");
+									//Colisiones de los Enemigos
+									if(mazeMatrix[(lethal_posY / 32)][(lethal_posX / 32)-1] != 1) {
+										System.out.println("No hay muro");
+										lethal_enemy.setLocation(lethal_enemy.getX()-desplazamiento, lethal_enemy.getY());
+										gameFrame.getGameState().repaint();
+										lethal_enemy.repaint();
+										break;
 									}
-									//Drch
-									case 4: {
-										//Colisiones de los Enemigos
-										if(mazeMatrix[(lethal_enemy.getY()/32)][lethal_enemy.getX()+1] != 1) {
-											lethal_enemy.setLocation(lethal_enemy.getX()+desplazamiento, lethal_enemy.getY());
-											lethal_enemy.repaint();
-											break;
-										}
+								}
+								if(direccion == 4) {
+									System.out.println("4");
+									//Colisiones de los Enemigos
+									if(mazeMatrix[(lethal_posY / 32)][(lethal_posX / 32)+1] != 1) {
+										System.out.println("No hay muro");
+										lethal_enemy.setLocation(lethal_enemy.getX()+desplazamiento, lethal_enemy.getY());
+										gameFrame.getGameState().repaint();
+										lethal_enemy.repaint();
+										break;
 									}
 								}
 							}
+								
 							
 							for (EnemyRender stormy_enemy : listaStormy) {
-								int direccion = rnd.nextInt(4 - 1) + 1;
+								int stormy_posX = stormy_enemy.getX();
+								int stormy_posY = stormy_enemy.getY();
 								
-								switch (direccion) {
-									//Norte
-									case 1: {
-										//Colisiones de los Enemigos
-										if(mazeMatrix[(stormy_enemy.getY()/32)-1][stormy_enemy.getX()] != 1) {
-											stormy_enemy.setLocation(stormy_enemy.getX(), stormy_enemy.getY()-desplazamiento);
-											stormy_enemy.repaint();
-											break;
-										}
+								
+								int direccion = rnd.nextInt(5 - 1) + 1;
+								System.out.println(direccion);
+								
+								if(direccion == 1) {
+									System.out.println("1");
+									//Colisiones de los Enemigos
+									if(mazeMatrix[(stormy_posY / 32)-1][stormy_posX / 32] != 1) {
+										System.out.println("No hay muro");
+										stormy_enemy.setLocation(stormy_enemy.getX(), stormy_enemy.getY()-desplazamiento);
+										gameFrame.getGameState().repaint();
+										stormy_enemy.repaint();
+										break;
 									}
-									//Sur
-									case 2: {
-										//Colisiones de los Enemigos
-										if(mazeMatrix[(stormy_enemy.getY()/32)+1][stormy_enemy.getX()] != 1) {
-											stormy_enemy.setLocation(stormy_enemy.getX(), stormy_enemy.getY()+desplazamiento);
-											stormy_enemy.repaint();
-											break;
-										}
+								}
+								if(direccion == 2) {
+									System.out.println("2");
+									//Colisiones de los Enemigos
+									if(mazeMatrix[(stormy_posY / 32)+1][stormy_posX / 32] != 1) {
+										System.out.println("No hay muro");
+										stormy_enemy.setLocation(stormy_enemy.getX(), stormy_enemy.getY()+desplazamiento);
+										gameFrame.getGameState().repaint();
+										stormy_enemy.repaint();
+										break;
 									}
-									//Izq
-									case 3: {
-										//Colisiones de los Enemigos
-										if(mazeMatrix[(stormy_enemy.getY()/32)][stormy_enemy.getX()-1] != 1) {
-											stormy_enemy.setLocation(stormy_enemy.getX()-desplazamiento, stormy_enemy.getY());
-											stormy_enemy.repaint();
-											break;
-										}
+								}
+								if(direccion == 3) {
+									System.out.println("3");
+									//Colisiones de los Enemigos
+									if(mazeMatrix[(stormy_posY / 32)][(stormy_posX / 32)-1] != 1) {
+										System.out.println("No hay muro");
+										stormy_enemy.setLocation(stormy_enemy.getX()-desplazamiento, stormy_enemy.getY());
+										gameFrame.getGameState().repaint();
+										stormy_enemy.repaint();
+										break;
 									}
-									//Drch
-									case 4: {
-										//Colisiones de los Enemigos
-										if(mazeMatrix[(stormy_enemy.getY()/32)][stormy_enemy.getX()+1] != 1) {
-											stormy_enemy.setLocation(stormy_enemy.getX()+desplazamiento, stormy_enemy.getY());
-											stormy_enemy.repaint();
-											break;
-										}
+								}
+								if(direccion == 4) {
+									System.out.println("4");
+									//Colisiones de los Enemigos
+									if(mazeMatrix[(stormy_posY / 32)][(stormy_posX / 32)+1] != 1) {
+										System.out.println("No hay muro");
+										stormy_enemy.setLocation(stormy_enemy.getX()+desplazamiento, stormy_enemy.getY());
+										gameFrame.getGameState().repaint();
+										stormy_enemy.repaint();
+										break;
 									}
 								}
 							}
@@ -383,87 +429,110 @@ public class Controlador implements ActionListener, KeyListener {
 							Random rnd = new Random();
 							
 							for (EnemyRender lethal_enemy : listaLethal) {
-								int direccion = rnd.nextInt(4 - 1) + 1;
+								int lethal_posX = lethal_enemy.getX();
+								int lethal_posY = lethal_enemy.getY();
 								
-								switch (direccion) {
-									//Norte
-									case 1: {
-										//Colisiones de los Enemigos
-										if(mazeMatrix[(lethal_enemy.getY()/32)-1][lethal_enemy.getX()] != 1) {
-											lethal_enemy.setLocation(lethal_enemy.getX(), lethal_enemy.getY()-desplazamiento);
-											lethal_enemy.repaint();
-											break;
-										}
+								
+								int direccion = rnd.nextInt(5 - 1) + 1;
+								System.out.println(direccion);
+								
+								if(direccion == 1) {
+									System.out.println("1");
+									//Colisiones de los Enemigos
+									if(mazeMatrix[(lethal_posY / 32)-1][lethal_posX / 32] != 1) {
+										System.out.println("No hay muro");
+										lethal_enemy.setLocation(lethal_enemy.getX(), lethal_enemy.getY()-desplazamiento);
+										gameFrame.getGameState().repaint();
+										lethal_enemy.repaint();
+										break;
 									}
-									//Sur
-									case 2: {
-										//Colisiones de los Enemigos
-										if(mazeMatrix[(lethal_enemy.getY()/32)+1][lethal_enemy.getX()] != 1) {
-											lethal_enemy.setLocation(lethal_enemy.getX(), lethal_enemy.getY()+desplazamiento);
-											lethal_enemy.repaint();
-											break;
-										}
+								}
+								if(direccion == 2) {
+									System.out.println("2");
+									//Colisiones de los Enemigos
+									if(mazeMatrix[(lethal_posY / 32)+1][lethal_posX / 32] != 1) {
+										System.out.println("No hay muro");
+										lethal_enemy.setLocation(lethal_enemy.getX(), lethal_enemy.getY()+desplazamiento);
+										gameFrame.getGameState().repaint();
+										lethal_enemy.repaint();
+										break;
 									}
-									//Izq
-									case 3: {
-										//Colisiones de los Enemigos
-										if(mazeMatrix[(lethal_enemy.getY()/32)][lethal_enemy.getX()-1] != 1) {
-											lethal_enemy.setLocation(lethal_enemy.getX()-desplazamiento, lethal_enemy.getY());
-											lethal_enemy.repaint();
-											break;
-										}
+								}
+								if(direccion == 3) {
+									System.out.println("3");
+									//Colisiones de los Enemigos
+									if(mazeMatrix[(lethal_posY / 32)][(lethal_posX / 32)-1] != 1) {
+										System.out.println("No hay muro");
+										lethal_enemy.setLocation(lethal_enemy.getX()-desplazamiento, lethal_enemy.getY());
+										gameFrame.getGameState().repaint();
+										lethal_enemy.repaint();
+										break;
 									}
-									//Drch
-									case 4: {
-										//Colisiones de los Enemigos
-										if(mazeMatrix[(lethal_enemy.getY()/32)][lethal_enemy.getX()+1] != 1) {
-											lethal_enemy.setLocation(lethal_enemy.getX()+desplazamiento, lethal_enemy.getY());
-											lethal_enemy.repaint();
-											break;
-										}
+								}
+								if(direccion == 4) {
+									System.out.println("4");
+									//Colisiones de los Enemigos
+									if(mazeMatrix[(lethal_posY / 32)][(lethal_posX / 32)+1] != 1) {
+										System.out.println("No hay muro");
+										lethal_enemy.setLocation(lethal_enemy.getX()+desplazamiento, lethal_enemy.getY());
+										gameFrame.getGameState().repaint();
+										lethal_enemy.repaint();
+										break;
 									}
 								}
 							}
+								
 							
 							for (EnemyRender stormy_enemy : listaStormy) {
-								int direccion = rnd.nextInt(4 - 1) + 1;
+								int stormy_posX = stormy_enemy.getX();
+								int stormy_posY = stormy_enemy.getY();
 								
-								switch (direccion) {
-									//Norte
-									case 1: {
-										//Colisiones de los Enemigos
-										if(mazeMatrix[(stormy_enemy.getY()/32)-1][stormy_enemy.getX()] != 1) {
-											stormy_enemy.setLocation(stormy_enemy.getX(), stormy_enemy.getY()-desplazamiento);
-											stormy_enemy.repaint();
-											break;
-										}
+								
+								int direccion = rnd.nextInt(5 - 1) + 1;
+								System.out.println(direccion);
+								
+								if(direccion == 1) {
+									System.out.println("1");
+									//Colisiones de los Enemigos
+									if(mazeMatrix[(stormy_posY / 32)-1][stormy_posX / 32] != 1) {
+										System.out.println("No hay muro");
+										stormy_enemy.setLocation(stormy_enemy.getX(), stormy_enemy.getY()-desplazamiento);
+										gameFrame.getGameState().repaint();
+										stormy_enemy.repaint();
+										break;
 									}
-									//Sur
-									case 2: {
-										//Colisiones de los Enemigos
-										if(mazeMatrix[(stormy_enemy.getY()/32)+1][stormy_enemy.getX()] != 1) {
-											stormy_enemy.setLocation(stormy_enemy.getX(), stormy_enemy.getY()+desplazamiento);
-											stormy_enemy.repaint();
-											break;
-										}
+								}
+								if(direccion == 2) {
+									System.out.println("2");
+									//Colisiones de los Enemigos
+									if(mazeMatrix[(stormy_posY / 32)+1][stormy_posX / 32] != 1) {
+										System.out.println("No hay muro");
+										stormy_enemy.setLocation(stormy_enemy.getX(), stormy_enemy.getY()+desplazamiento);
+										gameFrame.getGameState().repaint();
+										stormy_enemy.repaint();
+										break;
 									}
-									//Izq
-									case 3: {
-										//Colisiones de los Enemigos
-										if(mazeMatrix[(stormy_enemy.getY()/32)][stormy_enemy.getX()-1] != 1) {
-											stormy_enemy.setLocation(stormy_enemy.getX()-desplazamiento, stormy_enemy.getY());
-											stormy_enemy.repaint();
-											break;
-										}
+								}
+								if(direccion == 3) {
+									System.out.println("3");
+									//Colisiones de los Enemigos
+									if(mazeMatrix[(stormy_posY / 32)][(stormy_posX / 32)-1] != 1) {
+										System.out.println("No hay muro");
+										stormy_enemy.setLocation(stormy_enemy.getX()-desplazamiento, stormy_enemy.getY());
+										gameFrame.getGameState().repaint();
+										stormy_enemy.repaint();
+										break;
 									}
-									//Drch
-									case 4: {
-										//Colisiones de los Enemigos
-										if(mazeMatrix[(stormy_enemy.getY()/32)][stormy_enemy.getX()+1] != 1) {
-											stormy_enemy.setLocation(stormy_enemy.getX()+desplazamiento, stormy_enemy.getY());
-											stormy_enemy.repaint();
-											break;
-										}
+								}
+								if(direccion == 4) {
+									System.out.println("4");
+									//Colisiones de los Enemigos
+									if(mazeMatrix[(stormy_posY / 32)][(stormy_posX / 32)+1] != 1) {
+										System.out.println("No hay muro");
+										stormy_enemy.setLocation(stormy_enemy.getX()+desplazamiento, stormy_enemy.getY());
+										gameFrame.getGameState().repaint();
+										stormy_enemy.repaint();
+										break;
 									}
 								}
 							}
@@ -510,87 +579,110 @@ public class Controlador implements ActionListener, KeyListener {
 							Random rnd = new Random();
 							
 							for (EnemyRender lethal_enemy : listaLethal) {
-								int direccion = rnd.nextInt(4 - 1) + 1;
+								int lethal_posX = lethal_enemy.getX();
+								int lethal_posY = lethal_enemy.getY();
 								
-								switch (direccion) {
-									//Norte
-									case 1: {
-										//Colisiones de los Enemigos
-										if(mazeMatrix[(lethal_enemy.getY()/32)-1][lethal_enemy.getX()] != 1) {
-											lethal_enemy.setLocation(lethal_enemy.getX(), lethal_enemy.getY()-desplazamiento);
-											lethal_enemy.repaint();
-											break;
-										}
+								
+								int direccion = rnd.nextInt(5 - 1) + 1;
+								System.out.println(direccion);
+								
+								if(direccion == 1) {
+									System.out.println("1");
+									//Colisiones de los Enemigos
+									if(mazeMatrix[(lethal_posY / 32)-1][lethal_posX / 32] != 1) {
+										System.out.println("No hay muro");
+										lethal_enemy.setLocation(lethal_enemy.getX(), lethal_enemy.getY()-desplazamiento);
+										gameFrame.getGameState().repaint();
+										lethal_enemy.repaint();
+										break;
 									}
-									//Sur
-									case 2: {
-										//Colisiones de los Enemigos
-										if(mazeMatrix[(lethal_enemy.getY()/32)+1][lethal_enemy.getX()] != 1) {
-											lethal_enemy.setLocation(lethal_enemy.getX(), lethal_enemy.getY()+desplazamiento);
-											lethal_enemy.repaint();
-											break;
-										}
+								}
+								if(direccion == 2) {
+									System.out.println("2");
+									//Colisiones de los Enemigos
+									if(mazeMatrix[(lethal_posY / 32)+1][lethal_posX / 32] != 1) {
+										System.out.println("No hay muro");
+										lethal_enemy.setLocation(lethal_enemy.getX(), lethal_enemy.getY()+desplazamiento);
+										gameFrame.getGameState().repaint();
+										lethal_enemy.repaint();
+										break;
 									}
-									//Izq
-									case 3: {
-										//Colisiones de los Enemigos
-										if(mazeMatrix[(lethal_enemy.getY()/32)][lethal_enemy.getX()-1] != 1) {
-											lethal_enemy.setLocation(lethal_enemy.getX()-desplazamiento, lethal_enemy.getY());
-											lethal_enemy.repaint();
-											break;
-										}
+								}
+								if(direccion == 3) {
+									System.out.println("3");
+									//Colisiones de los Enemigos
+									if(mazeMatrix[(lethal_posY / 32)][(lethal_posX / 32)-1] != 1) {
+										System.out.println("No hay muro");
+										lethal_enemy.setLocation(lethal_enemy.getX()-desplazamiento, lethal_enemy.getY());
+										gameFrame.getGameState().repaint();
+										lethal_enemy.repaint();
+										break;
 									}
-									//Drch
-									case 4: {
-										//Colisiones de los Enemigos
-										if(mazeMatrix[(lethal_enemy.getY()/32)][lethal_enemy.getX()+1] != 1) {
-											lethal_enemy.setLocation(lethal_enemy.getX()+desplazamiento, lethal_enemy.getY());
-											lethal_enemy.repaint();
-											break;
-										}
+								}
+								if(direccion == 4) {
+									System.out.println("4");
+									//Colisiones de los Enemigos
+									if(mazeMatrix[(lethal_posY / 32)][(lethal_posX / 32)+1] != 1) {
+										System.out.println("No hay muro");
+										lethal_enemy.setLocation(lethal_enemy.getX()+desplazamiento, lethal_enemy.getY());
+										gameFrame.getGameState().repaint();
+										lethal_enemy.repaint();
+										break;
 									}
 								}
 							}
+								
 							
 							for (EnemyRender stormy_enemy : listaStormy) {
-								int direccion = rnd.nextInt(4 - 1) + 1;
+								int stormy_posX = stormy_enemy.getX();
+								int stormy_posY = stormy_enemy.getY();
 								
-								switch (direccion) {
-									//Norte
-									case 1: {
-										//Colisiones de los Enemigos
-										if(mazeMatrix[(stormy_enemy.getY()/32)-1][stormy_enemy.getX()] != 1) {
-											stormy_enemy.setLocation(stormy_enemy.getX(), stormy_enemy.getY()-desplazamiento);
-											stormy_enemy.repaint();
-											break;
-										}
+								
+								int direccion = rnd.nextInt(5 - 1) + 1;
+								System.out.println(direccion);
+								
+								if(direccion == 1) {
+									System.out.println("1");
+									//Colisiones de los Enemigos
+									if(mazeMatrix[(stormy_posY / 32)-1][stormy_posX / 32] != 1) {
+										System.out.println("No hay muro");
+										stormy_enemy.setLocation(stormy_enemy.getX(), stormy_enemy.getY()-desplazamiento);
+										gameFrame.getGameState().repaint();
+										stormy_enemy.repaint();
+										break;
 									}
-									//Sur
-									case 2: {
-										//Colisiones de los Enemigos
-										if(mazeMatrix[(stormy_enemy.getY()/32)+1][stormy_enemy.getX()] != 1) {
-											stormy_enemy.setLocation(stormy_enemy.getX(), stormy_enemy.getY()+desplazamiento);
-											stormy_enemy.repaint();
-											break;
-										}
+								}
+								if(direccion == 2) {
+									System.out.println("2");
+									//Colisiones de los Enemigos
+									if(mazeMatrix[(stormy_posY / 32)+1][stormy_posX / 32] != 1) {
+										System.out.println("No hay muro");
+										stormy_enemy.setLocation(stormy_enemy.getX(), stormy_enemy.getY()+desplazamiento);
+										gameFrame.getGameState().repaint();
+										stormy_enemy.repaint();
+										break;
 									}
-									//Izq
-									case 3: {
-										//Colisiones de los Enemigos
-										if(mazeMatrix[(stormy_enemy.getY()/32)][stormy_enemy.getX()-1] != 1) {
-											stormy_enemy.setLocation(stormy_enemy.getX()-desplazamiento, stormy_enemy.getY());
-											stormy_enemy.repaint();
-											break;
-										}
+								}
+								if(direccion == 3) {
+									System.out.println("3");
+									//Colisiones de los Enemigos
+									if(mazeMatrix[(stormy_posY / 32)][(stormy_posX / 32)-1] != 1) {
+										System.out.println("No hay muro");
+										stormy_enemy.setLocation(stormy_enemy.getX()-desplazamiento, stormy_enemy.getY());
+										gameFrame.getGameState().repaint();
+										stormy_enemy.repaint();
+										break;
 									}
-									//Drch
-									case 4: {
-										//Colisiones de los Enemigos
-										if(mazeMatrix[(stormy_enemy.getY()/32)][stormy_enemy.getX()+1] != 1) {
-											stormy_enemy.setLocation(stormy_enemy.getX()+desplazamiento, stormy_enemy.getY());
-											stormy_enemy.repaint();
-											break;
-										}
+								}
+								if(direccion == 4) {
+									System.out.println("4");
+									//Colisiones de los Enemigos
+									if(mazeMatrix[(stormy_posY / 32)][(stormy_posX / 32)+1] != 1) {
+										System.out.println("No hay muro");
+										stormy_enemy.setLocation(stormy_enemy.getX()+desplazamiento, stormy_enemy.getY());
+										gameFrame.getGameState().repaint();
+										stormy_enemy.repaint();
+										break;
 									}
 								}
 							}
@@ -620,23 +712,25 @@ public class Controlador implements ActionListener, KeyListener {
 
 
 		}
-		// Pausa
-		if (code == KeyEvent.VK_ESCAPE) {
+	// Pausa
+	if(code==KeyEvent.VK_ESCAPE)
 
-			if (actualESC == false) {
-				gameFrame.getpState().setVisible(true);
-				gameFrame.getGameState().getPause_text().setVisible(false);
-				gameFrame.getGameState().getEsc_button().setVisible(false);
-				actualESC = true;
-			} else if (actualESC = true) {
-				gameFrame.getpState().setVisible(false);
-				gameFrame.getGameState().getPause_text().setVisible(true);
-				gameFrame.getGameState().getEsc_button().setVisible(true);
-				
-				actualESC = false;
-			}
+	{
 
+		if (actualESC == false) {
+			gameFrame.getpState().setVisible(true);
+			gameFrame.getGameState().getPause_text().setVisible(false);
+			gameFrame.getGameState().getEsc_button().setVisible(false);
+			actualESC = true;
+		} else if (actualESC = true) {
+			gameFrame.getpState().setVisible(false);
+			gameFrame.getGameState().getPause_text().setVisible(true);
+			gameFrame.getGameState().getEsc_button().setVisible(true);
+
+			actualESC = false;
 		}
+
+	}
 
 	}
 
