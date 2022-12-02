@@ -23,7 +23,7 @@ public class Sound {
 		soundURL[7] = getClass().getResource("/Assets/Music/DMF-ButtomsSE.wav");
 		soundURL[8] = getClass().getResource("/Assets/Music/DMF-OptionsMenuSE.wav");
 		soundURL[9] = getClass().getResource("/Assets/Music/DMF-PlayerSelectionSE.wav");
-		soundURL[10] = getClass().getResource("/Assets/Music/DMF-KeySE.wav");
+		soundURL[10] = getClass().getResource("/Assets/Music/DMF-KeySeComp.wav");
 		soundURL[11] = getClass().getResource("/Assets/Music/DMF-MonsterSE.wav");
 		soundURL[12] = getClass().getResource("/Assets/Music/DMF-MonkSE.wav");
 		soundURL[13] = getClass().getResource("/Assets/Music/DMF-FinishSE.wav");
