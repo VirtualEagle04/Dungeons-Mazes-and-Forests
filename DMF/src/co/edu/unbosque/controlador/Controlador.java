@@ -625,9 +625,12 @@ public class Controlador implements ActionListener, KeyListener {
 
 			if (actualESC == false) {
 				gameFrame.getpState().setVisible(true);
+				gameFrame.getGameState().getPause_text().setVisible(false);
+				gameFrame.getGameState().getEsc_button().setVisible(false);
 				actualESC = true;
 			} else if (actualESC = true) {
 				gameFrame.getpState().setVisible(false);
+				
 				actualESC = false;
 			}
 
