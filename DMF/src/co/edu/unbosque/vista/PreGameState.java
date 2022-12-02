@@ -272,8 +272,6 @@ public class PreGameState extends JLayeredPane {
 
 	}
 	
-
-<<<<<<< HEAD
 	public void playSE(int i) {
 
 		PrgMusic.setFile(i);
@@ -385,16 +383,10 @@ public class PreGameState extends JLayeredPane {
 		return llaves_indicador;
 	}
 
-
 	public void setLlaves_indicador(JLabel llaves_indicador) {
 		this.llaves_indicador = llaves_indicador;
 	}
 
-
-=======
-	
-	
->>>>>>> DMF-Main
 	public JLabel getPrg_artBackground() {
 		return prg_artBackground;
 	}
