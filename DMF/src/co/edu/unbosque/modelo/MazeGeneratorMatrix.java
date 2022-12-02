@@ -9,7 +9,8 @@ public class MazeGeneratorMatrix {
 	
 	private ArrayList<Coord> ceros;
 	private ArrayList<Coord> llaves;
-	private ArrayList<Coord> enemigos;
+	private ArrayList<Coord> coordsLethal;
+	private ArrayList<Coord> coordsStormy;
 	private Controlador c;
 	private int[][] maze;
 
@@ -18,10 +19,12 @@ public class MazeGeneratorMatrix {
 	public MazeGeneratorMatrix(int rows, int columns) {
 		c = new Controlador();
 		int keys = c.getKeys();
-		int enemies = c.getEnemies();
+		int lethal = c.getLethal();
+		int stormy = c.getStormy();
 		ceros = new ArrayList<Coord>();
 		llaves = new ArrayList<Coord>();
-		enemigos = new ArrayList<Coord>();
+		coordsLethal = new ArrayList<Coord>();
+		coordsStormy = new ArrayList<Coord>();
 		
 		maze = new int[rows+2][columns+2]; //Dimensiones del usuario + bordes (arriba, abajo, izq, drch)
 		Random rnd = new Random();
@@ -67,7 +70,7 @@ public class MazeGeneratorMatrix {
 					}
 
 		
-		int muros_max = (columns/2)+1;
+		int muros_max = (columns/2);
 		
 		//Rows
 		for (int i = 1; i <= rows; i++) {
@@ -93,59 +96,33 @@ public class MazeGeneratorMatrix {
 			}
 		}
 		
-		//Llaves
-		for (int i = 1; i <= keys; i++) {
-			int index_temp = rnd.nextInt(ceros.size());
-
-			int tempRow = ceros.get(index_temp).getRow();
-			int tempCol = ceros.get(index_temp).getCol();
-			
-			llaves.add(new Coord(tempRow, tempCol));
-			maze[tempRow][tempCol] = 5;
-			
-			ceros.remove(index_temp);
-		}
-		//Debug
-		System.out.println("Posiciones 0 despues de poner llaves: ");
-		for (Coord coord : ceros) {
-			System.out.println("("+coord.getRow()+", "+coord.getCol()+")");
-		}
 		
 		
-		//Enemigos
-		for (int i = 1; i <= enemies; i++) {			
+		//Lethal
+		for (int i = 1; i <= lethal; i++) {			
 			int index_temp = rnd.nextInt(ceros.size());
-			System.out.println(ceros.get(index_temp).getRow()+", "+ceros.get(index_temp).getCol());
 			
 			int tempRow = ceros.get(index_temp).getRow();
 			int tempCol = ceros.get(index_temp).getCol();
 
-			enemigos.add(new Coord(tempRow, tempCol));
+			coordsLethal.add(new Coord(tempRow, tempCol));
 			maze[tempRow][tempCol] = 2;
 			
 			ceros.remove(index_temp);
 		}
 		
-		//Debug
-		System.out.println("Posiciones 0 despues de poner enemigos: ");
-		for (Coord coord : ceros) {
-			System.out.println("("+coord.getRow()+", "+coord.getCol()+")");
-		}
-		System.out.println();
 		
-		//Debug
-		for (int i = 0; i < maze.length; i++) {
-			for (int j = 0; j < maze[i].length; j++) {
-				System.out.print(maze[i][j]+" ");
-			}
-			System.out.print("\n");
-		}
-		
-		
-		//Debug
-		System.out.println("Coords llaves: ");
-		for (Coord coordLlave : llaves) {
-			System.out.println("("+coordLlave.getRow()+", "+coordLlave.getCol()+")");
+		//Stormy
+		for (int i = 1; i <= stormy; i++) {
+			int index_temp = rnd.nextInt(ceros.size());
+			
+			int tempRow = ceros.get(index_temp).getRow();
+			int tempCol = ceros.get(index_temp).getCol();
+			
+			coordsStormy.add(new Coord(tempRow, tempCol));
+			maze[tempRow][tempCol] = 6;
+			
+			ceros.remove(index_temp);
 		}
 	}
 
@@ -175,13 +152,19 @@ public class MazeGeneratorMatrix {
 		this.ceros = ceros;
 	}
 
-	public ArrayList<Coord> getEnemigos() {
-		return enemigos;
+	public ArrayList<Coord> getCoordsLethal() {
+		return coordsLethal;
 	}
 
-	public void setEnemigos(ArrayList<Coord> enemigos) {
-		this.enemigos = enemigos;
+	public void setCoordsLethal(ArrayList<Coord> coordsLethal) {
+		this.coordsLethal = coordsLethal;
 	}
-	
-	
+
+	public ArrayList<Coord> getCoordsStormy() {
+		return coordsStormy;
+	}
+
+	public void setCoordsStormy(ArrayList<Coord> coordsStormy) {
+		this.coordsStormy = coordsStormy;
+	}
 }
