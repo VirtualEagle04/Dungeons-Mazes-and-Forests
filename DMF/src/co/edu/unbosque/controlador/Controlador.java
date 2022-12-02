@@ -9,6 +9,8 @@ import java.util.ArrayList;
 
 import co.edu.unbosque.modelo.MazeGeneratorMatrix;
 import co.edu.unbosque.vista.GameFrame;
+import co.edu.unbosque.vista.KeyRender;
+import co.edu.unbosque.modelo.Coord;
 import co.edu.unbosque.modelo.KeyGeneratorMatrix;
 import co.edu.unbosque.modelo.MazeBFS;
 
@@ -29,6 +31,7 @@ public class Controlador implements ActionListener, KeyListener{
 	private static int lethal;
 	private static int stormy;
 	private static int[][] mazeMatrix;
+	private static ArrayList<Coord> arr_coords_llaves;
 	
 	//Movimiento
 	private boolean upP, downP, leftP, rightP;
@@ -39,7 +42,8 @@ public class Controlador implements ActionListener, KeyListener{
 	//Varios
 	private int intentos_generacion;
 	boolean actualESC = false;
-	private ArrayList<co.edu.unbosque.modelo.Coord> coordsCamino;
+	private ArrayList<Coord> coordsCamino;
+	private ArrayList<KeyRender> listaLlaves;
 	
 
 	public Controlador() {
@@ -76,6 +80,9 @@ public class Controlador implements ActionListener, KeyListener{
 		keyGen = new KeyGeneratorMatrix(mazeMatrix, coordsCamino);
 		
 		mazeMatrix = keyGen.getMatrizConLlaves();
+		arr_coords_llaves = keyGen.getCoordsLlaves();
+		
+		
 	}
 	
 
@@ -99,6 +106,17 @@ public class Controlador implements ActionListener, KeyListener{
 										gameFrame.getGameState().getPlayer().repaint();
 										posX = gameFrame.getGameState().getPlayer().getX();
 										posY = gameFrame.getGameState().getPlayer().getY();	
+										
+										//Recoleccion de las llaves
+										listaLlaves = gameFrame.getGameState().getListaLlaves();
+										
+										for (KeyRender key_render : listaLlaves) {
+											if(((posY/32) == key_render.getPosRow()) && ((posX/32) == key_render.getPosCol())){
+												key_render.setVisible(false);
+												mazeMatrix[posY/32][posX/32] = 0;
+												break;
+											}
+										}
 								 }
 							} catch (ArrayIndexOutOfBoundsException e2) {}
 				
@@ -111,6 +129,17 @@ public class Controlador implements ActionListener, KeyListener{
 										gameFrame.getGameState().getPlayer().repaint();
 										posX = gameFrame.getGameState().getPlayer().getX();
 										posY = gameFrame.getGameState().getPlayer().getY();
+										
+										//Recoleccion de las llaves
+										listaLlaves = gameFrame.getGameState().getListaLlaves();
+										
+										for (KeyRender key_render : listaLlaves) {
+											if(((posY/32) == key_render.getPosRow()) && ((posX/32) == key_render.getPosCol())){
+												key_render.setVisible(false);
+												mazeMatrix[posY/32][posX/32] = 0;
+												break;
+											}
+										}
 								 }
 							} catch (ArrayIndexOutOfBoundsException e2) {}
 				
@@ -123,6 +152,17 @@ public class Controlador implements ActionListener, KeyListener{
 										gameFrame.getGameState().getPlayer().repaint();
 										posX = gameFrame.getGameState().getPlayer().getX();
 										posY = gameFrame.getGameState().getPlayer().getY();
+										
+										//Recoleccion de las llaves
+										listaLlaves = gameFrame.getGameState().getListaLlaves();
+										
+										for (KeyRender key_render : listaLlaves) {
+											if(((posY/32) == key_render.getPosRow()) && ((posX/32) == key_render.getPosCol())){
+												key_render.setVisible(false);
+												mazeMatrix[posY/32][posX/32] = 0;
+												break;
+											}
+										}
 								 }
 							} catch (ArrayIndexOutOfBoundsException e2) {}
 				
@@ -136,7 +176,16 @@ public class Controlador implements ActionListener, KeyListener{
 										posX = gameFrame.getGameState().getPlayer().getX();
 										posY = gameFrame.getGameState().getPlayer().getY();
 										
-
+										//Recoleccion de las llaves
+										listaLlaves = gameFrame.getGameState().getListaLlaves();
+										
+										for (KeyRender key_render : listaLlaves) {
+											if(((posY/32) == key_render.getPosRow()) && ((posX/32) == key_render.getPosCol())){
+												key_render.setVisible(false);
+												mazeMatrix[posY/32][posX/32] = 0;
+												break;
+											}
+										}
 								 }
 							} catch (ArrayIndexOutOfBoundsException e2) {}
 				

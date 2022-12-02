@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.awt.FontFormatException;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Random;
 
 import javax.swing.ImageIcon;
@@ -12,6 +13,7 @@ import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 
 import co.edu.unbosque.controlador.Controlador;
+import co.edu.unbosque.modelo.Coord;
 
 public class GameState extends JLayeredPane {
 
@@ -26,9 +28,11 @@ public class GameState extends JLayeredPane {
 	private Sound GmMusic;
 	private Font Alagard;
 
-	public GameState() {
-		
+	private ArrayList<KeyRender> listaLlaves;
+	private int listIndex = 0;
 
+	public GameState() {
+		listaLlaves = new ArrayList<KeyRender>();
 		// Inicialización y Empaquetamiento de la Fuente
 
 		try {
@@ -242,19 +246,28 @@ public class GameState extends JLayeredPane {
 					tablero.add(stormy, JLayeredPane.MODAL_LAYER);
 				}
 
+				//Llave
+				
 				if (mazeMatrix[i][j] == 5) {
 					celdas[i] = new JLabel(new ImageIcon("src/Assets/Floor/floor4.png"));
 					celdas[i].setSize(32, 32);
 					celdas[i].setLocation(pos_X, pos_Y);
 					pos_X += 32;
 					tablero.add(celdas[i], JLayeredPane.DEFAULT_LAYER);
+					
+					listaLlaves.add(new KeyRender(i, j));
+					listaLlaves.get(listIndex).setLocation(celdas[i].getLocation());
+					tablero.add(listaLlaves.get(listIndex), JLayeredPane.MODAL_LAYER);
+					listIndex++;
 
-					key = new KeyRender();
-					key.setLocation(celdas[i].getLocation());
-					tablero.add(key, JLayeredPane.MODAL_LAYER);
+//					key = new KeyRender();
+//					key.setLocation(celdas[i].getLocation());
+//					tablero.add(key, JLayeredPane.MODAL_LAYER);
+					
+
 				}
 
-				// Entradas y Salidas
+				//Entrada
 				if (mazeMatrix[i][j] == 3) {
 					celdas[i] = new JLabel(new ImageIcon("src/Assets/Wall/WallTileStart.png"));
 					celdas[i].setSize(32, 32);
@@ -268,15 +281,14 @@ public class GameState extends JLayeredPane {
 					tablero.add(player, JLayeredPane.DRAG_LAYER);
 
 				}
+				//Salida
 				if (mazeMatrix[i][j] == 4) {
 					celdas[i] = new JLabel(new ImageIcon("src/Assets/Wall/WallTileFinish.png"));
 					celdas[i].setSize(32, 32);
-					// celdas[i].setBackground(Color.RED);
 					celdas[i].setLocation(pos_X, pos_Y);
 					pos_X += 32;
 					tablero.add(celdas[i]);
 				}
-				// System.out.println("Checked: "+i+","+j);
 			}
 			pos_X = 0;
 			pos_Y += 32;
@@ -397,6 +409,14 @@ public class GameState extends JLayeredPane {
 	public void stopMusic(int i) {
 
 		GmMusic.stop(i);
+	}
+
+	public ArrayList<KeyRender> getListaLlaves() {
+		return listaLlaves;
+	}
+
+	public void setListaLlaves(ArrayList<KeyRender> listaLlaves) {
+		this.listaLlaves = listaLlaves;
 	}
 
 }

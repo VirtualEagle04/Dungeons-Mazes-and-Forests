@@ -10,11 +10,13 @@ public class KeyGeneratorMatrix {
 	private Random rnd;
 	private int llaves;
 	private int[][] matrizConLlaves;
+	private ArrayList<Coord> coordsLlaves;
 	
 	public KeyGeneratorMatrix(int[][] matrizSinLlaves, ArrayList<Coord> coordsCamino) {
 		rnd = new Random();
 		llaves = c.getKeys();
 		matrizConLlaves = matrizSinLlaves;
+		coordsLlaves = new ArrayList<Coord>();
 		
 		for (int i = 0; i < llaves; i++) {
 			int index_rnd = rnd.nextInt(coordsCamino.size() - 0) + 0;
@@ -25,6 +27,7 @@ public class KeyGeneratorMatrix {
 			coordsCamino.remove(index_rnd);
 			
 			matrizConLlaves[nuevaLlave_posRow][nuevaLlave_posCol] = 5;
+			coordsLlaves.add(new Coord(nuevaLlave_posRow, nuevaLlave_posCol));
 			
 		}
 	}
@@ -35,6 +38,14 @@ public class KeyGeneratorMatrix {
 
 	public void setMatrizConLlaves(int[][] matrizConLlaves) {
 		this.matrizConLlaves = matrizConLlaves;
+	}
+
+	public ArrayList<Coord> getCoordsLlaves() {
+		return coordsLlaves;
+	}
+
+	public void setCoordsLlaves(ArrayList<Coord> coordsLlaves) {
+		this.coordsLlaves = coordsLlaves;
 	}
 	
 }
