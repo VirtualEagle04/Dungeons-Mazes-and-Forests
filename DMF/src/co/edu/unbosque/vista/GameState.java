@@ -410,6 +410,12 @@ public class GameState extends JLayeredPane {
 
 		GmMusic.stop(i);
 	}
+	
+	public void playSE(int i) {
+		
+		GmMusic.setFile(i);
+		GmMusic.play();
+	}
 
 	public ArrayList<KeyRender> getListaLlaves() {
 		return listaLlaves;
