@@ -145,7 +145,7 @@ public class TutorialState extends JLayeredPane {
 		enemy_title.setFont(enemy_title.getFont().deriveFont(Font.PLAIN, 23));
 		enemy_title.setBounds(260, 390, 140, 21);
 		enemy_title.setForeground(Color.white);
-
+		
 		enemy_title_shadow = new JLabel();
 		enemy_title_shadow.setText("Enemys");
 		enemy_title_shadow.setFont(Alagard);
@@ -159,7 +159,7 @@ public class TutorialState extends JLayeredPane {
 		move_title.setFont(move_title.getFont().deriveFont(Font.PLAIN, 23));
 		move_title.setBounds(280, 120, 140, 23);
 		move_title.setForeground(Color.white);
-
+		
 		move_title_shadow = new JLabel();
 		move_title_shadow.setText("Movement");
 		move_title_shadow.setFont(Alagard);
@@ -173,7 +173,7 @@ public class TutorialState extends JLayeredPane {
 		game_title.setFont(game_title.getFont().deriveFont(Font.PLAIN, 23));
 		game_title.setForeground(Color.white);
 		game_title.setBounds(760, 120, 140, 23);
-
+		
 		game_title_shadow = new JLabel();
 		game_title_shadow.setText("Game info");
 		game_title_shadow.setFont(Alagard);
@@ -181,7 +181,8 @@ public class TutorialState extends JLayeredPane {
 		game_title_shadow.setForeground(Color.DARK_GRAY);
 		game_title_shadow.setBounds(763, 123, 140, 23);
 
-		// add titles
+	
+		//add titles
 		add(game_title);
 		add(game_title_shadow);
 		add(move_title);
@@ -190,14 +191,14 @@ public class TutorialState extends JLayeredPane {
 		add(enemy_title_shadow);
 		add(tuTitle);
 		add(tuTitle_shadow);
-
-		// information
+		
+		//information
 		add(panel_ch);
 		add(enemys_info);
 		add(game_info);
 		add(movement_info);
-
-		// images & gifs
+		
+		//images & gifs
 		panel_ch.add(tuCharacters);
 		add(sthormy_indicator);
 		add(lethal_indicator);
@@ -205,8 +206,8 @@ public class TutorialState extends JLayeredPane {
 		add(wasd_indicator);
 		add(key_tutorial);
 		add(tuBackground, JLayeredPane.DEFAULT_LAYER);
-
-		// back button
+		
+		//back button
 		add(back_button, JLayeredPane.MODAL_LAYER);
 
 		tuMusic = new Sound();
@@ -217,65 +218,97 @@ public class TutorialState extends JLayeredPane {
 		return tuCharacters;
 	}
 
+
+
 	public void setTuCharacters(JLabel tuCharacters) {
 		this.tuCharacters = tuCharacters;
 	}
+
+
 
 	public JLabel getMove_title() {
 		return move_title;
 	}
 
+
+
 	public void setMove_title(JLabel move_title) {
 		this.move_title = move_title;
 	}
+
+
 
 	public JLabel getMove_title_shadow() {
 		return move_title_shadow;
 	}
 
+
+
 	public void setMove_title_shadow(JLabel move_title_shadow) {
 		this.move_title_shadow = move_title_shadow;
 	}
+
+
 
 	public JLabel getEnemy_title() {
 		return enemy_title;
 	}
 
+
+
 	public void setEnemy_title(JLabel enemy_title) {
 		this.enemy_title = enemy_title;
 	}
+
+
 
 	public JLabel getEnemy_title_shadow() {
 		return enemy_title_shadow;
 	}
 
+
+
 	public void setEnemy_title_shadow(JLabel enemy_title_shadow) {
 		this.enemy_title_shadow = enemy_title_shadow;
 	}
+
+
 
 	public JLabel getGame_title() {
 		return game_title;
 	}
 
+
+
 	public void setGame_title(JLabel game_title) {
 		this.game_title = game_title;
 	}
+
+
 
 	public JLabel getGame_title_shadow() {
 		return game_title_shadow;
 	}
 
+
+
 	public void setGame_title_shadow(JLabel game_title_shadow) {
 		this.game_title_shadow = game_title_shadow;
 	}
+
+
 
 	public JPanel getPanel_ch() {
 		return panel_ch;
 	}
 
+
+
 	public void setPanel_ch(JPanel panel_ch) {
 		this.panel_ch = panel_ch;
 	}
+
+
 
 	public String getSex() {
 		return sex;
@@ -424,9 +457,9 @@ public class TutorialState extends JLayeredPane {
 
 		tuMusic.stop(i);
 	}
-
+	
 	public void playSE(int i) {
-
+		
 		tuMusic.setFile(i);
 		tuMusic.play();
 	}
