@@ -6,8 +6,10 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
+import java.util.Random;
 
 import co.edu.unbosque.modelo.MazeGeneratorMatrix;
+import co.edu.unbosque.vista.EnemyRender;
 import co.edu.unbosque.vista.GameFrame;
 import co.edu.unbosque.vista.KeyRender;
 import co.edu.unbosque.modelo.Coord;
@@ -37,16 +39,20 @@ public class Controlador implements ActionListener, KeyListener {
 	private int posX, posY, desplazamiento;
 	private int llaves_acumuladas;
 	private int mov_max;
+	private int mov_actuales = 0;
 
 	// Varios
+	private static int apariencia;
 	private int intentos_generacion;
 	boolean actualESC = false;
 	private ArrayList<Coord> coordsCamino;
 	private ArrayList<KeyRender> listaLlaves;
+	private ArrayList<EnemyRender> listaLethal;
+	private ArrayList<EnemyRender> listaStormy;
+	
 
-	public Controlador() {
-
-	}
+	//Contructor donde no tiene que ir NADA
+	public Controlador() {}
 
 	public void run() {
 
@@ -77,6 +83,7 @@ public class Controlador implements ActionListener, KeyListener {
 		keyGen = new KeyGeneratorMatrix(mazeMatrix, coordsCamino);
 
 		mazeMatrix = keyGen.getMatrizConLlaves();
+		mov_max = rows*columns;
 
 	}
 
@@ -85,139 +92,532 @@ public class Controlador implements ActionListener, KeyListener {
 
 		int code = e.getKeyCode();
 		if (gameFrame.getpState().isVisible()) {
+			//Menu de Pausa = no mover
 		} else {
+			
+			//Condicion para restringir el movimiento una vez haya usado todos los movimientos posibles
+			if(mov_actuales < mov_max) {
 
-			// Movimiento
-			if (code == KeyEvent.VK_W || code == KeyEvent.VK_UP) {
+				// Movimiento
+				if (code == KeyEvent.VK_W || code == KeyEvent.VK_UP) {
 
-				// Cuando el jugador trata de moverse fuera del length de la matriz
-				try {
-					if (mazeMatrix[(posY / 32) - 1][posX / 32] != 1) {
-						upP = true;
-						gameFrame.getGameState().getPlayer().setLocation(posX, posY - desplazamiento);
-						gameFrame.getGameState().getPlayer().repaint();
-						posX = gameFrame.getGameState().getPlayer().getX();
-						posY = gameFrame.getGameState().getPlayer().getY();
+					// Cuando el jugador trata de moverse fuera del length de la matriz
+					try {
+						if (mazeMatrix[(posY / 32) - 1][posX / 32] != 1) {
+							upP = true;
+							gameFrame.getGameState().getPlayer().setLocation(posX, posY - desplazamiento);
+							gameFrame.getGameState().getPlayer().repaint();
+							posX = gameFrame.getGameState().getPlayer().getX();
+							posY = gameFrame.getGameState().getPlayer().getY();
+							mov_actuales++;
 
-						// Recoleccion de las llaves
-						listaLlaves = gameFrame.getGameState().getListaLlaves();
-						if (mazeMatrix[posY / 32][posX / 32] == 0) {
+							// Recoleccion de las llaves
+							listaLlaves = gameFrame.getGameState().getListaLlaves();
+							if (mazeMatrix[posY / 32][posX / 32] == 0) {
 
-						} else if (mazeMatrix[posY / 32][posX / 32] != 0) {
-							for (KeyRender key_render : listaLlaves) {
-								if (((posY / 32) == key_render.getPosRow())
-										&& ((posX / 32) == key_render.getPosCol())) {
-									key_render.setVisible(false);
-									gameFrame.getGameState().playSE(10);
-									mazeMatrix[posY / 32][posX / 32] = 0;
-									break;
+							} else if (mazeMatrix[posY / 32][posX / 32] != 0) {
+								for (KeyRender key_render : listaLlaves) {
+									if (((posY / 32) == key_render.getPosRow())
+											&& ((posX / 32) == key_render.getPosCol())) {
+										key_render.setVisible(false);
+										llaves_acumuladas++;
+										gameFrame.getGameState().playSE(10);
+										mazeMatrix[posY / 32][posX / 32] = 0;
+										break;
+									}
 								}
 							}
-						}
-
-					}
-				} catch (ArrayIndexOutOfBoundsException e2) {
-				}
-
-			}
-			if (code == KeyEvent.VK_S || code == KeyEvent.VK_DOWN) {
-				try {
-					if (mazeMatrix[(posY / 32) + 1][posX / 32] != 1) {
-						downP = true;
-						gameFrame.getGameState().getPlayer().setLocation(posX, posY + desplazamiento);
-						gameFrame.getGameState().getPlayer().repaint();
-						posX = gameFrame.getGameState().getPlayer().getX();
-						posY = gameFrame.getGameState().getPlayer().getY();
-
-						// Recoleccion de las llaves
-						listaLlaves = gameFrame.getGameState().getListaLlaves();
-						if (mazeMatrix[posY / 32][posX / 32] == 0) {
-
-						} else if (mazeMatrix[posY / 32][posX / 32] != 0) {
-							for (KeyRender key_render : listaLlaves) {
-								if (((posY / 32) == key_render.getPosRow())
-										&& ((posX / 32) == key_render.getPosCol())) {
-									key_render.setVisible(false);
-									gameFrame.getGameState().playSE(10);
-									mazeMatrix[posY / 32][posX / 32] = 0;
-									break;
+							//Movimiento de los enemigos
+							listaLethal = gameFrame.getGameState().getListaLethal();
+							listaStormy = gameFrame.getGameState().getListaStormy();
+							Random rnd = new Random();
+							
+							for (EnemyRender lethal_enemy : listaLethal) {
+								int direccion = rnd.nextInt(4 - 1) + 1;
+								
+								switch (direccion) {
+									//Norte
+									case 1: {
+										//Colisiones de los Enemigos
+										if(mazeMatrix[(lethal_enemy.getY()/32)-1][lethal_enemy.getX()] != 1) {
+											lethal_enemy.setLocation(lethal_enemy.getX(), lethal_enemy.getY()-desplazamiento);
+											lethal_enemy.repaint();
+											break;
+										}
+									}
+									//Sur
+									case 2: {
+										//Colisiones de los Enemigos
+										if(mazeMatrix[(lethal_enemy.getY()/32)+1][lethal_enemy.getX()] != 1) {
+											lethal_enemy.setLocation(lethal_enemy.getX(), lethal_enemy.getY()+desplazamiento);
+											lethal_enemy.repaint();
+											break;
+										}
+									}
+									//Izq
+									case 3: {
+										//Colisiones de los Enemigos
+										if(mazeMatrix[(lethal_enemy.getY()/32)][lethal_enemy.getX()-1] != 1) {
+											lethal_enemy.setLocation(lethal_enemy.getX()-desplazamiento, lethal_enemy.getY());
+											lethal_enemy.repaint();
+											break;
+										}
+									}
+									//Drch
+									case 4: {
+										//Colisiones de los Enemigos
+										if(mazeMatrix[(lethal_enemy.getY()/32)][lethal_enemy.getX()+1] != 1) {
+											lethal_enemy.setLocation(lethal_enemy.getX()+desplazamiento, lethal_enemy.getY());
+											lethal_enemy.repaint();
+											break;
+										}
+									}
 								}
 							}
-						}
-					}
-				} catch (ArrayIndexOutOfBoundsException e2) {
-				}
-
-			}
-			if (code == KeyEvent.VK_A || code == KeyEvent.VK_LEFT) {
-				try {
-					if (mazeMatrix[posY / 32][(posX / 32) - 1] != 1) {
-						setLeftP(true);
-						gameFrame.getGameState().getPlayer().setLocation(posX - desplazamiento, posY);
-						gameFrame.getGameState().getPlayer().repaint();
-						posX = gameFrame.getGameState().getPlayer().getX();
-						posY = gameFrame.getGameState().getPlayer().getY();
-
-						// Recoleccion de las llaves
-						listaLlaves = gameFrame.getGameState().getListaLlaves();
-						if (mazeMatrix[posY / 32][posX / 32] == 0) {
-
-						} else if (mazeMatrix[posY / 32][posX / 32] != 0) {
-							for (KeyRender key_render : listaLlaves) {
-								if (((posY / 32) == key_render.getPosRow())
-										&& ((posX / 32) == key_render.getPosCol())) {
-									key_render.setVisible(false);
-									gameFrame.getGameState().playSE(10);
-									mazeMatrix[posY / 32][posX / 32] = 0;
-									break;
+							
+							for (EnemyRender stormy_enemy : listaStormy) {
+								int direccion = rnd.nextInt(4 - 1) + 1;
+								
+								switch (direccion) {
+									//Norte
+									case 1: {
+										//Colisiones de los Enemigos
+										if(mazeMatrix[(stormy_enemy.getY()/32)-1][stormy_enemy.getX()] != 1) {
+											stormy_enemy.setLocation(stormy_enemy.getX(), stormy_enemy.getY()-desplazamiento);
+											stormy_enemy.repaint();
+											break;
+										}
+									}
+									//Sur
+									case 2: {
+										//Colisiones de los Enemigos
+										if(mazeMatrix[(stormy_enemy.getY()/32)+1][stormy_enemy.getX()] != 1) {
+											stormy_enemy.setLocation(stormy_enemy.getX(), stormy_enemy.getY()+desplazamiento);
+											stormy_enemy.repaint();
+											break;
+										}
+									}
+									//Izq
+									case 3: {
+										//Colisiones de los Enemigos
+										if(mazeMatrix[(stormy_enemy.getY()/32)][stormy_enemy.getX()-1] != 1) {
+											stormy_enemy.setLocation(stormy_enemy.getX()-desplazamiento, stormy_enemy.getY());
+											stormy_enemy.repaint();
+											break;
+										}
+									}
+									//Drch
+									case 4: {
+										//Colisiones de los Enemigos
+										if(mazeMatrix[(stormy_enemy.getY()/32)][stormy_enemy.getX()+1] != 1) {
+											stormy_enemy.setLocation(stormy_enemy.getX()+desplazamiento, stormy_enemy.getY());
+											stormy_enemy.repaint();
+											break;
+										}
+									}
 								}
 							}
+							
+							
+							
+							
+							
 						}
+					} catch (ArrayIndexOutOfBoundsException e2) {
 					}
-				} catch (ArrayIndexOutOfBoundsException e2) {
+
 				}
+				if (code == KeyEvent.VK_S || code == KeyEvent.VK_DOWN) {
+					try {
+						if (mazeMatrix[(posY / 32) + 1][posX / 32] != 1) {
+							downP = true;
+							gameFrame.getGameState().getPlayer().setLocation(posX, posY + desplazamiento);
+							gameFrame.getGameState().getPlayer().repaint();
+							posX = gameFrame.getGameState().getPlayer().getX();
+							posY = gameFrame.getGameState().getPlayer().getY();
+							mov_actuales++;
 
-			}
-			if (code == KeyEvent.VK_D || code == KeyEvent.VK_RIGHT) {
-				try {
-					if (mazeMatrix[posY / 32][(posX / 32) + 1] != 1) {
-						rightP = true;
-						gameFrame.getGameState().getPlayer().setLocation(posX + desplazamiento, posY);
-						gameFrame.getGameState().getPlayer().repaint();
-						posX = gameFrame.getGameState().getPlayer().getX();
-						posY = gameFrame.getGameState().getPlayer().getY();
+							// Recoleccion de las llaves
+							listaLlaves = gameFrame.getGameState().getListaLlaves();
+							if (mazeMatrix[posY / 32][posX / 32] == 0) {
 
-						// Recoleccion de las llaves
-						listaLlaves = gameFrame.getGameState().getListaLlaves();
-
-						// Recoleccion de las llaves
-						listaLlaves = gameFrame.getGameState().getListaLlaves();
-						if (mazeMatrix[posY / 32][posX / 32] == 0) {
-
-						} else if (mazeMatrix[posY / 32][posX / 32] != 0) {
-							for (KeyRender key_render : listaLlaves) {
-								if (((posY / 32) == key_render.getPosRow())
-										&& ((posX / 32) == key_render.getPosCol())) {
-									key_render.setVisible(false);
-									gameFrame.getGameState().playSE(10);
-									mazeMatrix[posY / 32][posX / 32] = 0;
-									break;
+							} else if (mazeMatrix[posY / 32][posX / 32] != 0) {
+								for (KeyRender key_render : listaLlaves) {
+									if (((posY / 32) == key_render.getPosRow())
+											&& ((posX / 32) == key_render.getPosCol())) {
+										key_render.setVisible(false);
+										llaves_acumuladas++;
+										gameFrame.getGameState().playSE(10);
+										mazeMatrix[posY / 32][posX / 32] = 0;
+										break;
+									}
 								}
 							}
+							//Movimiento de los enemigos
+							listaLethal = gameFrame.getGameState().getListaLethal();
+							listaStormy = gameFrame.getGameState().getListaStormy();
+							Random rnd = new Random();
+							
+							for (EnemyRender lethal_enemy : listaLethal) {
+								int direccion = rnd.nextInt(4 - 1) + 1;
+								
+								switch (direccion) {
+									//Norte
+									case 1: {
+										//Colisiones de los Enemigos
+										if(mazeMatrix[(lethal_enemy.getY()/32)-1][lethal_enemy.getX()] != 1) {
+											lethal_enemy.setLocation(lethal_enemy.getX(), lethal_enemy.getY()-desplazamiento);
+											lethal_enemy.repaint();
+											break;
+										}
+									}
+									//Sur
+									case 2: {
+										//Colisiones de los Enemigos
+										if(mazeMatrix[(lethal_enemy.getY()/32)+1][lethal_enemy.getX()] != 1) {
+											lethal_enemy.setLocation(lethal_enemy.getX(), lethal_enemy.getY()+desplazamiento);
+											lethal_enemy.repaint();
+											break;
+										}
+									}
+									//Izq
+									case 3: {
+										//Colisiones de los Enemigos
+										if(mazeMatrix[(lethal_enemy.getY()/32)][lethal_enemy.getX()-1] != 1) {
+											lethal_enemy.setLocation(lethal_enemy.getX()-desplazamiento, lethal_enemy.getY());
+											lethal_enemy.repaint();
+											break;
+										}
+									}
+									//Drch
+									case 4: {
+										//Colisiones de los Enemigos
+										if(mazeMatrix[(lethal_enemy.getY()/32)][lethal_enemy.getX()+1] != 1) {
+											lethal_enemy.setLocation(lethal_enemy.getX()+desplazamiento, lethal_enemy.getY());
+											lethal_enemy.repaint();
+											break;
+										}
+									}
+								}
+							}
+							
+							for (EnemyRender stormy_enemy : listaStormy) {
+								int direccion = rnd.nextInt(4 - 1) + 1;
+								
+								switch (direccion) {
+									//Norte
+									case 1: {
+										//Colisiones de los Enemigos
+										if(mazeMatrix[(stormy_enemy.getY()/32)-1][stormy_enemy.getX()] != 1) {
+											stormy_enemy.setLocation(stormy_enemy.getX(), stormy_enemy.getY()-desplazamiento);
+											stormy_enemy.repaint();
+											break;
+										}
+									}
+									//Sur
+									case 2: {
+										//Colisiones de los Enemigos
+										if(mazeMatrix[(stormy_enemy.getY()/32)+1][stormy_enemy.getX()] != 1) {
+											stormy_enemy.setLocation(stormy_enemy.getX(), stormy_enemy.getY()+desplazamiento);
+											stormy_enemy.repaint();
+											break;
+										}
+									}
+									//Izq
+									case 3: {
+										//Colisiones de los Enemigos
+										if(mazeMatrix[(stormy_enemy.getY()/32)][stormy_enemy.getX()-1] != 1) {
+											stormy_enemy.setLocation(stormy_enemy.getX()-desplazamiento, stormy_enemy.getY());
+											stormy_enemy.repaint();
+											break;
+										}
+									}
+									//Drch
+									case 4: {
+										//Colisiones de los Enemigos
+										if(mazeMatrix[(stormy_enemy.getY()/32)][stormy_enemy.getX()+1] != 1) {
+											stormy_enemy.setLocation(stormy_enemy.getX()+desplazamiento, stormy_enemy.getY());
+											stormy_enemy.repaint();
+											break;
+										}
+									}
+								}
+							}
+							
+							
+							
 						}
+					} catch (ArrayIndexOutOfBoundsException e2) {
 					}
-				} catch (ArrayIndexOutOfBoundsException e2) {
+
+				}
+				if (code == KeyEvent.VK_A || code == KeyEvent.VK_LEFT) {
+					try {
+						if (mazeMatrix[posY / 32][(posX / 32) - 1] != 1) {
+							setLeftP(true);
+							gameFrame.getGameState().getPlayer().setLocation(posX - desplazamiento, posY);
+							gameFrame.getGameState().getPlayer().repaint();
+							posX = gameFrame.getGameState().getPlayer().getX();
+							posY = gameFrame.getGameState().getPlayer().getY();
+							mov_actuales++;
+
+							// Recoleccion de las llaves
+							listaLlaves = gameFrame.getGameState().getListaLlaves();
+							if (mazeMatrix[posY / 32][posX / 32] == 0) {
+
+							} else if (mazeMatrix[posY / 32][posX / 32] != 0) {
+								for (KeyRender key_render : listaLlaves) {
+									if (((posY / 32) == key_render.getPosRow())
+											&& ((posX / 32) == key_render.getPosCol())) {
+										key_render.setVisible(false);
+										llaves_acumuladas++;
+										gameFrame.getGameState().playSE(10);
+										mazeMatrix[posY / 32][posX / 32] = 0;
+										break;
+									}
+								}
+							}
+							//Movimiento de los enemigos
+							listaLethal = gameFrame.getGameState().getListaLethal();
+							listaStormy = gameFrame.getGameState().getListaStormy();
+							Random rnd = new Random();
+							
+							for (EnemyRender lethal_enemy : listaLethal) {
+								int direccion = rnd.nextInt(4 - 1) + 1;
+								
+								switch (direccion) {
+									//Norte
+									case 1: {
+										//Colisiones de los Enemigos
+										if(mazeMatrix[(lethal_enemy.getY()/32)-1][lethal_enemy.getX()] != 1) {
+											lethal_enemy.setLocation(lethal_enemy.getX(), lethal_enemy.getY()-desplazamiento);
+											lethal_enemy.repaint();
+											break;
+										}
+									}
+									//Sur
+									case 2: {
+										//Colisiones de los Enemigos
+										if(mazeMatrix[(lethal_enemy.getY()/32)+1][lethal_enemy.getX()] != 1) {
+											lethal_enemy.setLocation(lethal_enemy.getX(), lethal_enemy.getY()+desplazamiento);
+											lethal_enemy.repaint();
+											break;
+										}
+									}
+									//Izq
+									case 3: {
+										//Colisiones de los Enemigos
+										if(mazeMatrix[(lethal_enemy.getY()/32)][lethal_enemy.getX()-1] != 1) {
+											lethal_enemy.setLocation(lethal_enemy.getX()-desplazamiento, lethal_enemy.getY());
+											lethal_enemy.repaint();
+											break;
+										}
+									}
+									//Drch
+									case 4: {
+										//Colisiones de los Enemigos
+										if(mazeMatrix[(lethal_enemy.getY()/32)][lethal_enemy.getX()+1] != 1) {
+											lethal_enemy.setLocation(lethal_enemy.getX()+desplazamiento, lethal_enemy.getY());
+											lethal_enemy.repaint();
+											break;
+										}
+									}
+								}
+							}
+							
+							for (EnemyRender stormy_enemy : listaStormy) {
+								int direccion = rnd.nextInt(4 - 1) + 1;
+								
+								switch (direccion) {
+									//Norte
+									case 1: {
+										//Colisiones de los Enemigos
+										if(mazeMatrix[(stormy_enemy.getY()/32)-1][stormy_enemy.getX()] != 1) {
+											stormy_enemy.setLocation(stormy_enemy.getX(), stormy_enemy.getY()-desplazamiento);
+											stormy_enemy.repaint();
+											break;
+										}
+									}
+									//Sur
+									case 2: {
+										//Colisiones de los Enemigos
+										if(mazeMatrix[(stormy_enemy.getY()/32)+1][stormy_enemy.getX()] != 1) {
+											stormy_enemy.setLocation(stormy_enemy.getX(), stormy_enemy.getY()+desplazamiento);
+											stormy_enemy.repaint();
+											break;
+										}
+									}
+									//Izq
+									case 3: {
+										//Colisiones de los Enemigos
+										if(mazeMatrix[(stormy_enemy.getY()/32)][stormy_enemy.getX()-1] != 1) {
+											stormy_enemy.setLocation(stormy_enemy.getX()-desplazamiento, stormy_enemy.getY());
+											stormy_enemy.repaint();
+											break;
+										}
+									}
+									//Drch
+									case 4: {
+										//Colisiones de los Enemigos
+										if(mazeMatrix[(stormy_enemy.getY()/32)][stormy_enemy.getX()+1] != 1) {
+											stormy_enemy.setLocation(stormy_enemy.getX()+desplazamiento, stormy_enemy.getY());
+											stormy_enemy.repaint();
+											break;
+										}
+									}
+								}
+							}
+							
+							
+							
+						}
+					} catch (ArrayIndexOutOfBoundsException e2) {
+					}
+
+				}
+				if (code == KeyEvent.VK_D || code == KeyEvent.VK_RIGHT) {
+					try {
+						if (mazeMatrix[posY / 32][(posX / 32) + 1] != 1) {
+							rightP = true;
+							gameFrame.getGameState().getPlayer().setLocation(posX + desplazamiento, posY);
+							gameFrame.getGameState().getPlayer().repaint();
+							posX = gameFrame.getGameState().getPlayer().getX();
+							posY = gameFrame.getGameState().getPlayer().getY();
+							mov_actuales++;
+
+							// Recoleccion de las llaves
+							listaLlaves = gameFrame.getGameState().getListaLlaves();
+
+							// Recoleccion de las llaves
+							listaLlaves = gameFrame.getGameState().getListaLlaves();
+							if (mazeMatrix[posY / 32][posX / 32] == 0) {
+								
+							} else if (mazeMatrix[posY / 32][posX / 32] != 0) {
+								for (KeyRender key_render : listaLlaves) {
+									if (((posY / 32) == key_render.getPosRow())
+											&& ((posX / 32) == key_render.getPosCol())) {
+										key_render.setVisible(false);
+										llaves_acumuladas++;
+										gameFrame.getGameState().playSE(10);
+										mazeMatrix[posY / 32][posX / 32] = 0;
+										break;
+									}
+								}
+							}
+							//Movimiento de los enemigos
+							listaLethal = gameFrame.getGameState().getListaLethal();
+							listaStormy = gameFrame.getGameState().getListaStormy();
+							Random rnd = new Random();
+							
+							for (EnemyRender lethal_enemy : listaLethal) {
+								int direccion = rnd.nextInt(4 - 1) + 1;
+								
+								switch (direccion) {
+									//Norte
+									case 1: {
+										//Colisiones de los Enemigos
+										if(mazeMatrix[(lethal_enemy.getY()/32)-1][lethal_enemy.getX()] != 1) {
+											lethal_enemy.setLocation(lethal_enemy.getX(), lethal_enemy.getY()-desplazamiento);
+											lethal_enemy.repaint();
+											break;
+										}
+									}
+									//Sur
+									case 2: {
+										//Colisiones de los Enemigos
+										if(mazeMatrix[(lethal_enemy.getY()/32)+1][lethal_enemy.getX()] != 1) {
+											lethal_enemy.setLocation(lethal_enemy.getX(), lethal_enemy.getY()+desplazamiento);
+											lethal_enemy.repaint();
+											break;
+										}
+									}
+									//Izq
+									case 3: {
+										//Colisiones de los Enemigos
+										if(mazeMatrix[(lethal_enemy.getY()/32)][lethal_enemy.getX()-1] != 1) {
+											lethal_enemy.setLocation(lethal_enemy.getX()-desplazamiento, lethal_enemy.getY());
+											lethal_enemy.repaint();
+											break;
+										}
+									}
+									//Drch
+									case 4: {
+										//Colisiones de los Enemigos
+										if(mazeMatrix[(lethal_enemy.getY()/32)][lethal_enemy.getX()+1] != 1) {
+											lethal_enemy.setLocation(lethal_enemy.getX()+desplazamiento, lethal_enemy.getY());
+											lethal_enemy.repaint();
+											break;
+										}
+									}
+								}
+							}
+							
+							for (EnemyRender stormy_enemy : listaStormy) {
+								int direccion = rnd.nextInt(4 - 1) + 1;
+								
+								switch (direccion) {
+									//Norte
+									case 1: {
+										//Colisiones de los Enemigos
+										if(mazeMatrix[(stormy_enemy.getY()/32)-1][stormy_enemy.getX()] != 1) {
+											stormy_enemy.setLocation(stormy_enemy.getX(), stormy_enemy.getY()-desplazamiento);
+											stormy_enemy.repaint();
+											break;
+										}
+									}
+									//Sur
+									case 2: {
+										//Colisiones de los Enemigos
+										if(mazeMatrix[(stormy_enemy.getY()/32)+1][stormy_enemy.getX()] != 1) {
+											stormy_enemy.setLocation(stormy_enemy.getX(), stormy_enemy.getY()+desplazamiento);
+											stormy_enemy.repaint();
+											break;
+										}
+									}
+									//Izq
+									case 3: {
+										//Colisiones de los Enemigos
+										if(mazeMatrix[(stormy_enemy.getY()/32)][stormy_enemy.getX()-1] != 1) {
+											stormy_enemy.setLocation(stormy_enemy.getX()-desplazamiento, stormy_enemy.getY());
+											stormy_enemy.repaint();
+											break;
+										}
+									}
+									//Drch
+									case 4: {
+										//Colisiones de los Enemigos
+										if(mazeMatrix[(stormy_enemy.getY()/32)][stormy_enemy.getX()+1] != 1) {
+											stormy_enemy.setLocation(stormy_enemy.getX()+desplazamiento, stormy_enemy.getY());
+											stormy_enemy.repaint();
+											break;
+										}
+									}
+								}
+							}
+							
+							
+							
+						}
+					} catch (ArrayIndexOutOfBoundsException e2) {
+					}
+
 				}
 
+				// Chequea si la posicion actualizada actual es 4 (es decir, la salida)
+				if (mazeMatrix[posY / 32][posX / 32] == 4) {
+					
+					if(llaves_acumuladas == keys) {
+						System.out.println("Pestaña Victoria");
+					}
+					else if(llaves_acumuladas < keys) {
+						System.out.println("Pestaña Perdio");
+					}
+
+				}
+			}else if(mov_actuales == mov_max) {
+				System.out.println("Ha usado todos los movimientos posibles");
 			}
 
-			// Chequea si la posicion actualizada actual es 4 (es decir, la salida)
-			if (mazeMatrix[posY / 32][posX / 32] == 4) {
-				System.out.println("LLego");
-
-				// Ocultar el juego, mostrar passState, generar nuevo mazeMatrix, dibujar nuevo
-				// mazeMatrix
-			}
 
 		}
 		// Pausa
@@ -478,16 +878,22 @@ public class Controlador implements ActionListener, KeyListener {
 
 			} else if (archer == true) {
 				select_button += "Archer";
+				apariencia = 0;
 			} else if (warrior == true) {
 				select_button += "Warrior";
+				apariencia = 1;
 			} else if (barbarian == true) {
 				select_button += "Barbarian";
+				apariencia = 3;
 			} else if (mage == true) {
 				select_button += "Mage";
+				apariencia = 5;
 			} else if (paladin == true) {
 				select_button += "Paladin";
+				apariencia = 2;
 			} else if (rogue == true) {
 				select_button += "Rogue";
+				apariencia = 4;
 			}
 			switch (select_button) {
 			case "Archer": {
@@ -495,6 +901,7 @@ public class Controlador implements ActionListener, KeyListener {
 				gameFrame.getPrgState().getArcher_concept_art().setVisible(true);
 				gameFrame.getPrgState().getCharacter_name().setText("Archer");
 				gameFrame.getPrgState().getCharacter_name_shadow().setText("Archer");
+				
 
 				break;
 			}
@@ -503,6 +910,7 @@ public class Controlador implements ActionListener, KeyListener {
 				gameFrame.getPrgState().getWarrior_concept_art().setVisible(true);
 				gameFrame.getPrgState().getCharacter_name().setText("Warrior");
 				gameFrame.getPrgState().getCharacter_name_shadow().setText("Warrior");
+				
 
 				break;
 			}
@@ -511,6 +919,7 @@ public class Controlador implements ActionListener, KeyListener {
 				gameFrame.getPrgState().getPaladin_concept_art().setVisible(true);
 				gameFrame.getPrgState().getCharacter_name().setText("Paladin");
 				gameFrame.getPrgState().getCharacter_name_shadow().setText("Paladin");
+				
 
 				break;
 			}
@@ -519,6 +928,7 @@ public class Controlador implements ActionListener, KeyListener {
 				gameFrame.getPrgState().getBarbarian_concept_art().setVisible(true);
 				gameFrame.getPrgState().getCharacter_name().setText("Barbarian");
 				gameFrame.getPrgState().getCharacter_name_shadow().setText("Barbarian");
+				
 
 				break;
 			}
@@ -527,6 +937,7 @@ public class Controlador implements ActionListener, KeyListener {
 				gameFrame.getPrgState().getRogue_concept_art().setVisible(true);
 				gameFrame.getPrgState().getCharacter_name().setText("Rogue");
 				gameFrame.getPrgState().getCharacter_name_shadow().setText("Rogue");
+				
 
 				break;
 			}
@@ -535,6 +946,7 @@ public class Controlador implements ActionListener, KeyListener {
 				gameFrame.getPrgState().getMage_concept_art().setVisible(true);
 				gameFrame.getPrgState().getCharacter_name().setText("Mage");
 				gameFrame.getPrgState().getCharacter_name_shadow().setText("Mage");
+				
 
 				break;
 			}
@@ -887,5 +1299,13 @@ public class Controlador implements ActionListener, KeyListener {
 
 	public void setCoordsCamino(ArrayList<co.edu.unbosque.modelo.Coord> coordsCamino) {
 		this.coordsCamino = coordsCamino;
+	}
+
+	public int getApariencia() {
+		return apariencia;
+	}
+
+	public void setApariencia(int apariencia) {
+		this.apariencia = apariencia;
 	}
 }

@@ -13,7 +13,6 @@ import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 
 import co.edu.unbosque.controlador.Controlador;
-import co.edu.unbosque.modelo.Coord;
 
 public class GameState extends JLayeredPane {
 
@@ -29,10 +28,17 @@ public class GameState extends JLayeredPane {
 	private Font Alagard;
 
 	private ArrayList<KeyRender> listaLlaves;
-	private int listIndex = 0;
+	private ArrayList<EnemyRender> listaLethal;
+	private ArrayList<EnemyRender> listaStormy;
+	
+	private int listIndexKeys = 0;
+	private int listIndexLethal = 0;
+	private int listIndexStormy = 0;
 
 	public GameState() {
 		listaLlaves = new ArrayList<KeyRender>();
+		listaLethal = new ArrayList<EnemyRender>();
+		listaStormy = new ArrayList<EnemyRender>();
 		// Inicialización y Empaquetamiento de la Fuente
 
 		try {
@@ -225,11 +231,13 @@ public class GameState extends JLayeredPane {
 					celdas[i].setLocation(pos_X, pos_Y);
 					pos_X += 32;
 					tablero.add(celdas[i], JLayeredPane.DEFAULT_LAYER);
-
-					EnemyRender lethal = new EnemyRender();
-					lethal.lethalRender();
-					lethal.setLocation(celdas[i].getLocation());
-					tablero.add(lethal, JLayeredPane.MODAL_LAYER);
+					
+					listaLethal.add(new EnemyRender(i, j));
+					listaLethal.get(listIndexLethal).lethalRender();
+					listaLethal.get(listIndexLethal).setLocation(celdas[i].getLocation());
+					tablero.add(listaLethal.get(listIndexLethal), JLayeredPane.MODAL_LAYER);
+					listIndexLethal++;
+					
 				}
 				
 				//Stormy
@@ -240,14 +248,14 @@ public class GameState extends JLayeredPane {
 					pos_X += 32;
 					tablero.add(celdas[i], JLayeredPane.DEFAULT_LAYER);
 					
-					EnemyRender stormy = new EnemyRender();
-					stormy.stormyRender();
-					stormy.setLocation(celdas[i].getLocation());
-					tablero.add(stormy, JLayeredPane.MODAL_LAYER);
+					listaStormy.add(new EnemyRender(i, j));
+					listaStormy.get(listIndexStormy).stormyRender();
+					listaStormy.get(listIndexStormy).setLocation(celdas[i].getLocation());
+					tablero.add(listaStormy.get(listIndexStormy), JLayeredPane.MODAL_LAYER);
+					listIndexStormy++;
 				}
 
 				//Llave
-				
 				if (mazeMatrix[i][j] == 5) {
 					celdas[i] = new JLabel(new ImageIcon("src/Assets/Floor/floor4.png"));
 					celdas[i].setSize(32, 32);
@@ -256,14 +264,9 @@ public class GameState extends JLayeredPane {
 					tablero.add(celdas[i], JLayeredPane.DEFAULT_LAYER);
 					
 					listaLlaves.add(new KeyRender(i, j));
-					listaLlaves.get(listIndex).setLocation(celdas[i].getLocation());
-					tablero.add(listaLlaves.get(listIndex), JLayeredPane.MODAL_LAYER);
-					listIndex++;
-
-//					key = new KeyRender();
-//					key.setLocation(celdas[i].getLocation());
-//					tablero.add(key, JLayeredPane.MODAL_LAYER);
-					
+					listaLlaves.get(listIndexKeys).setLocation(celdas[i].getLocation());
+					tablero.add(listaLlaves.get(listIndexKeys), JLayeredPane.MODAL_LAYER);
+					listIndexKeys++;
 
 				}
 
@@ -281,6 +284,7 @@ public class GameState extends JLayeredPane {
 					tablero.add(player, JLayeredPane.DRAG_LAYER);
 
 				}
+				
 				//Salida
 				if (mazeMatrix[i][j] == 4) {
 					celdas[i] = new JLabel(new ImageIcon("src/Assets/Wall/WallTileFinish.png"));
@@ -423,6 +427,22 @@ public class GameState extends JLayeredPane {
 
 	public void setListaLlaves(ArrayList<KeyRender> listaLlaves) {
 		this.listaLlaves = listaLlaves;
+	}
+
+	public ArrayList<EnemyRender> getListaLethal() {
+		return listaLethal;
+	}
+
+	public void setListaLethal(ArrayList<EnemyRender> listaLethal) {
+		this.listaLethal = listaLethal;
+	}
+
+	public ArrayList<EnemyRender> getListaStormy() {
+		return listaStormy;
+	}
+
+	public void setListaStormy(ArrayList<EnemyRender> listaStormy) {
+		this.listaStormy = listaStormy;
 	}
 
 }

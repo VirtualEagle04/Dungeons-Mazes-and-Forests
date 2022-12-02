@@ -114,10 +114,10 @@ public class PauseState extends JLayeredPane {
 
 		enemys_info = new JTextArea();
 		enemys_info.setText(
-				"|There are two tipes of enemys, take care|\n\n" + "|The Lethal Assasin will kill you inmediately|\n\n"
-						+ "| The Sthormy only reduces your movements,\ntake care of him|\n\n"
-						+ "| if you see the Lethal Assasin and is next to\n you, GAME OVER :(|\n\n"
-						+ "| and if you see the sthormy and is next to\nyou, movements -5% >:(|\n\n");
+				"|There are two types of enemies, take care|\n\n" + "|The Lethal Assasin will kill you inmediately|\n\n"
+						+ "| The Stormy only reduces your movements,\nbe wary of him|\n\n"
+						+ "| If the Lethal Assasin is next to\n you, GAME OVER :(|\n\n"
+						+ "| If the Stormy is next to you, \nMAX movements -5% >:(|\n\n");
 		enemys_info.setFont(Alagard);
 		enemys_info.setFont(enemys_info.getFont().deriveFont(Font.PLAIN, 21));
 		enemys_info.setBounds(8, 8, 537, 290);
@@ -126,9 +126,9 @@ public class PauseState extends JLayeredPane {
 		enemys_info.setEditable(false);
 
 		game_info = new JTextArea();
-		game_info.setText("|Take the keys to complete the Game|\n\n" + "| if you don't have all the keys, you"
-				+ " can't\nfinish the laberynth, take all|\n\n" + "| your movementes are limited and the\n"
-				+ "cuantity of your movements is the" + " size you\nenter before start to play|\n\n");
+		game_info.setText("|Take the keys to complete the Game|\n\n" + "| If you don't have all the keys, you"
+				+ " can't\nfinish the laberynth, take them all|\n\n" + "| Your movements are limited. The\n"
+				+ "quantity of your movements is the" + " product \nof the Rows x Columns|\n\n");
 		game_info.setFont(Alagard);
 		game_info.setFont(game_info.getFont().deriveFont(Font.PLAIN, 21));
 		game_info.setForeground(Color.white);

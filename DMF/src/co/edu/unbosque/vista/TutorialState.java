@@ -20,7 +20,7 @@ public class TutorialState extends JLayeredPane {
 	private JLabel tuBackground, tutorial_indications, key_tutorial, tuTitle, tuTitle_shadow, arrow_key, keys_indicator,
 			wasd_indicator, lethal_indicator, sthormy_indicator, tuCharacters, move_title, move_title_shadow,
 			enemy_title, enemy_title_shadow, game_title, game_title_shadow;
-	private JTextArea movement_info, enemys_info, game_info;
+	private JTextArea movement_info, enemies_info, game_info;
 	private JPanel panel_ch;
 	private Font Alagard;
 	private String sex;
@@ -100,9 +100,9 @@ public class TutorialState extends JLayeredPane {
 		// text information
 
 		movement_info = new JTextArea();
-		movement_info.setText("|Press any keys of they to move in the laberynth|\n\n"
-				+ "|Use KeyW or ArrowUP to move UP|\n\n" + "|Use keyA or ArrowLeft to move to the left|\n\n"
-				+ "|Use KeyS or ArrowDown to move down|\n\n" + "|Use KeyD or ArrowRight to move to the right|");
+		movement_info.setText("|Press any key to move in the laberynth|\n\n"
+				+ "|Use W Key or Arrow UP to move UP|\n\n" + "|Use A Key or Arrow LEFT to move to the LEFT|\n\n"
+				+ "|Use S Key or Arrow DOWN to move DOWN|\n\n" + "|Use D Key or Arrow RIGHT to move to the RIGHT|");
 		movement_info.setFont(Alagard);
 		movement_info.setFont(movement_info.getFont().deriveFont(Font.PLAIN, 18));
 		movement_info.setBackground(new Color(0, 0, 0, 120));
@@ -110,26 +110,26 @@ public class TutorialState extends JLayeredPane {
 		movement_info.setBounds(136, 150, 415, 190);
 		movement_info.setEditable(false);
 
-		enemys_info = new JTextArea();
-		enemys_info.setText(
-				"|There are two tipes of enemys, take care|\n\n" + "|The Lethal Assasin will kill you inmediately|\n\n"
-						+ "|The Sthormy only reduces your movements, take care of him|\n\n"
-						+ "|if you see the Lethal Assasin and is next to you, GAME OVER|\n\n"
-						+ "|and if you see the sthormy and is next to you, movements -5%|\n\n");
-		enemys_info.setFont(Alagard);
-		enemys_info.setFont(enemys_info.getFont().deriveFont(Font.PLAIN, 18));
-		enemys_info.setBounds(30, 420, 537, 200);
-		enemys_info.setForeground(Color.white);
-		enemys_info.setBackground(new Color(0, 0, 0, 120));
-		enemys_info.setEditable(false);
+		enemies_info = new JTextArea();
+		enemies_info.setText(
+				"|There are two types of enemies, take care|\n\n" + "|The Lethal Assasin will kill you inmediately|\n\n"
+						+ "|The Stormy only reduces your movements, be wary of him|\n\n"
+						+ "|If the Lethal Assasin is next to you, GAME OVER|\n\n"
+						+ "|If the Stormy is next to you, MAX movements -5%|\n\n");
+		enemies_info.setFont(Alagard);
+		enemies_info.setFont(enemies_info.getFont().deriveFont(Font.PLAIN, 18));
+		enemies_info.setBounds(30, 420, 537, 200);
+		enemies_info.setForeground(Color.white);
+		enemies_info.setBackground(new Color(0, 0, 0, 120));
+		enemies_info.setEditable(false);
 
 		game_info = new JTextArea();
-		game_info.setText("|Take the keys to complete the Game|\n\n" + "|if you don't have all the keys, you\n"
-				+ " can't finish the laberynth, take all|\n\n" + "|your movementes are limited and the\n"
-				+ " cuantity of your movements is the\n" + " size you enter before start to play|\n\n"
-				+ "|you can select one of the six \n" + "characters, look stronger with your \n"
-				+ "favourite character >:)|\n\n" + "They are the characters that you can \n" + "select:\n\n\n\n\n\n\n"
-				+ "|Exist six class of characters: archer\n" + "warrior, barbarian, mage, paladin and \n" + "rogue|");
+		game_info.setText("|Take the keys to complete the game|\n\n" + "|If you don't have all the keys, you\n"
+				+ " can't finish the laberynth|\n\n" + "|Your movements are limited. The\n"
+				+ " quantity of your movements is the\n" + " product of the Rows x Columns|\n\n"
+				+ "|You can select one of the six \n" + "characters: Look stronger with your \n"
+				+ "favourite character >:)|\n\n" + "These are the characters that you can \n" + "choose from:\n\n\n\n\n\n\n"
+				+ "|There are six classes: Archer\n" + "Warrior, Barbarian, Mage, Paladin and \n" + "Rogue|");
 		game_info.setFont(Alagard);
 		game_info.setFont(game_info.getFont().deriveFont(Font.PLAIN, 18));
 		game_info.setForeground(Color.white);
@@ -140,14 +140,14 @@ public class TutorialState extends JLayeredPane {
 		// information titles
 
 		enemy_title = new JLabel();
-		enemy_title.setText("Enemys");
+		enemy_title.setText("Enemies");
 		enemy_title.setFont(Alagard);
 		enemy_title.setFont(enemy_title.getFont().deriveFont(Font.PLAIN, 23));
 		enemy_title.setBounds(260, 390, 140, 21);
 		enemy_title.setForeground(Color.white);
 		
 		enemy_title_shadow = new JLabel();
-		enemy_title_shadow.setText("Enemys");
+		enemy_title_shadow.setText("Enemies");
 		enemy_title_shadow.setFont(Alagard);
 		enemy_title_shadow.setFont(enemy_title.getFont().deriveFont(Font.PLAIN, 23));
 		enemy_title_shadow.setBounds(263, 393, 140, 21);
@@ -168,14 +168,14 @@ public class TutorialState extends JLayeredPane {
 		move_title_shadow.setForeground(Color.DARK_GRAY);
 
 		game_title = new JLabel();
-		game_title.setText("Game info");
+		game_title.setText("Game Info");
 		game_title.setFont(Alagard);
 		game_title.setFont(game_title.getFont().deriveFont(Font.PLAIN, 23));
 		game_title.setForeground(Color.white);
 		game_title.setBounds(760, 120, 140, 23);
 		
 		game_title_shadow = new JLabel();
-		game_title_shadow.setText("Game info");
+		game_title_shadow.setText("Game Info");
 		game_title_shadow.setFont(Alagard);
 		game_title_shadow.setFont(game_title.getFont().deriveFont(Font.PLAIN, 23));
 		game_title_shadow.setForeground(Color.DARK_GRAY);
@@ -194,7 +194,7 @@ public class TutorialState extends JLayeredPane {
 		
 		//information
 		add(panel_ch);
-		add(enemys_info);
+		add(enemies_info);
 		add(game_info);
 		add(movement_info);
 		
@@ -326,14 +326,6 @@ public class TutorialState extends JLayeredPane {
 		this.movement_info = movement_info;
 	}
 
-	public JTextArea getEnemys_info() {
-		return enemys_info;
-	}
-
-	public void setEnemys_info(JTextArea enemys_info) {
-		this.enemys_info = enemys_info;
-	}
-
 	public JTextArea getGame_info() {
 		return game_info;
 	}
@@ -462,6 +454,14 @@ public class TutorialState extends JLayeredPane {
 		
 		tuMusic.setFile(i);
 		tuMusic.play();
+	}
+
+	public JTextArea getEnemies_info() {
+		return enemies_info;
+	}
+
+	public void setEnemies_info(JTextArea enemies_info) {
+		this.enemies_info = enemies_info;
 	}
 
 }
