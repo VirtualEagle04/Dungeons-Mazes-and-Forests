@@ -28,6 +28,7 @@ public class PreGameState extends JLayeredPane {
 	private JTextArea size_inf, size_inf_shadow;
 	private Font Alagard;
 	private Controlador c;
+	private Sound PrgMusic;
 
 	public PreGameState() {
 
@@ -216,6 +217,8 @@ public class PreGameState extends JLayeredPane {
 		cantidad_llaves.setBackground(Color.DARK_GRAY);
 		cantidad_llaves.setForeground(Color.WHITE);
 		cantidad_llaves.setToolTipText("Min: 2   Max: 5");
+		
+		PrgMusic = new Sound();
 
 		llaves_indicador = new JLabel();
 		llaves_indicador.setForeground(Color.white);
@@ -494,6 +497,12 @@ public class PreGameState extends JLayeredPane {
 
 	public void setC(Controlador c) {
 		this.c = c;
+	}
+	
+public void playSE(int i) {
+		
+		PrgMusic.setFile(i);
+		PrgMusic.play();
 	}
 
 }

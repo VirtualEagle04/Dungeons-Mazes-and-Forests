@@ -132,9 +132,9 @@ public class TitleState extends JLayeredPane {
 		tsMusic.loop();
 	}
 	
-	public void stopMusic() {
+	public void stopMusic(int i) {
 		
-		tsMusic.stop();
+		tsMusic.stop(i);
 	}
 
 	//Getters & Setters

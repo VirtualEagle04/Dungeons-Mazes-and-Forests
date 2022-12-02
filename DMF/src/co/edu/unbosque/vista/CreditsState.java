@@ -75,8 +75,14 @@ public class CreditsState extends JLayeredPane{
 			crMusic.loop();
 		}
 		
-		public void stopMusic() {
+		public void stopMusic(int i) {
 			
-			crMusic.stop();
+			crMusic.stop(i);
+		}
+		
+		public void playSE(int i) {
+			
+			crMusic.setFile(i);
+			crMusic.play();
 		}
 }

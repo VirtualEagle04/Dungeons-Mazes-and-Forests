@@ -406,9 +406,15 @@ public class CharacterState extends JLayeredPane {
 		ChMusic.loop();
 	}
 
-	public void stopMusic() {
+	public void stopMusic(int i) {
 
-		ChMusic.stop();
+		ChMusic.stop(i);
+	}
+	
+	public void playSE(int i) {
+		
+		ChMusic.setFile(i);
+		ChMusic.play();
 	}
 
 }
