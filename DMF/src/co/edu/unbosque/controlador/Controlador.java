@@ -630,6 +630,8 @@ public class Controlador implements ActionListener, KeyListener {
 				actualESC = true;
 			} else if (actualESC = true) {
 				gameFrame.getpState().setVisible(false);
+				gameFrame.getGameState().getPause_text().setVisible(true);
+				gameFrame.getGameState().getEsc_button().setVisible(true);
 				
 				actualESC = false;
 			}
@@ -1035,7 +1037,7 @@ public class Controlador implements ActionListener, KeyListener {
 			stormy = Integer.parseInt(gameFrame.getPrgState().getCantidad_stormy().getText());
 
 			// Condicional para las dimensiones del Laberinto
-			if ((rows < 5 || rows > 20) && (columns < 5 || columns > 20)) {
+			if ((rows < 5 || rows > 20) || (columns < 5 || columns > 20)) {
 				gameFrame.getPrgState().getEntrada_Y().setBackground(Color.RED);
 				gameFrame.getPrgState().getEntrada_Y().setText("");
 
@@ -1056,7 +1058,7 @@ public class Controlador implements ActionListener, KeyListener {
 				confirmacion_gen++;
 			}
 			// Condicional de los Asesinos Letales
-			if (lethal < 1 || lethal > keys || lethal == rows || stormy == columns) {
+			if (lethal < 1 || lethal > keys) {
 				gameFrame.getPrgState().getCantidad_lethal().setBackground(Color.RED);
 				gameFrame.getPrgState().getCantidad_lethal().setText("");
 			} else {
@@ -1064,7 +1066,7 @@ public class Controlador implements ActionListener, KeyListener {
 				confirmacion_gen++;
 			}
 			// Condicional de los Tormentosos
-			if (stormy < 1 || stormy > keys || stormy == rows || stormy == columns) {
+			if (stormy < 1 || stormy > keys) {
 				gameFrame.getPrgState().getCantidad_stormy().setBackground(Color.RED);
 				gameFrame.getPrgState().getCantidad_stormy().setText("");
 			} else {
