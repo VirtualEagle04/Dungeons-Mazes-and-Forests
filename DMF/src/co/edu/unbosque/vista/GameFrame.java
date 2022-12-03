@@ -7,7 +7,6 @@ public class GameFrame extends JFrame{
 	
 	private GameState gameState;
 	private TitleState tsState;
-	private OptionsState opState;
 	private CharacterState chState;
 	private PauseState pState;
 	private TutorialState tuState;
@@ -16,7 +15,6 @@ public class GameFrame extends JFrame{
 
 	public GameFrame() {
 		tsState = new TitleState();
-		opState = new OptionsState();
 		chState = new CharacterState();
 		pState = new PauseState();
 		tuState = new TutorialState();
@@ -36,7 +34,6 @@ public class GameFrame extends JFrame{
 		setFocusable(true);
 		
 		add(tsState).setVisible(true);
-		add(opState).setVisible(false);
 		add(chState).setVisible(false);
 		add(pState, JLayeredPane.MODAL_LAYER);
 		this.pState.setVisible(false);
@@ -63,15 +60,7 @@ public class GameFrame extends JFrame{
 	public void setTsState(TitleState tsState) {
 		this.tsState = tsState;
 	}
-
-	public OptionsState getOpState() {
-		return opState;
-	}
-
-	public void setOpState(OptionsState opState) {
-		this.opState = opState;
-	}
-
+	
 	public CharacterState getChState() {
 		return chState;
 	}

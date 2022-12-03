@@ -767,9 +767,6 @@ public class Controlador implements ActionListener, KeyListener, ChangeListener 
 		gameFrame.getTsState().getTsNewGame().addActionListener(this);
 		gameFrame.getTsState().getTsNewGame().setActionCommand("new_game_button");
 
-		gameFrame.getTsState().getTsOptions().addActionListener(this);
-		gameFrame.getTsState().getTsOptions().setActionCommand("options_button");
-
 		gameFrame.getTsState().getTsTutorial().addActionListener(this);
 		gameFrame.getTsState().getTsTutorial().setActionCommand("tutorial_button");
 
@@ -805,9 +802,6 @@ public class Controlador implements ActionListener, KeyListener, ChangeListener 
 		gameFrame.getChState().getBack_button().addActionListener(this);
 		gameFrame.getChState().getBack_button().setActionCommand("cs_back_button");
 
-		gameFrame.getOpState().getBack_button().addActionListener(this);
-		gameFrame.getOpState().getBack_button().setActionCommand("op_back_button");
-
 		gameFrame.getCrState().getBack_button().addActionListener(this);
 		gameFrame.getCrState().getBack_button().setActionCommand("cr_back_button");
 
@@ -835,7 +829,6 @@ public class Controlador implements ActionListener, KeyListener, ChangeListener 
 		gameFrame.getpState().getInstructions_button().setActionCommand("pause_instruction_button");
 		
 		gameFrame.getpState().getMusic_volume().addChangeListener(this);
-		gameFrame.getpState().getSfx_volume().addChangeListener(this);
 
 	}
 	
@@ -861,15 +854,6 @@ public class Controlador implements ActionListener, KeyListener, ChangeListener 
 
 			gameFrame.getChState().setVisible(true);
 
-			break;
-		}
-		case "options_button": {
-			gameFrame.getTsState().setVisible(false);
-			gameFrame.getTsState().stopMusic(0);
-			gameFrame.getOpState().playSE(8);
-			gameFrame.getOpState().playMusic(1);
-
-			gameFrame.getOpState().setVisible(true);
 			break;
 		}
 		case "tutorial_button": {
@@ -1089,15 +1073,6 @@ public class Controlador implements ActionListener, KeyListener, ChangeListener 
 			gameFrame.getCrState().setVisible(false);
 			gameFrame.getTsState().setVisible(true);
 			gameFrame.getCrState().stopMusic(2);
-			gameFrame.getTsState().playMusic(0);
-
-			break;
-		}
-		case "op_back_button": {
-
-			gameFrame.getOpState().setVisible(false);
-			gameFrame.getTsState().setVisible(true);
-			gameFrame.getOpState().stopMusic(1);
 			gameFrame.getTsState().playMusic(0);
 
 			break;

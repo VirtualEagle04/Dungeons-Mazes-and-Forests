@@ -19,9 +19,8 @@ public class PauseState extends JLayeredPane {
 	private Font Alagard;
 	private JPanel pause_panel, panel_op, panel_tu;
 	private JButton resume_button, options_button, back_button, instructions_button;
-	private JLabel controls_text, controls_text_shadow, image_keys_wasd, image_keys_arrows, volume_op, volume_op_shadow,
-			sfx_op, sfx_op_shadow;
-	private JSlider music_volume, sfx_volume;
+	private JLabel controls_text, controls_text_shadow, image_keys_wasd, image_keys_arrows, volume_op, volume_op_shadow;
+	private JSlider music_volume;
 	private JTextArea game_info, enemys_info;
 
 	public PauseState() {
@@ -68,10 +67,6 @@ public class PauseState extends JLayeredPane {
 		music_volume.setBounds(70, 70, 320, 20);
 		music_volume.setBackground(new Color(0, 0, 0, 180));
 
-		sfx_volume = new JSlider();
-		sfx_volume.setBounds(70, 170, 320, 20);
-		sfx_volume.setBackground(new Color(0, 0, 0, 180));
-
 		// options buttons
 
 		instructions_button = new JButton();
@@ -96,19 +91,6 @@ public class PauseState extends JLayeredPane {
 		volume_op_shadow.setBounds(153, 33, 200, 20);
 		volume_op_shadow.setFont(Alagard);
 		volume_op_shadow.setFont(volume_op_shadow.getFont().deriveFont(Font.ITALIC, 25));
-
-		sfx_op = new JLabel();
-		sfx_op.setText("Effects Volume");
-		sfx_op.setBounds(150, 130, 200, 20);
-		sfx_op.setFont(Alagard);
-		sfx_op.setFont(sfx_op.getFont().deriveFont(Font.ITALIC, 25));
-		sfx_op.setForeground(Color.white);
-
-		sfx_op_shadow = new JLabel();
-		sfx_op_shadow.setText("Effects Volume");
-		sfx_op_shadow.setBounds(153, 133, 200, 20);
-		sfx_op_shadow.setFont(Alagard);
-		sfx_op_shadow.setFont(sfx_op_shadow.getFont().deriveFont(Font.ITALIC, 25));
 
 		// instructions information
 
@@ -193,12 +175,9 @@ public class PauseState extends JLayeredPane {
 
 		// options panel
 		panel_op.add(music_volume);
-		panel_op.add(sfx_volume);
 		panel_op.add(instructions_button);
 		panel_op.add(volume_op, JLayeredPane.MODAL_LAYER);
 		panel_op.add(volume_op_shadow, JLayeredPane.DEFAULT_LAYER);
-		panel_op.add(sfx_op, JLayeredPane.MODAL_LAYER);
-		panel_op.add(sfx_op_shadow, JLayeredPane.DEFAULT_LAYER);
 
 		// indications panel
 		panel_tu.add(enemys_info);
@@ -300,27 +279,6 @@ public class PauseState extends JLayeredPane {
 		this.volume_op_shadow = volume_op_shadow;
 	}
 
-
-	public JLabel getSfx_op() {
-		return sfx_op;
-	}
-
-
-	public void setSfx_op(JLabel sfx_op) {
-		this.sfx_op = sfx_op;
-	}
-
-
-	public JLabel getSfx_op_shadow() {
-		return sfx_op_shadow;
-	}
-
-
-	public void setSfx_op_shadow(JLabel sfx_op_shadow) {
-		this.sfx_op_shadow = sfx_op_shadow;
-	}
-
-
 	public JSlider getMusic_volume() {
 		return music_volume;
 	}
@@ -329,17 +287,6 @@ public class PauseState extends JLayeredPane {
 	public void setMusic_volume(JSlider music_volume) {
 		this.music_volume = music_volume;
 	}
-
-
-	public JSlider getSfx_volume() {
-		return sfx_volume;
-	}
-
-
-	public void setSfx_volume(JSlider sfx_volume) {
-		this.sfx_volume = sfx_volume;
-	}
-
 
 	public JTextArea getGame_info() {
 		return game_info;

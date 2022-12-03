@@ -14,7 +14,7 @@ import javax.swing.JLayeredPane;
 
 public class TitleState extends JLayeredPane {
 	// Components
-	private JButton tsNewGame, tsOptions, tsTutorial, tsQuit, tsCredits;
+	private JButton tsNewGame, tsTutorial, tsQuit, tsCredits;
 	private JLabel tsLogo, tsBackground, tsLogoShadow;
 	private Sound tsMusic;
 	private Font Alagard ;
@@ -65,16 +65,6 @@ public class TitleState extends JLayeredPane {
 		tsNewGame.setLocation(380, 330);
 		tsNewGame.setBorderPainted(false);
 
-		tsOptions = new JButton();
-		tsOptions.setSize(250, 20);
-		tsOptions.setText("Options");
-		tsOptions.setFont(Alagard);
-		tsOptions.setFont(tsLogo.getFont().deriveFont(Font.ITALIC, 20));
-		tsOptions.setBackground(Color.DARK_GRAY);
-		tsOptions.setForeground(Color.WHITE);
-		tsOptions.setLocation(380, 370);
-		tsOptions.setBorderPainted(false);
-
 		tsTutorial = new JButton();
 		tsTutorial.setSize(250, 20);
 		tsTutorial.setText("How to Play");
@@ -82,7 +72,7 @@ public class TitleState extends JLayeredPane {
 		tsTutorial.setFont(tsLogo.getFont().deriveFont(Font.ITALIC, 20));
 		tsTutorial.setBackground(Color.DARK_GRAY);
 		tsTutorial.setForeground(Color.WHITE);
-		tsTutorial.setLocation(380, 410);
+		tsTutorial.setLocation(380, 370);
 		tsTutorial.setBorderPainted(false);
 
 		tsCredits = new JButton();
@@ -92,7 +82,7 @@ public class TitleState extends JLayeredPane {
 		tsCredits.setFont(tsLogo.getFont().deriveFont(Font.ITALIC, 20));
 		tsCredits.setBackground(Color.DARK_GRAY);
 		tsCredits.setForeground(Color.WHITE);
-		tsCredits.setLocation(380, 450);
+		tsCredits.setLocation(380, 410);
 		tsCredits.setBorderPainted(false);
 
 		tsQuit = new JButton();
@@ -102,7 +92,7 @@ public class TitleState extends JLayeredPane {
 		tsQuit.setFont(tsLogo.getFont().deriveFont(Font.ITALIC, 20));
 		tsQuit.setBackground(Color.DARK_GRAY);
 		tsQuit.setForeground(Color.WHITE);
-		tsQuit.setLocation(380, 490);
+		tsQuit.setLocation(380, 450);
 		tsQuit.setBorderPainted(false);
 		
 		tsMusic = new Sound();
@@ -113,7 +103,6 @@ public class TitleState extends JLayeredPane {
 
 		// Buttons
 		add(tsNewGame, JLayeredPane.MODAL_LAYER);
-		add(tsOptions, JLayeredPane.MODAL_LAYER);
 		add(tsTutorial, JLayeredPane.MODAL_LAYER);
 		add(tsQuit, JLayeredPane.MODAL_LAYER);
 		add(tsCredits, JLayeredPane.MODAL_LAYER);
@@ -144,14 +133,6 @@ public class TitleState extends JLayeredPane {
 
 	public void setTsNewGame(JButton tsNewGame) {
 		this.tsNewGame = tsNewGame;
-	}
-
-	public JButton getTsOptions() {
-		return tsOptions;
-	}
-
-	public void setTsOptions(JButton tsOptions) {
-		this.tsOptions = tsOptions;
 	}
 
 	public JButton getTsTutorial() {
