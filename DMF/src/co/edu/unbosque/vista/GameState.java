@@ -391,7 +391,9 @@ public class GameState extends JLayeredPane {
 		add(key_indicator, JLayeredPane.MODAL_LAYER);
 		add(key_indicator_shadow, JLayeredPane.PALETTE_LAYER);
 		add(restant_keys, JLayeredPane.DRAG_LAYER);
+		this.advise_key.setVisible(false);
 		add(advise_key, JLayeredPane.DRAG_LAYER);
+		this.advise_movement.setVisible(false);
 		add(advise_movement, JLayeredPane.DRAG_LAYER);
 		add(movement_indicator, JLayeredPane.DRAG_LAYER);
 		add(movement_indicator_shadow, JLayeredPane.POPUP_LAYER);
@@ -619,6 +621,14 @@ public class GameState extends JLayeredPane {
 
 	public void setRestant_movements(JLabel restant_movements) {
 		this.restant_movements = restant_movements;
+	}
+
+	public JTextArea getAdvise_movement() {
+		return advise_movement;
+	}
+
+	public void setAdvise_movement(JTextArea advise_movement) {
+		this.advise_movement = advise_movement;
 	}
 
 }

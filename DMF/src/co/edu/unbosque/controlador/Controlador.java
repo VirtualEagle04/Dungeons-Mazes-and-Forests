@@ -371,6 +371,15 @@ public class Controlador implements ActionListener, KeyListener, ChangeListener 
 									
 								}
 								
+								//Verificar contacto con dos muros a los dos lados	
+								if(((mazeMatrix[posY / 32][(posX / 32) - 1] == 1) && (mazeMatrix[posY / 32][(posX / 32) + 1] == 1)) 
+								|| ((mazeMatrix[(posY / 32) - 1][posX / 32] == 1) && (mazeMatrix[(posY / 32) + 1][posX / 32] == 1))) {
+									
+									mov_max -= ((posY / 32)+(posX / 32));
+									gameFrame.getGameState().playSE(14);
+									
+								}
+								
 //								//Debug
 //								for(int i = 0; i < mazeMatrix.length; i++) {
 //									for (int j = 0; j < mazeMatrix[i].length; j++) {
@@ -627,6 +636,16 @@ public class Controlador implements ActionListener, KeyListener, ChangeListener 
 									
 									mov_max = mov_max-((5*mov_max)/100);
 								}
+								
+								//Verificar contacto con dos muros a los dos lados	
+								if(((mazeMatrix[posY / 32][(posX / 32) - 1] == 1) && (mazeMatrix[posY / 32][(posX / 32) + 1] == 1)) 
+								|| ((mazeMatrix[(posY / 32) - 1][posX / 32] == 1) && (mazeMatrix[(posY / 32) + 1][posX / 32] == 1))) {
+									
+									mov_max -= ((posY / 32)+(posX / 32));
+									gameFrame.getGameState().playSE(14);
+									
+								}
+								
 								
 //								//Debug
 //								for(int i = 0; i < mazeMatrix.length; i++) {
@@ -888,6 +907,16 @@ public class Controlador implements ActionListener, KeyListener, ChangeListener 
 									mov_max = mov_max-((5*mov_max)/100);
 								}
 								
+								//Verificar contacto con dos muros a los dos lados	
+								if(((mazeMatrix[posY / 32][(posX / 32) - 1] == 1) && (mazeMatrix[posY / 32][(posX / 32) + 1] == 1)) 
+								|| ((mazeMatrix[(posY / 32) - 1][posX / 32] == 1) && (mazeMatrix[(posY / 32) + 1][posX / 32] == 1))) {
+									
+									mov_max -= ((posY / 32)+(posX / 32));
+									gameFrame.getGameState().playSE(14);
+									
+								}
+								
+								
 //								//Debug
 //								for(int i = 0; i < mazeMatrix.length; i++) {
 //									for (int j = 0; j < mazeMatrix[i].length; j++) {
@@ -1142,6 +1171,16 @@ public class Controlador implements ActionListener, KeyListener, ChangeListener 
 									mov_max = mov_max-((5*mov_max)/100);
 								}
 								
+								
+								//Verificar contacto con dos muros a los dos lados	
+								if(((mazeMatrix[posY / 32][(posX / 32) - 1] == 1) && (mazeMatrix[posY / 32][(posX / 32) + 1] == 1)) 
+								|| ((mazeMatrix[(posY / 32) - 1][posX / 32] == 1) && (mazeMatrix[(posY / 32) + 1][posX / 32] == 1))) {
+									
+									mov_max -= ((posY / 32)+(posX / 32));
+									gameFrame.getGameState().playSE(14);
+									
+								}
+								
 //								//Debug
 //								for(int i = 0; i < mazeMatrix.length; i++) {
 //									for (int j = 0; j < mazeMatrix[i].length; j++) {
@@ -1177,6 +1216,10 @@ public class Controlador implements ActionListener, KeyListener, ChangeListener 
 
 					}
 				}else if(mov_actuales == mov_max) {
+					gameFrame.geteState().setVisible(true);
+					gameFrame.geteState().getLost_panel().setVisible(true);
+					gameFrame.geteState().getVictory_panel().setVisible(false);
+					gameFrame.getGameState().getAdvise_movement().setVisible(true);
 					gameFrame.getGameState().playSE(14);
 				}
 
@@ -1612,6 +1655,11 @@ public class Controlador implements ActionListener, KeyListener, ChangeListener 
 			reves = gameFrame.getPrgState().getInvert_button2().isSelected();
 			
 			llaves_restantes = keys;
+			
+			gameFrame.geteState().setVisible(false);
+			gameFrame.geteState().getVictory_panel().setVisible(false);
+			gameFrame.geteState().getLost_panel().setVisible(false);
+			
 
 			// Condicional para las dimensiones del Laberinto
 			if ((rows < 5 || rows > 20) || (columns < 5 || columns > 20)) {
@@ -1706,7 +1754,8 @@ public class Controlador implements ActionListener, KeyListener, ChangeListener 
 		}
 		case "pause_instruction_button": {
 
-			gameFrame.dispose();
+			mov_max -= 2;
+			gameFrame.getGameState().playSE(14);
 			
 			gameFrame.getpState().getPanel_tu().setVisible(true);
 			gameFrame.getpState().getPanel_op().setVisible(false);
