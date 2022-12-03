@@ -12,6 +12,7 @@ public class GameFrame extends JFrame{
 	private TutorialState tuState;
 	private CreditsState crState;
 	private PreGameState prgState;
+	private EndState eState;
 
 	public GameFrame() {
 		tsState = new TitleState();
@@ -21,6 +22,7 @@ public class GameFrame extends JFrame{
 		crState = new CreditsState();
 		prgState = new PreGameState();
 		gameState = new GameState();
+		eState = new EndState();
 		
 		
 		
@@ -33,6 +35,8 @@ public class GameFrame extends JFrame{
 		setLayout(null);
 		setFocusable(true);
 		
+		add(eState, JLayeredPane.DRAG_LAYER);
+		this.eState.setVisible(true);
 		add(tsState).setVisible(true);
 		add(chState).setVisible(false);
 		add(pState, JLayeredPane.MODAL_LAYER);
@@ -43,6 +47,14 @@ public class GameFrame extends JFrame{
 		add(gameState).setVisible(false);
 
 		setVisible(true);
+	}
+
+	public EndState geteState() {
+		return eState;
+	}
+
+	public void seteState(EndState eState) {
+		this.eState = eState;
 	}
 
 	public GameState getGameState() {

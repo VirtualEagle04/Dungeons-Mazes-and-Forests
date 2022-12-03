@@ -244,7 +244,7 @@ public class PreGameState extends JLayeredPane {
 		invert_button.setFont(invert_button.getFont().deriveFont(Font.BOLD,17));
 		invert_button.setForeground(Color.white);
 		invert_button.setBackground(Color.black);
-		invert_button.setSize(240,50);
+		invert_button.setSize(255,50);
 		invert_button.setLocation(500,460);
 
 		//
