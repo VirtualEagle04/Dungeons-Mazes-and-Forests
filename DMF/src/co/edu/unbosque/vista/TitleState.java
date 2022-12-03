@@ -43,7 +43,7 @@ public class TitleState extends JLayeredPane {
 		tsInfo.setFont(Alagard);
 		tsInfo.setFont(tsInfo.getFont().deriveFont(Font.ITALIC, 15));
 		tsInfo.setForeground(Color.WHITE);
-		tsInfo.setText("DMF ver. 69");
+		tsInfo.setText("DMF ver. 6.2");
 		tsInfo.setSize(380, 330);
 		tsInfo.setLocation(10, 538);
 		
