@@ -125,6 +125,12 @@ public class TitleState extends JLayeredPane {
 		
 		tsMusic.stop(i);
 	}
+	
+	public void playSE(int i) {
+		
+		tsMusic.setFile(i);
+		tsMusic.play();
+	}
 
 	//Getters & Setters
 	public JButton getTsNewGame() {

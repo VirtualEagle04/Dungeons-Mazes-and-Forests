@@ -304,61 +304,72 @@ public class Controlador implements ActionListener, KeyListener, ChangeListener 
 								//Verificar contacto con el enemigo Lethal en la cuatro direcciones
 								if (mazeMatrix[(posY / 32) - 1][posX / 32] == 2) {
 									//AQUI VA EL SONIDO DEL ASESINO LETAL
-									
+									gameFrame.getGameState().playSE(11);
 									
 									gameFrame.geteState().setVisible(true);
 									gameFrame.geteState().getLost_panel().setVisible(true);
 									gameFrame.geteState().getVictory_panel().setVisible(false);
+									
 								}
 								if (mazeMatrix[(posY / 32) + 1][posX / 32] == 2) {
 									//AQUI VA EL SONIDO DEL ASESINO LETAL
-									
+									gameFrame.getGameState().playSE(11);
 									
 									gameFrame.geteState().setVisible(true);
 									gameFrame.geteState().getLost_panel().setVisible(true);
 									gameFrame.geteState().getVictory_panel().setVisible(false);
+									
 								}
 								if (mazeMatrix[posY / 32][(posX / 32) - 1] == 2) {
 									//AQUI VA EL SONIDO DEL ASESINO LETAL
-									
+									gameFrame.getGameState().playSE(11);
 									
 									gameFrame.geteState().setVisible(true);
 									gameFrame.geteState().getLost_panel().setVisible(true);
 									gameFrame.geteState().getVictory_panel().setVisible(false);
+									
 								}
 								if (mazeMatrix[posY / 32][(posX / 32) + 1] == 2) {
 									//AQUI VA EL SONIDO DEL ASESINO LETAL
-									
+									gameFrame.getGameState().playSE(11);
 									
 									gameFrame.geteState().setVisible(true);
 									gameFrame.geteState().getLost_panel().setVisible(true);
 									gameFrame.geteState().getVictory_panel().setVisible(false);
+									
 								}
 								
 								//Verificar contacto con el enemigo Stormy en las cuatro direcciones
 								if (mazeMatrix[(posY / 32) - 1][posX / 32] == 6) {
 									//AQUI VA EL SONIDO DEL TORMENTOSO
+									gameFrame.getGameState().playSE(12);
 									
 									
 									mov_max = mov_max-((5*mov_max)/100);
+									
 								}
 								if (mazeMatrix[(posY / 32) + 1][posX / 32] == 6) {
 									//AQUI VA EL SONIDO DEL TORMENTOSO
-									
+									gameFrame.getGameState().playSE(12);
 									
 									mov_max = mov_max-((5*mov_max)/100);
+									
 								}
 								if (mazeMatrix[posY / 32][(posX / 32) - 1] == 6) {
 									//AQUI VA EL SONIDO DEL TORMENTOSO
+									gameFrame.getGameState().playSE(12);
 									
 									
 									mov_max = mov_max-((5*mov_max)/100);
+									
 								}
 								if (mazeMatrix[posY / 32][(posX / 32) + 1] == 6) {
 									//AQUI VA EL SONIDO DEL TORMENTOSO
+									gameFrame.getGameState().playSE(12);
 									
 									
 									mov_max = mov_max-((5*mov_max)/100);
+									
 								}
 								
 //								//Debug
@@ -560,7 +571,7 @@ public class Controlador implements ActionListener, KeyListener, ChangeListener 
 								//Verificar contacto con el enemigo Lethal en la cuatro direcciones
 								if (mazeMatrix[(posY / 32) - 1][posX / 32] == 2) {
 									//AQUI VA EL SONIDO DEL ASESINO LETAL
-									
+									gameFrame.getGameState().playSE(11);
 									
 									gameFrame.geteState().setVisible(true);
 									gameFrame.geteState().getLost_panel().setVisible(true);
@@ -568,7 +579,7 @@ public class Controlador implements ActionListener, KeyListener, ChangeListener 
 								}
 								if (mazeMatrix[(posY / 32) + 1][posX / 32] == 2) {
 									//AQUI VA EL SONIDO DEL ASESINO LETAL
-									
+									gameFrame.getGameState().playSE(11);
 									
 									gameFrame.geteState().setVisible(true);
 									gameFrame.geteState().getLost_panel().setVisible(true);
@@ -576,7 +587,7 @@ public class Controlador implements ActionListener, KeyListener, ChangeListener 
 								}
 								if (mazeMatrix[posY / 32][(posX / 32) - 1] == 2) {
 									//AQUI VA EL SONIDO DEL ASESINO LETAL
-									
+									gameFrame.getGameState().playSE(11);
 									
 									gameFrame.geteState().setVisible(true);
 									gameFrame.geteState().getLost_panel().setVisible(true);
@@ -584,7 +595,7 @@ public class Controlador implements ActionListener, KeyListener, ChangeListener 
 								}
 								if (mazeMatrix[posY / 32][(posX / 32) + 1] == 2) {
 									//AQUI VA EL SONIDO DEL ASESINO LETAL
-									
+									gameFrame.getGameState().playSE(11);
 									
 									gameFrame.geteState().setVisible(true);
 									gameFrame.geteState().getLost_panel().setVisible(true);
@@ -594,24 +605,27 @@ public class Controlador implements ActionListener, KeyListener, ChangeListener 
 								//Verificar contacto con el enemigo Stormy en las cuatro direcciones
 								if (mazeMatrix[(posY / 32) - 1][posX / 32] == 6) {
 									//AQUI VA EL SONIDO DEL TORMENTOSO
-									
+									gameFrame.getGameState().playSE(12);
 									
 									mov_max = mov_max-((5*mov_max)/100);
 								}
 								if (mazeMatrix[(posY / 32) + 1][posX / 32] == 6) {
 									//AQUI VA EL SONIDO DEL TORMENTOSO
+									gameFrame.getGameState().playSE(12);
 									
 									
 									mov_max = mov_max-((5*mov_max)/100);
 								}
 								if (mazeMatrix[posY / 32][(posX / 32) - 1] == 6) {
 									//AQUI VA EL SONIDO DEL TORMENTOSO
+									gameFrame.getGameState().playSE(12);
 									
 									
 									mov_max = mov_max-((5*mov_max)/100);
 								}
 								if (mazeMatrix[posY / 32][(posX / 32) + 1] == 6) {
 									//AQUI VA EL SONIDO DEL TORMENTOSO
+									gameFrame.getGameState().playSE(12);
 									
 									
 									mov_max = mov_max-((5*mov_max)/100);
@@ -821,7 +835,7 @@ public class Controlador implements ActionListener, KeyListener, ChangeListener 
 								//Verificar contacto con el enemigo Lethal en la cuatro direcciones
 								if (mazeMatrix[(posY / 32) - 1][posX / 32] == 2) {
 									//AQUI VA EL SONIDO DEL ASESINO LETAL
-									
+									gameFrame.getGameState().playSE(11);
 									
 									gameFrame.geteState().setVisible(true);
 									gameFrame.geteState().getLost_panel().setVisible(true);
@@ -829,7 +843,7 @@ public class Controlador implements ActionListener, KeyListener, ChangeListener 
 								}
 								if (mazeMatrix[(posY / 32) + 1][posX / 32] == 2) {
 									//AQUI VA EL SONIDO DEL ASESINO LETAL
-									
+									gameFrame.getGameState().playSE(11);
 									
 									gameFrame.geteState().setVisible(true);
 									gameFrame.geteState().getLost_panel().setVisible(true);
@@ -837,7 +851,7 @@ public class Controlador implements ActionListener, KeyListener, ChangeListener 
 								}
 								if (mazeMatrix[posY / 32][(posX / 32) - 1] == 2) {
 									//AQUI VA EL SONIDO DEL ASESINO LETAL
-									
+									gameFrame.getGameState().playSE(11);
 									
 									gameFrame.geteState().setVisible(true);
 									gameFrame.geteState().getLost_panel().setVisible(true);
@@ -845,7 +859,7 @@ public class Controlador implements ActionListener, KeyListener, ChangeListener 
 								}
 								if (mazeMatrix[posY / 32][(posX / 32) + 1] == 2) {
 									//AQUI VA EL SONIDO DEL ASESINO LETAL
-									
+									gameFrame.getGameState().playSE(11);
 									
 									gameFrame.geteState().setVisible(true);
 									gameFrame.geteState().getLost_panel().setVisible(true);
@@ -855,25 +869,25 @@ public class Controlador implements ActionListener, KeyListener, ChangeListener 
 								//Verificar contacto con el enemigo Stormy en las cuatro direcciones
 								if (mazeMatrix[(posY / 32) - 1][posX / 32] == 6) {
 									//AQUI VA EL SONIDO DEL TORMENTOSO
-									
+									gameFrame.getGameState().playSE(12);
 									
 									mov_max = mov_max-((5*mov_max)/100);
 								}
 								if (mazeMatrix[(posY / 32) + 1][posX / 32] == 6) {
 									//AQUI VA EL SONIDO DEL TORMENTOSO
-									
+									gameFrame.getGameState().playSE(12);
 									
 									mov_max = mov_max-((5*mov_max)/100);
 								}
 								if (mazeMatrix[posY / 32][(posX / 32) - 1] == 6) {
 									//AQUI VA EL SONIDO DEL TORMENTOSO
-									
+									gameFrame.getGameState().playSE(12);
 									
 									mov_max = mov_max-((5*mov_max)/100);
 								}
 								if (mazeMatrix[posY / 32][(posX / 32) + 1] == 6) {
 									//AQUI VA EL SONIDO DEL TORMENTOSO
-									
+									gameFrame.getGameState().playSE(12);
 									
 									mov_max = mov_max-((5*mov_max)/100);
 								}
@@ -1077,7 +1091,7 @@ public class Controlador implements ActionListener, KeyListener, ChangeListener 
 								//Verificar contacto con el enemigo Lethal en la cuatro direcciones
 								if (mazeMatrix[(posY / 32) - 1][posX / 32] == 2) {
 									//AQUI VA EL SONIDO DEL ASESINO LETAL
-									
+									gameFrame.getGameState().playSE(11);
 									
 									gameFrame.geteState().setVisible(true);
 									gameFrame.geteState().getLost_panel().setVisible(true);
@@ -1085,7 +1099,7 @@ public class Controlador implements ActionListener, KeyListener, ChangeListener 
 								}
 								if (mazeMatrix[(posY / 32) + 1][posX / 32] == 2) {
 									//AQUI VA EL SONIDO DEL ASESINO LETAL
-									
+									gameFrame.getGameState().playSE(11);
 									
 									gameFrame.geteState().setVisible(true);
 									gameFrame.geteState().getLost_panel().setVisible(true);
@@ -1093,7 +1107,7 @@ public class Controlador implements ActionListener, KeyListener, ChangeListener 
 								}
 								if (mazeMatrix[posY / 32][(posX / 32) - 1] == 2) {
 									//AQUI VA EL SONIDO DEL ASESINO LETAL
-									
+									gameFrame.getGameState().playSE(11);
 									
 									gameFrame.geteState().setVisible(true);
 									gameFrame.geteState().getLost_panel().setVisible(true);
@@ -1101,7 +1115,7 @@ public class Controlador implements ActionListener, KeyListener, ChangeListener 
 								}
 								if (mazeMatrix[posY / 32][(posX / 32) + 1] == 2) {
 									//AQUI VA EL SONIDO DEL ASESINO LETAL
-									
+									gameFrame.getGameState().playSE(11);
 									
 									gameFrame.geteState().setVisible(true);
 									gameFrame.geteState().getLost_panel().setVisible(true);
@@ -1111,25 +1125,25 @@ public class Controlador implements ActionListener, KeyListener, ChangeListener 
 								//Verificar contacto con el enemigo Stormy en las cuatro direcciones
 								if (mazeMatrix[(posY / 32) - 1][posX / 32] == 6) {
 									//AQUI VA EL SONIDO DEL TORMENTOSO
-									
+									gameFrame.getGameState().playSE(12);
 									
 									mov_max = mov_max-((5*mov_max)/100);
 								}
 								if (mazeMatrix[(posY / 32) + 1][posX / 32] == 6) {
 									//AQUI VA EL SONIDO DEL TORMENTOSO
-									
+									gameFrame.getGameState().playSE(12);
 									
 									mov_max = mov_max-((5*mov_max)/100);
 								}
 								if (mazeMatrix[posY / 32][(posX / 32) - 1] == 6) {
 									//AQUI VA EL SONIDO DEL TORMENTOSO
-									
+									gameFrame.getGameState().playSE(12);
 									
 									mov_max = mov_max-((5*mov_max)/100);
 								}
 								if (mazeMatrix[posY / 32][(posX / 32) + 1] == 6) {
 									//AQUI VA EL SONIDO DEL TORMENTOSO
-									
+									gameFrame.getGameState().playSE(12);
 									
 									mov_max = mov_max-((5*mov_max)/100);
 								}
@@ -1154,7 +1168,7 @@ public class Controlador implements ActionListener, KeyListener, ChangeListener 
 						
 						if(llaves_acumuladas == keys) {
 							//AQUI VA EL SONIDO DE GANAR
-							
+							gameFrame.getGameState().playSE(13);
 							
 							gameFrame.geteState().setVisible(true);
 							gameFrame.geteState().getLost_panel().setVisible(false);
@@ -1164,7 +1178,7 @@ public class Controlador implements ActionListener, KeyListener, ChangeListener 
 						}
 						else if(llaves_acumuladas < keys) {
 							//AQUI VA EL SONIDO DE ADVERTENCIA
-							
+							gameFrame.getGameState().playSE(14);
 							
 							gameFrame.getGameState().getAdvise_key().setVisible(true);
 						}
@@ -1172,7 +1186,7 @@ public class Controlador implements ActionListener, KeyListener, ChangeListener 
 					}
 				}else if(mov_actuales == mov_max) {
 					//AQUI VA EL SONIDO DE ADVERTENCIA (EL MISMO QUE EL DE FALTA DE LLAVES)
-					
+					gameFrame.getGameState().playSE(14);
 					
 					System.out.println("Ha usado todos los movimientos posibles");
 				}
