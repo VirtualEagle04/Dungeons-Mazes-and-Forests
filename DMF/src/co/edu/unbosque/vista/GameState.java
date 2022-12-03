@@ -44,7 +44,7 @@ public class GameState extends JLayeredPane {
 	private JTextArea key_indicator, key_indicator_shadow;
 	private JLabel restant_keys;
 
-	private JTextArea movement_indicator, movement_indicator_shadow, advise_key;
+	private JTextArea movement_indicator, movement_indicator_shadow, advise_key, advise_movement;
 	private JLabel restant_movements;
 
 	public GameState() {
@@ -131,7 +131,17 @@ public class GameState extends JLayeredPane {
 		advise_key.setBackground(new Color(0,0,0,0));
 		advise_key.setBounds(867,656,140,60);
 		advise_key.setEditable(false);
-		advise_key.setVisible(false);
+		advise_key.setVisible(true);
+		
+		advise_movement = new JTextArea();
+		advise_movement.setText("You don't\nhave any more\nmovements");
+		advise_movement.setFont(Alagard);
+		advise_movement.setFont(advise_key.getFont().deriveFont(Font.BOLD,20));
+		advise_movement.setForeground(new Color(166,23,35));
+		advise_movement.setBackground(new Color(0,0,0,0));
+		advise_movement.setBounds(867,580,140,60);
+		advise_movement.setEditable(false);
+		advise_movement.setVisible(true);
 		
 		
 		//
@@ -382,6 +392,7 @@ public class GameState extends JLayeredPane {
 		add(key_indicator_shadow, JLayeredPane.PALETTE_LAYER);
 		add(restant_keys, JLayeredPane.DRAG_LAYER);
 		add(advise_key, JLayeredPane.DRAG_LAYER);
+		add(advise_movement, JLayeredPane.DRAG_LAYER);
 		add(movement_indicator, JLayeredPane.DRAG_LAYER);
 		add(movement_indicator_shadow, JLayeredPane.POPUP_LAYER);
 		add(restant_movements, JLayeredPane.DRAG_LAYER);
