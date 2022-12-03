@@ -16,7 +16,7 @@ public class MazeGeneratorMatrix {
 
 	public MazeGeneratorMatrix() {}
 	
-	public MazeGeneratorMatrix(int rows, int columns) {
+	public MazeGeneratorMatrix(int rows, int columns, boolean reves) {
 		c = new Controlador();
 		int keys = c.getKeys();
 		int lethal = c.getLethal();
@@ -50,24 +50,51 @@ public class MazeGeneratorMatrix {
 		}
 		
 			//Entrada / Salida
-					int temp = rnd.nextInt(2); //Para decidir en qué borde estará la entrada y la salida
-					//Arriba / Abajo
-					if (temp == 0) {
-						//Inicio Borde Arriba
-						maze[0][1] = 3; 
-						
-						//Final Borde Abajo
-						maze[maze.length-1][columns] = 4;
-						
-					}
-					//Izquierda / Derecha
-					else if (temp == 1) {
-						//Inicio Borde Izquierda
-						maze[2][0] = 3;
-						
-						//Final Borde Derecha
-						maze[rows][columns+1] = 4;
-					}
+		if(reves == false) {
+			System.out.println("Actual Invert: "+reves);
+			int temp = rnd.nextInt(2); //Para decidir en qué borde estará la entrada y la salida
+			//Arriba / Abajo
+			if (temp == 0) {
+				//Inicio Borde Arriba
+				maze[0][1] = 3; 
+				
+				//Final Borde Abajo
+				maze[maze.length-1][columns] = 4;
+				
+			}
+			//Izquierda / Derecha
+			else if (temp == 1) {
+				//Inicio Borde Izquierda
+				maze[2][0] = 3;
+				
+				//Final Borde Derecha
+				maze[rows][columns+1] = 4;
+			}
+		}
+		if (reves == true) {
+			System.out.println("Actual Invert: "+reves);
+			int temp = rnd.nextInt(2); //Para decidir en qué borde estará la entrada y la salida
+			//Arriba / Abajo
+			if (temp == 0) {
+				//Inicio Borde Arriba
+				maze[0][1] = 4; 
+				
+				//Final Borde Abajo
+				maze[maze.length-1][columns] = 3;
+				
+			}
+			//Izquierda / Derecha
+			else if (temp == 1) {
+				//Inicio Borde Izquierda
+				maze[2][0] = 4;
+				
+				//Final Borde Derecha
+				maze[rows][columns+1] = 3;
+			}
+		}
+		
+		
+
 
 		
 		int muros_max = (columns/2);

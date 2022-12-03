@@ -13,10 +13,12 @@ import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.JToggleButton;
 
 public class PreGameState extends JLayeredPane {
 
-	private JButton back_button, start_button, invert_button;
+	private JButton back_button, start_button;
+	private JToggleButton invert_button2;
 	private JLabel prgBackground, characterInf, characterInf_shadow, character_name, character_name_shadow, indicator,
 			lethal, stormy, llaves_indicador, prg_artBackground;
 	private JLabel archer_concept_art, barbarian_concept_art, warrior_concept_art, rogue_concept_art,
@@ -238,17 +240,17 @@ public class PreGameState extends JLayeredPane {
 
 		//invert button
 		
-		invert_button = new JButton();
-		invert_button.setText("Invert key recolection");
-		invert_button.setFont(Alagard);
-		invert_button.setFont(invert_button.getFont().deriveFont(Font.BOLD,17));
-		invert_button.setForeground(Color.white);
-		invert_button.setBackground(Color.black);
-		invert_button.setSize(255,50);
-		invert_button.setLocation(500,460);
+		invert_button2 = new JToggleButton();
+		invert_button2.setText("Invert key recolection");
+		invert_button2.setFont(Alagard);
+		invert_button2.setFont(invert_button2.getFont().deriveFont(Font.BOLD,17));
+		invert_button2.setForeground(Color.white);
+		invert_button2.setBackground(Color.black);
+		invert_button2.setSize(255,50);
+		invert_button2.setLocation(500,460);
+		
 
-		//
-		panel_inf.add(invert_button);
+		panel_inf.add(invert_button2);
 		panel_inf.add(cantidad_stormy);
 		panel_inf.add(cantidad_lethal);
 		panel_inf.add(lethal);
@@ -563,13 +565,13 @@ public class PreGameState extends JLayeredPane {
 	public void setPrgMusic(Sound prgMusic) {
 		PrgMusic = prgMusic;
 	}
-
-	public JButton getInvert_button() {
-		return invert_button;
+	
+	public JToggleButton getInvert_button2() {
+		return invert_button2;
 	}
 
-	public void setInvert_button(JButton invert_button) {
-		this.invert_button = invert_button;
+	public void setInvert_button2(JToggleButton invert_button2) {
+		this.invert_button2 = invert_button2;
 	}
 
 }

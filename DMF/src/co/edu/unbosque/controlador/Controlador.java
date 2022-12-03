@@ -36,6 +36,7 @@ public class Controlador implements ActionListener, KeyListener, ChangeListener 
 	private static int keys;
 	private static int lethal;
 	private static int stormy;
+	private static boolean reves;
 	private static int[][] mazeMatrix;
 	
 
@@ -50,7 +51,6 @@ public class Controlador implements ActionListener, KeyListener, ChangeListener 
 	// Varios
 	private static int apariencia;
 	private int intentos_generacion;
-	boolean actualInvert = false;
 	boolean actualESC = false;
 	private ArrayList<Coord> coordsCamino;
 	private ArrayList<KeyRender> listaLlaves;
@@ -70,12 +70,12 @@ public class Controlador implements ActionListener, KeyListener, ChangeListener 
 
 	}
 
-	public void newGame(int rows, int columns) {
+	public void newGame(int rows, int columns, boolean reves) {
 		boolean generar = false;
 
 		// Generar laberintos hasta generar uno con solucion
 		do {
-			mazeGen = new MazeGeneratorMatrix(rows, columns);
+			mazeGen = new MazeGeneratorMatrix(rows, columns, reves);
 			mazeMatrix = mazeGen.getMaze();
 
 			// BFS Maze
@@ -126,10 +126,12 @@ public class Controlador implements ActionListener, KeyListener, ChangeListener 
 								//Entra al incio
 								if(mazeMatrix[posY / 32][posX / 32] == 3) {
 									mazeMatrix[posY / 32][posX / 32] = 3;
+									mazeMatrix[(posY / 32) + 1][posX / 32] = 0;
 								}
 								//Entra a la salida
 								if(mazeMatrix[posY / 32][posX / 32] == 4) {
 									mazeMatrix[posY / 32][posX / 32] = 4;
+									mazeMatrix[(posY / 32) + 1][posX / 32] = 0;
 								}
 								
 								// Recoleccion de las llaves
@@ -162,6 +164,11 @@ public class Controlador implements ActionListener, KeyListener, ChangeListener 
 									mazeMatrix[(posY / 32) + 1][posX / 32] = 4;
 									mazeMatrix[posY / 32][posX / 32] = 9;
 								}
+								//Sale del inicio
+								if(mazeMatrix[(posY / 32) + 1][posX / 32] == 3) {
+									mazeMatrix[(posY / 32) + 1][posX / 32] = 3;
+									mazeMatrix[posY / 32][posX / 32] = 9;
+								}
 								
 								
 								
@@ -345,14 +352,14 @@ public class Controlador implements ActionListener, KeyListener, ChangeListener 
 									mov_max = mov_max-((5*mov_max)/100);
 								}
 								
-//								//Debug
-//								for(int i = 0; i < mazeMatrix.length; i++) {
-//									for (int j = 0; j < mazeMatrix[i].length; j++) {
-//										System.out.print(mazeMatrix[i][j]+" ");
-//									}
-//									System.out.println();
-//								}
-//								System.out.println();
+								//Debug
+								for(int i = 0; i < mazeMatrix.length; i++) {
+									for (int j = 0; j < mazeMatrix[i].length; j++) {
+										System.out.print(mazeMatrix[i][j]+" ");
+									}
+									System.out.println();
+								}
+								System.out.println();
 								
 							}
 						} catch (ArrayIndexOutOfBoundsException e2) {
@@ -374,6 +381,7 @@ public class Controlador implements ActionListener, KeyListener, ChangeListener 
 								//Entra al inicio
 								if(mazeMatrix[posY / 32][posX / 32] == 3) {
 									mazeMatrix[posY / 32][posX / 32] = 3;
+									mazeMatrix[(posY / 32) - 1][posX / 32] = 0;
 								}
 								//Entra a la salida
 								if(mazeMatrix[posY / 32][posX / 32] == 4) {
@@ -405,6 +413,11 @@ public class Controlador implements ActionListener, KeyListener, ChangeListener 
 									mazeMatrix[(posY / 32) - 1][posX / 32] = 0;
 									mazeMatrix[posY / 32][posX / 32] = 9;
 								}
+								//Sale del final
+								if(mazeMatrix[(posY / 32) - 1][posX / 32] == 4) {
+									mazeMatrix[(posY / 32) - 1][posX / 32] = 4;
+									mazeMatrix[posY / 32][posX / 32] = 9;
+								}
 
 								
 								
@@ -585,14 +598,14 @@ public class Controlador implements ActionListener, KeyListener, ChangeListener 
 									mov_max = mov_max-((5*mov_max)/100);
 								}
 								
-//								//Debug
-//								for(int i = 0; i < mazeMatrix.length; i++) {
-//									for (int j = 0; j < mazeMatrix[i].length; j++) {
-//										System.out.print(mazeMatrix[i][j]+" ");
-//									}
-//									System.out.println();
-//								}
-//								System.out.println();
+								//Debug
+								for(int i = 0; i < mazeMatrix.length; i++) {
+									for (int j = 0; j < mazeMatrix[i].length; j++) {
+										System.out.print(mazeMatrix[i][j]+" ");
+									}
+									System.out.println();
+								}
+								System.out.println();
 								
 							}
 						} catch (ArrayIndexOutOfBoundsException e2) {
@@ -614,10 +627,12 @@ public class Controlador implements ActionListener, KeyListener, ChangeListener 
 								//Entra al inicio
 								if(mazeMatrix[posY / 32][posX / 32] == 3) {
 									mazeMatrix[posY / 32][posX / 32] = 3;
+									mazeMatrix[posY / 32][(posX / 32) + 1] = 0;
 								}
 								//Entra a la salida
 								if(mazeMatrix[posY / 32][posX / 32] == 4) {
 									mazeMatrix[posY / 32][posX / 32] = 4;
+									mazeMatrix[posY / 32][(posX / 32) + 1] = 0;
 								}
 								
 								// Recoleccion de las llaves
@@ -649,6 +664,11 @@ public class Controlador implements ActionListener, KeyListener, ChangeListener 
 									mazeMatrix[posY / 32][(posX / 32) + 1] = 4;
 									mazeMatrix[posY / 32][posX / 32] = 9;
 								}
+								//Sale del inicio
+								if(mazeMatrix[posY / 32][(posX / 32) + 1] == 3) {
+									mazeMatrix[posY / 32][(posX / 32) + 1] = 3;
+									mazeMatrix[posY / 32][posX / 32] = 9;
+								}
 
 								
 								
@@ -830,14 +850,14 @@ public class Controlador implements ActionListener, KeyListener, ChangeListener 
 									mov_max = mov_max-((5*mov_max)/100);
 								}
 								
-//								//Debug
-//								for(int i = 0; i < mazeMatrix.length; i++) {
-//									for (int j = 0; j < mazeMatrix[i].length; j++) {
-//										System.out.print(mazeMatrix[i][j]+" ");
-//									}
-//									System.out.println();
-//								}
-//								System.out.println();
+								//Debug
+								for(int i = 0; i < mazeMatrix.length; i++) {
+									for (int j = 0; j < mazeMatrix[i].length; j++) {
+										System.out.print(mazeMatrix[i][j]+" ");
+									}
+									System.out.println();
+								}
+								System.out.println();
 								
 							}
 						} catch (ArrayIndexOutOfBoundsException e2) {
@@ -859,6 +879,7 @@ public class Controlador implements ActionListener, KeyListener, ChangeListener 
 								//Entra al inicio
 								if(mazeMatrix[posY / 32][posX / 32] == 3) {
 									mazeMatrix[posY / 32][posX / 32] = 3;
+									mazeMatrix[posY / 32][(posX / 32) - 1] = 0;
 								}
 								//Entra a la salida
 								if(mazeMatrix[posY / 32][posX / 32] == 4) {
@@ -891,6 +912,11 @@ public class Controlador implements ActionListener, KeyListener, ChangeListener 
 									mazeMatrix[posY / 32][(posX / 32) - 1] = 0;
 									mazeMatrix[posY / 32][posX / 32] = 9;
 								}
+								//Sale del final
+								if(mazeMatrix[posY / 32][(posX / 32) - 1] == 4) {
+									mazeMatrix[posY / 32][(posX / 32) - 1] = 4;
+									mazeMatrix[posY / 32][posX / 32] = 9;
+								}
 
 								
 								//Movimiento de los enemigos
@@ -1070,14 +1096,14 @@ public class Controlador implements ActionListener, KeyListener, ChangeListener 
 									mov_max = mov_max-((5*mov_max)/100);
 								}
 								
-//								//Debug
-//								for(int i = 0; i < mazeMatrix.length; i++) {
-//									for (int j = 0; j < mazeMatrix[i].length; j++) {
-//										System.out.print(mazeMatrix[i][j]+" ");
-//									}
-//									System.out.println();
-//								}
-//								System.out.println();
+								//Debug
+								for(int i = 0; i < mazeMatrix.length; i++) {
+									for (int j = 0; j < mazeMatrix[i].length; j++) {
+										System.out.print(mazeMatrix[i][j]+" ");
+									}
+									System.out.println();
+								}
+								System.out.println();
 								
 							}
 						} catch (ArrayIndexOutOfBoundsException e2) {
@@ -1209,8 +1235,8 @@ public class Controlador implements ActionListener, KeyListener, ChangeListener 
 		gameFrame.getPrgState().getStart_button().addActionListener(this);
 		gameFrame.getPrgState().getStart_button().setActionCommand("prg_start_button");
 		
-		gameFrame.getPrgState().getInvert_button().addActionListener(this);
-		gameFrame.getPrgState().getInvert_button().setActionCommand("prg_invert_button");
+		gameFrame.getPrgState().getInvert_button2().addActionListener(this);
+		gameFrame.getPrgState().getInvert_button2().setActionCommand("prg_invert_button2");
 
 		// Pause Buttons
 		gameFrame.getpState().getOptions_button().addActionListener(this);
@@ -1520,10 +1546,8 @@ public class Controlador implements ActionListener, KeyListener, ChangeListener 
 			gameFrame.getPrgState().getMage_concept_art().setVisible(false);
 			gameFrame.getPrgState().getPaladin_concept_art().setVisible(false);
 			gameFrame.getChState().getCharacter_select().setVisible(false);
-
-			gameFrame.getPrgState().getCantidad_llaves().setBackground(Color.DARK_GRAY);
-			gameFrame.getPrgState().getInvert_button().setBackground(Color.BLACK);
-			gameFrame.getPrgState().getInvert_button().setForeground(Color.WHITE);
+			
+			gameFrame.getPrgState().getInvert_button2().setSelected(false);
 
 			break;
 		}
@@ -1537,6 +1561,8 @@ public class Controlador implements ActionListener, KeyListener, ChangeListener 
 			keys = Integer.parseInt(gameFrame.getPrgState().getCantidad_llaves().getText());
 			lethal = Integer.parseInt(gameFrame.getPrgState().getCantidad_lethal().getText());
 			stormy = Integer.parseInt(gameFrame.getPrgState().getCantidad_stormy().getText());
+			reves = gameFrame.getPrgState().getInvert_button2().isSelected();
+			
 			llaves_restantes = keys;
 
 			// Condicional para las dimensiones del Laberinto
@@ -1579,7 +1605,7 @@ public class Controlador implements ActionListener, KeyListener, ChangeListener 
 			//Verificacion para todas las condiciones anteriores
 			if (confirmacion_gen == 4) {
 				gameFrame.getGameState().playMusic(5);
-				this.newGame(rows, columns);
+				this.newGame(rows, columns, reves);
 
 				gameFrame.getPrgState().setVisible(false);
 				gameFrame.getChState().stopMusic(3);
@@ -1595,21 +1621,6 @@ public class Controlador implements ActionListener, KeyListener, ChangeListener 
 			}
 			break;
 
-		}
-		case "prg_invert_button": {
-			//actualInvert	
-			
-			if(actualInvert == false) {
-				actualInvert = true;
-				gameFrame.getPrgState().getInvert_button().setBackground(Color.LIGHT_GRAY);
-				gameFrame.getPrgState().getInvert_button().setForeground(Color.BLACK);
-			}
-			else if(actualInvert == true) {
-				actualInvert = false;
-				gameFrame.getPrgState().getInvert_button().setBackground(Color.BLACK);
-				gameFrame.getPrgState().getInvert_button().setForeground(Color.WHITE);
-			}
-			break;
 		}
 		case "pause_options_button": {
 
@@ -1877,5 +1888,13 @@ public class Controlador implements ActionListener, KeyListener, ChangeListener 
 
 	public void setLlaves_acumuladas(int llaves_acumuladas) {
 		this.llaves_acumuladas = llaves_acumuladas;
+	}
+
+	public static boolean isReves() {
+		return reves;
+	}
+
+	public static void setReves(boolean reves) {
+		Controlador.reves = reves;
 	}
 }
