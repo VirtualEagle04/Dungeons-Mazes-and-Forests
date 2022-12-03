@@ -64,7 +64,7 @@ public class PauseState extends JLayeredPane {
 
 		// sliders
 
-		music_volume = new JSlider();
+		music_volume = new JSlider(-30, 6);
 		music_volume.setBounds(70, 70, 320, 20);
 		music_volume.setBackground(new Color(0, 0, 0, 180));
 

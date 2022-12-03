@@ -8,6 +8,9 @@ import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.Random;
 
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
 import co.edu.unbosque.modelo.MazeGeneratorMatrix;
 import co.edu.unbosque.vista.EnemyRender;
 import co.edu.unbosque.vista.GameFrame;
@@ -16,7 +19,7 @@ import co.edu.unbosque.modelo.Coord;
 import co.edu.unbosque.modelo.KeyGeneratorMatrix;
 import co.edu.unbosque.modelo.MazeBFS;
 
-public class Controlador implements ActionListener, KeyListener {
+public class Controlador implements ActionListener, KeyListener, ChangeListener {
 
 	private String select_button;
 
@@ -49,6 +52,7 @@ public class Controlador implements ActionListener, KeyListener {
 	private ArrayList<KeyRender> listaLlaves;
 	private ArrayList<EnemyRender> listaLethal;
 	private ArrayList<EnemyRender> listaStormy;
+	private float globalVolume;
 
 	// Contructor donde no tiene que ir NADA
 	public Controlador() {
@@ -829,7 +833,22 @@ public class Controlador implements ActionListener, KeyListener {
 		
 		gameFrame.getpState().getInstructions_button().addActionListener(this);
 		gameFrame.getpState().getInstructions_button().setActionCommand("pause_instruction_button");
+		
+		gameFrame.getpState().getMusic_volume().addChangeListener(this);
+		gameFrame.getpState().getSfx_volume().addChangeListener(this);
 
+	}
+	
+	@Override
+	public void stateChanged(ChangeEvent e) {
+		
+		globalVolume = gameFrame.getpState().getMusic_volume().getValue();
+		
+		gameFrame.getGameState().getGmMusic().setCurrentVolume(globalVolume);
+		gameFrame.getGameState().getGmMusic().getFc().setValue(gameFrame.getGameState().getGmMusic().getCurrentVolume());
+		if(gameFrame.getGameState().getGmMusic().getCurrentVolume() == - 30) {
+			gameFrame.getGameState().getGmMusic().setCurrentVolume( -80);		
+			}
 	}
 
 	public void actionPerformed(ActionEvent e) {

@@ -5,10 +5,14 @@ import java.net.URL;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
+import javax.sound.sampled.FloatControl;
 
 public class Sound {
 	
 	Clip clip;
+	float currentVolume = 4;
+	FloatControl fc;
+	
 	URL soundURL[] = new URL[30];
 	
 	public Sound() {
@@ -39,12 +43,46 @@ public class Sound {
 			AudioInputStream ais = AudioSystem.getAudioInputStream(soundURL[i]);
 			clip = AudioSystem.getClip();
 			clip.open(ais);
+			fc = (FloatControl)clip.getControl(FloatControl.Type.MASTER_GAIN);
+			
 			
 		}catch(Exception e) {
 			
 		}
 	}
 	
+	public Clip getClip() {
+		return clip;
+	}
+
+	public void setClip(Clip clip) {
+		this.clip = clip;
+	}
+
+	public float getCurrentVolume() {
+		return currentVolume;
+	}
+
+	public void setCurrentVolume(float currentVolume) {
+		this.currentVolume = currentVolume;
+	}
+
+	public FloatControl getFc() {
+		return fc;
+	}
+
+	public void setFc(FloatControl fc) {
+		this.fc = fc;
+	}
+
+	public URL[] getSoundURL() {
+		return soundURL;
+	}
+
+	public void setSoundURL(URL[] soundURL) {
+		this.soundURL = soundURL;
+	}
+
 	public void play() {
 		
 		clip.start();
@@ -58,6 +96,23 @@ public class Sound {
 	public void stop(int i) {
 		
 		clip.stop();
+	}
+	
+	public void volumeUp() {
+		currentVolume += 1.0f;
+		if(currentVolume > 6.0f) {
+			currentVolume = 6.0f;
+		}
+		fc.setValue(currentVolume);
+	}
+	
+	public void volumeDown() {
+		
+		currentVolume -= 1.0f;
+		if(currentVolume < -80.0f) {
+			currentVolume = - 80.0f;
+		}
+		fc.setValue(currentVolume);
 	}
 	
 
