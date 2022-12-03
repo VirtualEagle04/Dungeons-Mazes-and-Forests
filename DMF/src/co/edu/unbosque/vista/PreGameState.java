@@ -16,7 +16,7 @@ import javax.swing.JTextField;
 
 public class PreGameState extends JLayeredPane {
 
-	private JButton back_button, start_button;
+	private JButton back_button, start_button, invert_button;
 	private JLabel prgBackground, characterInf, characterInf_shadow, character_name, character_name_shadow, indicator,
 			lethal, stormy, llaves_indicador, prg_artBackground;
 	private JLabel archer_concept_art, barbarian_concept_art, warrior_concept_art, rogue_concept_art,
@@ -42,8 +42,6 @@ public class PreGameState extends JLayeredPane {
 		setLayout(null);
 		setBackground(Color.DARK_GRAY);
 		
-		//invert initial position -> boton toggle
-
 		back_button = new JButton();
 		back_button.setLocation(10, 10);
 		back_button.setSize(90, 50);
@@ -110,7 +108,7 @@ public class PreGameState extends JLayeredPane {
 		size_inf.setFont(Alagard);
 		size_inf.setFont(size_inf.getFont().deriveFont(Font.ITALIC, 25));
 		size_inf.setForeground(Color.white);
-		size_inf.setBounds(504, 100, 300, 100);
+		size_inf.setBounds(504, 80, 300, 100);
 
 		size_inf_shadow = new JTextArea();
 		size_inf_shadow.setEditable(false);
@@ -119,7 +117,7 @@ public class PreGameState extends JLayeredPane {
 		size_inf_shadow.setFont(Alagard);
 		size_inf_shadow.setFont(size_inf_shadow.getFont().deriveFont(Font.ITALIC, 25));
 		size_inf_shadow.setForeground(Color.DARK_GRAY);
-		size_inf_shadow.setBounds(507, 103, 300, 300);
+		size_inf_shadow.setBounds(507, 83, 300, 300);
 
 		archer_concept_art = new JLabel();
 		archer_concept_art.setIcon(new ImageIcon("src/Assets/Gifs/csArcherldle.gif"));
@@ -162,11 +160,11 @@ public class PreGameState extends JLayeredPane {
 		indicator.setForeground(Color.white);
 		indicator.setFont(Alagard);
 		indicator.setFont(indicator.getFont().deriveFont(Font.ITALIC, 25));
-		indicator.setBounds(494, 222, 200, 40);
+		indicator.setBounds(494, 202, 200, 40);
 		indicator.setText("X:            Y:");
 
 		entrada_X = new JTextField();
-		entrada_X.setLocation(524, 220);
+		entrada_X.setLocation(524, 200);
 		entrada_X.setSize(80, 40);
 		entrada_X.setEditable(true);
 		entrada_X.setFont(Alagard);
@@ -176,7 +174,7 @@ public class PreGameState extends JLayeredPane {
 		entrada_X.setToolTipText("Min: 5   Max: 20");
 
 		entrada_Y = new JTextField();
-		entrada_Y.setLocation(644, 220);
+		entrada_Y.setLocation(644, 200);
 		entrada_Y.setSize(80, 40);
 		entrada_Y.setEditable(true);
 		entrada_Y.setFont(Alagard);
@@ -187,7 +185,7 @@ public class PreGameState extends JLayeredPane {
 
 		// Enemigos
 		cantidad_lethal = new JTextField();
-		cantidad_lethal.setLocation(644, 352);
+		cantidad_lethal.setLocation(644, 332);
 		cantidad_lethal.setSize(80, 40);
 		cantidad_lethal.setEditable(true);
 		cantidad_lethal.setFont(Alagard);
@@ -199,11 +197,11 @@ public class PreGameState extends JLayeredPane {
 		lethal.setForeground(Color.white);
 		lethal.setFont(Alagard);
 		lethal.setFont(lethal.getFont().deriveFont(Font.ITALIC, 25));
-		lethal.setBounds(475, 352, 200, 40);
+		lethal.setBounds(485, 332, 180, 40);
 		lethal.setText("# of Lethal: ");
 
 		cantidad_stormy = new JTextField();
-		cantidad_stormy.setLocation(644, 285);
+		cantidad_stormy.setLocation(644, 265);
 		cantidad_stormy.setSize(80, 40);
 		cantidad_stormy.setEditable(true);
 		cantidad_stormy.setFont(Alagard);
@@ -215,12 +213,12 @@ public class PreGameState extends JLayeredPane {
 		stormy.setForeground(Color.white);
 		stormy.setFont(Alagard);
 		stormy.setFont(stormy.getFont().deriveFont(Font.ITALIC, 25));
-		stormy.setBounds(475, 285, 200, 40);
+		stormy.setBounds(475, 265, 180, 40);
 		stormy.setText("# of Stormy: ");
 
 		// Llaves
 		cantidad_llaves = new JTextField();
-		cantidad_llaves.setLocation(644, 420);
+		cantidad_llaves.setLocation(644, 400);
 		cantidad_llaves.setSize(80, 40);
 		cantidad_llaves.setEditable(true);
 		cantidad_llaves.setFont(Alagard);
@@ -235,12 +233,22 @@ public class PreGameState extends JLayeredPane {
 		llaves_indicador.setForeground(Color.white);
 		llaves_indicador.setFont(Alagard);
 		llaves_indicador.setFont(llaves_indicador.getFont().deriveFont(Font.ITALIC, 25));
-		llaves_indicador.setBounds(450, 420, 300, 40);
+		llaves_indicador.setBounds(450, 400, 300, 40);
 		llaves_indicador.setText("# of Keys (2-5): ");
 
-		//
+		//invert button
+		
+		invert_button = new JButton();
+		invert_button.setText("Invert key recolection");
+		invert_button.setFont(Alagard);
+		invert_button.setFont(invert_button.getFont().deriveFont(Font.BOLD,17));
+		invert_button.setForeground(Color.white);
+		invert_button.setBackground(Color.black);
+		invert_button.setSize(240,50);
+		invert_button.setLocation(500,460);
 
 		//
+		panel_inf.add(invert_button);
 		panel_inf.add(cantidad_stormy);
 		panel_inf.add(cantidad_lethal);
 		panel_inf.add(lethal);
