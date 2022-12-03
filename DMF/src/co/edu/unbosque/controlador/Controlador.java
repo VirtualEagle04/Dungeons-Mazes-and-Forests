@@ -378,7 +378,19 @@ public class Controlador implements ActionListener, KeyListener, ChangeListener 
 									mov_max -= ((posY / 32)+(posX / 32));
 									gameFrame.getGameState().playSE(14);
 									
+
+									
 								}
+								if(mov_max == 0 || mov_max < 0) {
+									gameFrame.geteState().setVisible(true);
+									gameFrame.geteState().getLost_panel().setVisible(true);
+									gameFrame.geteState().getVictory_panel().setVisible(false);
+									gameFrame.getGameState().getAdvise_movement().setVisible(true);
+									gameFrame.getGameState().playSE(14);
+								}
+								
+								gameFrame.getGameState().getRestant_movements().setText(String.valueOf(mov_max-mov_actuales));
+
 								
 //								//Debug
 //								for(int i = 0; i < mazeMatrix.length; i++) {
@@ -644,8 +656,20 @@ public class Controlador implements ActionListener, KeyListener, ChangeListener 
 									mov_max -= ((posY / 32)+(posX / 32));
 									gameFrame.getGameState().playSE(14);
 									
+
+									
+									
+								}
+								if(mov_max == 0 || mov_max < 0) {
+									gameFrame.geteState().setVisible(true);
+									gameFrame.geteState().getLost_panel().setVisible(true);
+									gameFrame.geteState().getVictory_panel().setVisible(false);
+									gameFrame.getGameState().getAdvise_movement().setVisible(true);
+									gameFrame.getGameState().playSE(14);
 								}
 								
+								gameFrame.getGameState().getRestant_movements().setText(String.valueOf(mov_max-mov_actuales));
+
 								
 //								//Debug
 //								for(int i = 0; i < mazeMatrix.length; i++) {
@@ -914,7 +938,18 @@ public class Controlador implements ActionListener, KeyListener, ChangeListener 
 									mov_max -= ((posY / 32)+(posX / 32));
 									gameFrame.getGameState().playSE(14);
 									
+
+									
 								}
+								if(mov_max == 0 || mov_max < 0) {
+									gameFrame.geteState().setVisible(true);
+									gameFrame.geteState().getLost_panel().setVisible(true);
+									gameFrame.geteState().getVictory_panel().setVisible(false);
+									gameFrame.getGameState().getAdvise_movement().setVisible(true);
+									gameFrame.getGameState().playSE(14);
+								}
+
+								gameFrame.getGameState().getRestant_movements().setText(String.valueOf(mov_max-mov_actuales));
 								
 								
 //								//Debug
@@ -1179,7 +1214,18 @@ public class Controlador implements ActionListener, KeyListener, ChangeListener 
 									mov_max -= ((posY / 32)+(posX / 32));
 									gameFrame.getGameState().playSE(14);
 									
+
+									
 								}
+								if(mov_max == 0 || mov_max < 0) {
+									gameFrame.geteState().setVisible(true);
+									gameFrame.geteState().getLost_panel().setVisible(true);
+									gameFrame.geteState().getVictory_panel().setVisible(false);
+									gameFrame.getGameState().getAdvise_movement().setVisible(true);
+									gameFrame.getGameState().playSE(14);
+								}
+								gameFrame.getGameState().getRestant_movements().setText(String.valueOf(mov_max-mov_actuales));
+
 								
 //								//Debug
 //								for(int i = 0; i < mazeMatrix.length; i++) {
@@ -1215,12 +1261,15 @@ public class Controlador implements ActionListener, KeyListener, ChangeListener 
 						}
 
 					}
-				}else if(mov_actuales == mov_max) {
+
+				}//Despues de oprimir tecla
+				if(mov_actuales > mov_max) {
 					gameFrame.geteState().setVisible(true);
 					gameFrame.geteState().getLost_panel().setVisible(true);
 					gameFrame.geteState().getVictory_panel().setVisible(false);
 					gameFrame.getGameState().getAdvise_movement().setVisible(true);
-					gameFrame.getGameState().playSE(14);
+					gameFrame.getGameState().playSE(11);
+					
 				}
 
 

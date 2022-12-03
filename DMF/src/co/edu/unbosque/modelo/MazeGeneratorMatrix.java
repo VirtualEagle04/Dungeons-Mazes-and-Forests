@@ -51,7 +51,6 @@ public class MazeGeneratorMatrix {
 		
 			//Entrada / Salida
 		if(reves == false) {
-			System.out.println("Actual Invert: "+reves);
 			int temp = rnd.nextInt(2); //Para decidir en qué borde estará la entrada y la salida
 			//Arriba / Abajo
 			if (temp == 0) {
@@ -72,7 +71,6 @@ public class MazeGeneratorMatrix {
 			}
 		}
 		if (reves == true) {
-			System.out.println("Actual Invert: "+reves);
 			int temp = rnd.nextInt(2); //Para decidir en qué borde estará la entrada y la salida
 			//Arriba / Abajo
 			if (temp == 0) {
@@ -97,7 +95,7 @@ public class MazeGeneratorMatrix {
 
 
 		
-		int muros_max = (columns/2);
+		int muros_max = (columns + rows) / 2;
 		
 		//Rows
 		for (int i = 1; i <= rows; i++) {
