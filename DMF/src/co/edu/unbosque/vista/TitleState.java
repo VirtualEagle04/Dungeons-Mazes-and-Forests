@@ -15,7 +15,7 @@ import javax.swing.JLayeredPane;
 public class TitleState extends JLayeredPane {
 	// Components
 	private JButton tsNewGame, tsTutorial, tsQuit, tsCredits;
-	private JLabel tsLogo, tsBackground, tsLogoShadow;
+	private JLabel tsLogo, tsBackground, tsLogoShadow, tsInfo, tsTeam;
 	private Sound tsMusic;
 	private Font Alagard ;
 
@@ -38,6 +38,22 @@ public class TitleState extends JLayeredPane {
 		
 		tsBackground = new JLabel(new ImageIcon("src/Assets/Gifs/tsBackground.gif"));
 		tsBackground.setBounds(0, 0, 1024, 768);
+		
+		tsInfo = new JLabel();
+		tsInfo.setFont(Alagard);
+		tsInfo.setFont(tsInfo.getFont().deriveFont(Font.ITALIC, 15));
+		tsInfo.setForeground(Color.WHITE);
+		tsInfo.setText("DMF ver. 69");
+		tsInfo.setSize(380, 330);
+		tsInfo.setLocation(10, 538);
+		
+		tsTeam = new JLabel();
+		tsTeam.setFont(Alagard);
+		tsTeam.setFont(tsTeam.getFont().deriveFont(Font.ITALIC, 15));
+		tsTeam.setForeground(Color.WHITE);
+		tsTeam.setText("Arbolitos Transnochados INC.");
+		tsTeam.setSize(380, 330);
+		tsTeam.setLocation(10, 552);
 		
 		tsLogo = new JLabel();
 		tsLogo.setFont(Alagard);
@@ -108,6 +124,8 @@ public class TitleState extends JLayeredPane {
 		add(tsCredits, JLayeredPane.MODAL_LAYER);
 
 		// Title
+		add(tsTeam, JLayeredPane.DRAG_LAYER);
+		add(tsInfo, JLayeredPane.DRAG_LAYER);
 		add(tsLogoShadow, JLayeredPane.PALETTE_LAYER);
 		add(tsLogo, JLayeredPane.MODAL_LAYER);
 		

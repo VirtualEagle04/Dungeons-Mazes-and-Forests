@@ -20,7 +20,7 @@ public class EndState extends JPanel {
 
 	private JPanel victory_panel, lost_panel;
 	private JLabel victory_ad, lost_ad;
-	private JButton credits_button_lost, back_menu_lost, credits_button_win, back_menu_win;
+	private JButton back_menu_lost, back_menu_win;
 
 	public EndState() {
 
@@ -60,7 +60,7 @@ public class EndState extends JPanel {
 		lost_ad.setBounds(0, 250, 1024, 205);
 
 		back_menu_lost = new JButton();
-		back_menu_lost.setText("Back Menu");
+		back_menu_lost.setText("Quit");
 		back_menu_lost.setFont(Alagard);
 		back_menu_lost.setFont(back_menu_lost.getFont().deriveFont(Font.ITALIC, 20));
 		back_menu_lost.setBounds(380, 480, 250, 20);
@@ -68,37 +68,20 @@ public class EndState extends JPanel {
 		back_menu_lost.setForeground(Color.white);
 
 		back_menu_win = new JButton();
-		back_menu_win.setText("Back Menu");
+		back_menu_win.setText("Quit");
 		back_menu_win.setFont(Alagard);
 		back_menu_win.setFont(back_menu_win.getFont().deriveFont(Font.ITALIC, 20));
 		back_menu_win.setBounds(380, 480, 250, 20);
 		back_menu_win.setBackground(Color.black);
 		back_menu_win.setForeground(Color.white);
 
-		credits_button_win = new JButton();
-		credits_button_win.setText("Credits");
-		credits_button_win.setFont(Alagard);
-		credits_button_win.setFont(credits_button_win.getFont().deriveFont(Font.ITALIC, 20));
-		credits_button_win.setBounds(380, 530, 250, 20);
-		credits_button_win.setBackground(Color.black);
-		credits_button_win.setForeground(Color.white);
-
-		credits_button_lost = new JButton();
-		credits_button_lost.setText("Credits");
-		credits_button_lost.setFont(Alagard);
-		credits_button_lost.setFont(credits_button_win.getFont().deriveFont(Font.ITALIC, 20));
-		credits_button_lost.setBounds(380, 530, 250, 20);
-		credits_button_lost.setBackground(Color.black);
-		credits_button_lost.setForeground(Color.white);
 
 		add(lost_panel, JLayeredPane.DRAG_LAYER);
 		lost_panel.add(lost_ad);
 		lost_panel.add(back_menu_lost);
-		lost_panel.add(credits_button_lost);
 		add(victory_panel, JLayeredPane.DRAG_LAYER);
 		victory_panel.add(victory_ad);
 		victory_panel.add(back_menu_win);
-		victory_panel.add(credits_button_win);
 
 	}
 
@@ -141,15 +124,7 @@ public class EndState extends JPanel {
 	public void setLost_ad(JLabel lost_ad) {
 		this.lost_ad = lost_ad;
 	}
-
-	public JButton getCredits_button_lost() {
-		return credits_button_lost;
-	}
-
-	public void setCredits_button_lost(JButton credits_button_lost) {
-		this.credits_button_lost = credits_button_lost;
-	}
-
+	
 	public JButton getBack_menu_lost() {
 		return back_menu_lost;
 	}
@@ -157,15 +132,7 @@ public class EndState extends JPanel {
 	public void setBack_menu_lost(JButton back_menu_lost) {
 		this.back_menu_lost = back_menu_lost;
 	}
-
-	public JButton getCredits_button_win() {
-		return credits_button_win;
-	}
-
-	public void setCredits_button_win(JButton credits_button_win) {
-		this.credits_button_win = credits_button_win;
-	}
-
+	
 	public JButton getBack_menu_win() {
 		return back_menu_win;
 	}

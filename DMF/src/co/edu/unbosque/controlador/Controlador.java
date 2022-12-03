@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -1398,14 +1399,9 @@ public class Controlador implements ActionListener, KeyListener, ChangeListener 
 		gameFrame.geteState().getBack_menu_lost().addActionListener(this);
 		gameFrame.geteState().getBack_menu_lost().setActionCommand("lost_back_button");
 		
-		gameFrame.geteState().getCredits_button_lost().addActionListener(this);
-		gameFrame.geteState().getCredits_button_lost().setActionCommand("lost_credits_button");
-		
 		gameFrame.geteState().getBack_menu_win().addActionListener(this);
 		gameFrame.geteState().getBack_menu_win().setActionCommand("win_back_button");
 		
-		gameFrame.geteState().getCredits_button_win().addActionListener(this);
-		gameFrame.geteState().getCredits_button_win().setActionCommand("win_credits_button");
 		
 
 	}
@@ -1696,11 +1692,14 @@ public class Controlador implements ActionListener, KeyListener, ChangeListener 
 			int confirmacion_gen = 0;
 
 			// Recoge los valores ingresados en el JTextField, y los convierte a Integer
-			rows = Integer.parseInt(gameFrame.getPrgState().getEntrada_Y().getText());
-			columns = Integer.parseInt(gameFrame.getPrgState().getEntrada_X().getText());
-			keys = Integer.parseInt(gameFrame.getPrgState().getCantidad_llaves().getText());
-			lethal = Integer.parseInt(gameFrame.getPrgState().getCantidad_lethal().getText());
-			stormy = Integer.parseInt(gameFrame.getPrgState().getCantidad_stormy().getText());
+			try {
+				rows = Integer.parseInt(gameFrame.getPrgState().getEntrada_Y().getText());
+				columns = Integer.parseInt(gameFrame.getPrgState().getEntrada_X().getText());
+				keys = Integer.parseInt(gameFrame.getPrgState().getCantidad_llaves().getText());
+				lethal = Integer.parseInt(gameFrame.getPrgState().getCantidad_lethal().getText());
+				stormy = Integer.parseInt(gameFrame.getPrgState().getCantidad_stormy().getText());
+			} catch (NumberFormatException e2) {}
+
 			reves = gameFrame.getPrgState().getInvert_button2().isSelected();
 			
 			llaves_restantes = keys;
@@ -1793,6 +1792,11 @@ public class Controlador implements ActionListener, KeyListener, ChangeListener 
 			break;
 		}
 		case "pause_back_button": {
+			
+			gameFrame.setVisible(false);
+			gameFrame.getGameState().getGmMusic().stop(5);
+			gameFrame.dispose();
+			aplMain.main(null);
 
 			gameFrame.getpState().setVisible(false);
 			gameFrame.getGameState().setVisible(false);
@@ -1813,21 +1817,14 @@ public class Controlador implements ActionListener, KeyListener, ChangeListener 
 		}
 		case "lost_back_button": {
 			
-
-			break;
-		}
-		case "lost_credits_button": {
+			System.exit(0);
 
 
 			break;
 		}
 		case "win_back_button": {
 
-
-			break;
-		}
-		case "win_credits_button": {
-
+			System.exit(0);
 
 			break;
 		}

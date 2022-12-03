@@ -194,6 +194,7 @@ public class PreGameState extends JLayeredPane {
 		cantidad_lethal.setFont(cantidad_lethal.getFont().deriveFont(Font.ITALIC, 30));
 		cantidad_lethal.setBackground(Color.DARK_GRAY);
 		cantidad_lethal.setForeground(Color.WHITE);
+		cantidad_lethal.setToolTipText("Min: 1   Max: Keys");
 
 		lethal = new JLabel();
 		lethal.setForeground(Color.white);
@@ -210,6 +211,7 @@ public class PreGameState extends JLayeredPane {
 		cantidad_stormy.setFont(cantidad_stormy.getFont().deriveFont(Font.ITALIC, 30));
 		cantidad_stormy.setBackground(Color.DARK_GRAY);
 		cantidad_stormy.setForeground(Color.WHITE);
+		cantidad_stormy.setToolTipText("Min: 1   Max: Keys");
 
 		stormy = new JLabel();
 		stormy.setForeground(Color.white);
@@ -241,7 +243,8 @@ public class PreGameState extends JLayeredPane {
 		//invert button
 		
 		invert_button2 = new JToggleButton();
-		invert_button2.setText("Invert key recolection");
+		invert_button2.setText("Reverse Key Order");
+		invert_button2.setBorderPainted(false);
 		invert_button2.setFont(Alagard);
 		invert_button2.setFont(invert_button2.getFont().deriveFont(Font.BOLD,17));
 		invert_button2.setForeground(Color.white);
