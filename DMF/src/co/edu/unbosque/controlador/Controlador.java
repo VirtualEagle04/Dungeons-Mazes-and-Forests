@@ -21,9 +21,10 @@ import co.edu.unbosque.modelo.MazeBFS;
 
 public class Controlador implements ActionListener, KeyListener, ChangeListener {
 
-	private String select_button;
+
 
 	// Conexiones
+	private AplMain aplMain = new AplMain();
 	private GameFrame gameFrame;
 	private MazeGeneratorMatrix mazeGen;
 	private MazeBFS mazeBFS;
@@ -36,6 +37,7 @@ public class Controlador implements ActionListener, KeyListener, ChangeListener 
 	private static int lethal;
 	private static int stormy;
 	private static int[][] mazeMatrix;
+	
 
 	// Movimiento
 	private boolean upP, downP, leftP, rightP;
@@ -43,16 +45,19 @@ public class Controlador implements ActionListener, KeyListener, ChangeListener 
 	private int llaves_acumuladas;
 	private int mov_max;
 	private int mov_actuales = 0;
+	private int llaves_restantes;
 
 	// Varios
 	private static int apariencia;
 	private int intentos_generacion;
+	boolean actualInvert = false;
 	boolean actualESC = false;
 	private ArrayList<Coord> coordsCamino;
 	private ArrayList<KeyRender> listaLlaves;
 	private ArrayList<EnemyRender> listaLethal;
 	private ArrayList<EnemyRender> listaStormy;
 	private float globalVolume;
+	private String select_button;
 
 	// Contructor donde no tiene que ir NADA
 	public Controlador() {
@@ -98,942 +103,1011 @@ public class Controlador implements ActionListener, KeyListener, ChangeListener 
 		if (gameFrame.getpState().isVisible()) {
 			//Menu de Pausa = no mover
 		} else {
-			
-			//Condicion para restringir el movimiento una vez haya usado todos los movimientos posibles
-			if(mov_actuales < mov_max) {
+			if(gameFrame.geteState().getLost_panel().isVisible() == false) {
+				
+				//Condicion para restringir el movimiento una vez haya usado todos los movimientos posibles
+				if(mov_actuales < mov_max) {
 
-				// Movimiento
-				if (code == KeyEvent.VK_W || code == KeyEvent.VK_UP) {
+					// Movimiento
+					if (code == KeyEvent.VK_W || code == KeyEvent.VK_UP) {
 
-					// Cuando el jugador trata de moverse fuera del length de la matriz
-					try {
-						if (mazeMatrix[(posY / 32) - 1][posX / 32] != 1) {
-							
-							upP = true;
-							gameFrame.getGameState().getPlayer().setLocation(posX, posY - desplazamiento);
-							gameFrame.getGameState().getPlayer().repaint();
-							posX = gameFrame.getGameState().getPlayer().getX();
-							posY = gameFrame.getGameState().getPlayer().getY();
-							mov_actuales++;
-							
-							//Entra al incio
-							if(mazeMatrix[posY / 32][posX / 32] == 3) {
-								mazeMatrix[posY / 32][posX / 32] = 3;
-							}
-							//Entra a la salida
-							if(mazeMatrix[posY / 32][posX / 32] == 4) {
-								mazeMatrix[posY / 32][posX / 32] = 4;
-							}
-							
-							// Recoleccion de las llaves
-							listaLlaves = gameFrame.getGameState().getListaLlaves();
-							if (mazeMatrix[posY / 32][posX / 32] == 5) {
+						// Cuando el jugador trata de moverse fuera del length de la matriz
+						try {
+							if (mazeMatrix[(posY / 32) - 1][posX / 32] != 1) {
 								
-								for (KeyRender key_render : listaLlaves) {
-									if (((posY / 32) == key_render.getPosRow())
-											&& ((posX / 32) == key_render.getPosCol())) {
-										key_render.setVisible(false);
-										llaves_acumuladas++;
-										gameFrame.getGameState().playSE(10);
-										mazeMatrix[posY / 32][posX / 32] = 0;
-										break;
+								upP = true;
+								gameFrame.getGameState().getPlayer().setLocation(posX, posY - desplazamiento);
+								gameFrame.getGameState().getPlayer().repaint();
+								posX = gameFrame.getGameState().getPlayer().getX();
+								posY = gameFrame.getGameState().getPlayer().getY();
+								mov_actuales++;
+								gameFrame.getGameState().getRestant_movements().setText(String.valueOf(mov_max-mov_actuales));
+								
+								//Entra al incio
+								if(mazeMatrix[posY / 32][posX / 32] == 3) {
+									mazeMatrix[posY / 32][posX / 32] = 3;
+								}
+								//Entra a la salida
+								if(mazeMatrix[posY / 32][posX / 32] == 4) {
+									mazeMatrix[posY / 32][posX / 32] = 4;
+								}
+								
+								// Recoleccion de las llaves
+								listaLlaves = gameFrame.getGameState().getListaLlaves();
+								if (mazeMatrix[posY / 32][posX / 32] == 5) {
+									
+									for (KeyRender key_render : listaLlaves) {
+										if (((posY / 32) == key_render.getPosRow())
+												&& ((posX / 32) == key_render.getPosCol())) {
+											key_render.setVisible(false);
+											llaves_acumuladas++;
+											llaves_restantes--;
+											gameFrame.getGameState().getRestant_keys().setText(String.valueOf(llaves_restantes));
+											gameFrame.getGameState().playSE(10);
+											mazeMatrix[posY / 32][posX / 32] = 0;
+											break;
+										}
 									}
 								}
-							}
-							//Acaba de salir 
-							if(mov_actuales == 1) {
-								mazeMatrix[posY / 32][posX / 32] = 9;
-							}
-							if(mazeMatrix[(posY / 32) + 1][posX / 32] == 9) {
-								mazeMatrix[(posY / 32) + 1][posX / 32] = 0;
-								mazeMatrix[posY / 32][posX / 32] = 9;
-							}
-							//Sale del final
-							if(mazeMatrix[(posY / 32) + 1][posX / 32] == 4) {
-								mazeMatrix[(posY / 32) + 1][posX / 32] = 4;
-								mazeMatrix[posY / 32][posX / 32] = 9;
-							}
-							
-							
-							
-							
-							
-							
-							//Movimiento de los enemigos
-							listaLethal = gameFrame.getGameState().getListaLethal();
-							listaStormy = gameFrame.getGameState().getListaStormy();
-							Random rnd = new Random();
-							
-							for (EnemyRender lethal_enemy : listaLethal) {
-								int lethal_posX = lethal_enemy.getX();
-								int lethal_posY = lethal_enemy.getY();
-								
-								
-								int direccion = rnd.nextInt(5 - 1) + 1;
-								
-								if(direccion == 1) {
-									//Colisiones de los Enemigos
-									if((mazeMatrix[(lethal_posY / 32)-1][lethal_posX / 32] != 1) && (mazeMatrix[(lethal_posY / 32)-1][lethal_posX / 32] != 5)
-									&&	(mazeMatrix[(lethal_posY / 32)-1][lethal_posX / 32] != 3) && (mazeMatrix[(lethal_posY / 32)-1][lethal_posX / 32] != 4)
-									&& (mazeMatrix[(lethal_posY / 32)-1][lethal_posX / 32] != 9) && (mazeMatrix[(lethal_posY / 32)-1][lethal_posX / 32] != 6)){
-										
-										mazeMatrix[lethal_posY / 32][lethal_posX / 32] = 0; //La posicion previa es cero ahora
-										mazeMatrix[(lethal_posY / 32) -1][lethal_posX / 32] = 2; //La posicion nueva es 2, donde está el enemigo.
-										lethal_enemy.setLocation(lethal_enemy.getX(), lethal_enemy.getY()-desplazamiento);
-										gameFrame.getGameState().repaint();
-										lethal_enemy.repaint();
-										break;
-									}
+								//Acaba de salir 
+								if(mov_actuales == 1) {
+									mazeMatrix[posY / 32][posX / 32] = 9;
 								}
-								if(direccion == 2) {
-									//Colisiones de los Enemigos
-									if((mazeMatrix[(lethal_posY / 32)+1][lethal_posX / 32] != 1) && (mazeMatrix[(lethal_posY / 32)+1][lethal_posX / 32] != 5)
-									&&	(mazeMatrix[(lethal_posY / 32)+1][lethal_posX / 32] != 3) && (mazeMatrix[(lethal_posY / 32)+1][lethal_posX / 32] != 4)
-									&& (mazeMatrix[(lethal_posY / 32)+1][lethal_posX / 32] != 9) && (mazeMatrix[(lethal_posY / 32)+1][lethal_posX / 32] != 6)){
-										
-										mazeMatrix[lethal_posY / 32][lethal_posX / 32] = 0; //La posicion previa es cero ahora
-										mazeMatrix[(lethal_posY / 32)+1][lethal_posX / 32] = 2; //La posicion nueva es 2, donde está el enemigo.
-										lethal_enemy.setLocation(lethal_enemy.getX(), lethal_enemy.getY()+desplazamiento);
-										gameFrame.getGameState().repaint();
-										lethal_enemy.repaint();
-										break;
-									}
+								if(mazeMatrix[(posY / 32) + 1][posX / 32] == 9) {
+									mazeMatrix[(posY / 32) + 1][posX / 32] = 0;
+									mazeMatrix[posY / 32][posX / 32] = 9;
 								}
-								if(direccion == 3) {
+								//Sale del final
+								if(mazeMatrix[(posY / 32) + 1][posX / 32] == 4) {
+									mazeMatrix[(posY / 32) + 1][posX / 32] = 4;
+									mazeMatrix[posY / 32][posX / 32] = 9;
+								}
+								
+								
+								
+								
+								
+								
+								//Movimiento de los enemigos
+								listaLethal = gameFrame.getGameState().getListaLethal();
+								listaStormy = gameFrame.getGameState().getListaStormy();
+								Random rnd = new Random();
+								
+								for (EnemyRender lethal_enemy : listaLethal) {
+									int lethal_posX = lethal_enemy.getX();
+									int lethal_posY = lethal_enemy.getY();
+									
+									
+									int direccion = rnd.nextInt(5 - 1) + 1;
+									
+									if(direccion == 1) {
+										//Colisiones de los Enemigos
+										if((mazeMatrix[(lethal_posY / 32)-1][lethal_posX / 32] != 1) && (mazeMatrix[(lethal_posY / 32)-1][lethal_posX / 32] != 5)
+										&&	(mazeMatrix[(lethal_posY / 32)-1][lethal_posX / 32] != 3) && (mazeMatrix[(lethal_posY / 32)-1][lethal_posX / 32] != 4)
+										&& (mazeMatrix[(lethal_posY / 32)-1][lethal_posX / 32] != 9) && (mazeMatrix[(lethal_posY / 32)-1][lethal_posX / 32] != 6)){
+											
+											mazeMatrix[lethal_posY / 32][lethal_posX / 32] = 0; //La posicion previa es cero ahora
+											mazeMatrix[(lethal_posY / 32) -1][lethal_posX / 32] = 2; //La posicion nueva es 2, donde está el enemigo.
+											lethal_enemy.setLocation(lethal_enemy.getX(), lethal_enemy.getY()-desplazamiento);
+											gameFrame.getGameState().repaint();
+											lethal_enemy.repaint();
+											break;
+										}
+									}
+									if(direccion == 2) {
+										//Colisiones de los Enemigos
+										if((mazeMatrix[(lethal_posY / 32)+1][lethal_posX / 32] != 1) && (mazeMatrix[(lethal_posY / 32)+1][lethal_posX / 32] != 5)
+										&&	(mazeMatrix[(lethal_posY / 32)+1][lethal_posX / 32] != 3) && (mazeMatrix[(lethal_posY / 32)+1][lethal_posX / 32] != 4)
+										&& (mazeMatrix[(lethal_posY / 32)+1][lethal_posX / 32] != 9) && (mazeMatrix[(lethal_posY / 32)+1][lethal_posX / 32] != 6)){
+											
+											mazeMatrix[lethal_posY / 32][lethal_posX / 32] = 0; //La posicion previa es cero ahora
+											mazeMatrix[(lethal_posY / 32)+1][lethal_posX / 32] = 2; //La posicion nueva es 2, donde está el enemigo.
+											lethal_enemy.setLocation(lethal_enemy.getX(), lethal_enemy.getY()+desplazamiento);
+											gameFrame.getGameState().repaint();
+											lethal_enemy.repaint();
+											break;
+										}
+									}
+									if(direccion == 3) {
 
-									//Colisiones de los Enemigos
-									if((mazeMatrix[(lethal_posY / 32)][(lethal_posX / 32)-1] != 1) && (mazeMatrix[(lethal_posY / 32)][(lethal_posX / 32)-1] != 5)
-									&& (mazeMatrix[(lethal_posY / 32)][(lethal_posX / 32)-1] != 3) && (mazeMatrix[(lethal_posY / 32)][(lethal_posX / 32)-1] != 4)
-									&& (mazeMatrix[(lethal_posY / 32)][(lethal_posX / 32)-1] != 9) && (mazeMatrix[(lethal_posY / 32)][(lethal_posX / 32)-1] != 6)){
-										
-										mazeMatrix[lethal_posY / 32][lethal_posX / 32] = 0; //La posicion previa es cero ahora
-										mazeMatrix[lethal_posY / 32][(lethal_posX / 32) - 1] = 2; //La posicion nueva es 2, donde está el enemigo.
-										lethal_enemy.setLocation(lethal_enemy.getX()-desplazamiento, lethal_enemy.getY());
-										gameFrame.getGameState().repaint();
-										lethal_enemy.repaint();
-										break;
+										//Colisiones de los Enemigos
+										if((mazeMatrix[(lethal_posY / 32)][(lethal_posX / 32)-1] != 1) && (mazeMatrix[(lethal_posY / 32)][(lethal_posX / 32)-1] != 5)
+										&& (mazeMatrix[(lethal_posY / 32)][(lethal_posX / 32)-1] != 3) && (mazeMatrix[(lethal_posY / 32)][(lethal_posX / 32)-1] != 4)
+										&& (mazeMatrix[(lethal_posY / 32)][(lethal_posX / 32)-1] != 9) && (mazeMatrix[(lethal_posY / 32)][(lethal_posX / 32)-1] != 6)){
+											
+											mazeMatrix[lethal_posY / 32][lethal_posX / 32] = 0; //La posicion previa es cero ahora
+											mazeMatrix[lethal_posY / 32][(lethal_posX / 32) - 1] = 2; //La posicion nueva es 2, donde está el enemigo.
+											lethal_enemy.setLocation(lethal_enemy.getX()-desplazamiento, lethal_enemy.getY());
+											gameFrame.getGameState().repaint();
+											lethal_enemy.repaint();
+											break;
+										}
 									}
-								}
-								if(direccion == 4) {
-									//Colisiones de los Enemigos
-									if((mazeMatrix[(lethal_posY / 32)][(lethal_posX / 32)+1] != 1) && (mazeMatrix[(lethal_posY / 32)][(lethal_posX / 32)+1] != 5)
-									&& (mazeMatrix[(lethal_posY / 32)][(lethal_posX / 32)+1] != 3) && (mazeMatrix[(lethal_posY / 32)][(lethal_posX / 32)+1] != 4)
-									&& (mazeMatrix[(lethal_posY / 32)][(lethal_posX / 32)+1] != 9) && (mazeMatrix[(lethal_posY / 32)][(lethal_posX / 32)+1] != 6)){
-										
-										mazeMatrix[lethal_posY / 32][lethal_posX / 32] = 0; //La posicion previa es cero ahora
-										mazeMatrix[lethal_posY / 32][(lethal_posX / 32) + 1] = 2; //La posicion nueva es 2, donde está el enemigo.
-										lethal_enemy.setLocation(lethal_enemy.getX()+desplazamiento, lethal_enemy.getY());
-										gameFrame.getGameState().repaint();
-										lethal_enemy.repaint();
-										break;
+									if(direccion == 4) {
+										//Colisiones de los Enemigos
+										if((mazeMatrix[(lethal_posY / 32)][(lethal_posX / 32)+1] != 1) && (mazeMatrix[(lethal_posY / 32)][(lethal_posX / 32)+1] != 5)
+										&& (mazeMatrix[(lethal_posY / 32)][(lethal_posX / 32)+1] != 3) && (mazeMatrix[(lethal_posY / 32)][(lethal_posX / 32)+1] != 4)
+										&& (mazeMatrix[(lethal_posY / 32)][(lethal_posX / 32)+1] != 9) && (mazeMatrix[(lethal_posY / 32)][(lethal_posX / 32)+1] != 6)){
+											
+											mazeMatrix[lethal_posY / 32][lethal_posX / 32] = 0; //La posicion previa es cero ahora
+											mazeMatrix[lethal_posY / 32][(lethal_posX / 32) + 1] = 2; //La posicion nueva es 2, donde está el enemigo.
+											lethal_enemy.setLocation(lethal_enemy.getX()+desplazamiento, lethal_enemy.getY());
+											gameFrame.getGameState().repaint();
+											lethal_enemy.repaint();
+											break;
+										}
 									}
-								}
-							} //Para cada Lethal
+								} //Para cada Lethal
+									
 								
-							
-							for (EnemyRender stormy_enemy : listaStormy) {
-								int stormy_posX = stormy_enemy.getX();
-								int stormy_posY = stormy_enemy.getY();
+								for (EnemyRender stormy_enemy : listaStormy) {
+									int stormy_posX = stormy_enemy.getX();
+									int stormy_posY = stormy_enemy.getY();
+									
+									
+									int direccion = rnd.nextInt(5 - 1) + 1;
+									
+									if(direccion == 1) {
+										//Colisiones de los Enemigos
+										if((mazeMatrix[(stormy_posY / 32)-1][stormy_posX / 32] != 1) && (mazeMatrix[(stormy_posY / 32)-1][stormy_posX / 32] != 5)
+										&& (mazeMatrix[(stormy_posY / 32)-1][stormy_posX / 32] != 3) && (mazeMatrix[(stormy_posY / 32)-1][stormy_posX / 32] != 4)){
+											
+											mazeMatrix[stormy_posY / 32][stormy_posX / 32] = 0;
+											mazeMatrix[(stormy_posY / 32) - 1][stormy_posX / 32] = 6;
+											stormy_enemy.setLocation(stormy_enemy.getX(), stormy_enemy.getY()-desplazamiento);
+											gameFrame.getGameState().repaint();
+											stormy_enemy.repaint();
+											break;
+										}
+									}
+									if(direccion == 2) {
+										//Colisiones de los Enemigos
+										if((mazeMatrix[(stormy_posY / 32)+1][stormy_posX / 32] != 1) && (mazeMatrix[(stormy_posY / 32)+1][stormy_posX / 32] != 5)
+										&& (mazeMatrix[(stormy_posY / 32)+1][stormy_posX / 32] != 3) && (mazeMatrix[(stormy_posY / 32)+1][stormy_posX / 32] != 4)){
+											
+											mazeMatrix[stormy_posY / 32][stormy_posX / 32] = 0;
+											mazeMatrix[(stormy_posY / 32) + 1][stormy_posX / 32] = 6;
+											stormy_enemy.setLocation(stormy_enemy.getX(), stormy_enemy.getY()+desplazamiento);
+											gameFrame.getGameState().repaint();
+											stormy_enemy.repaint();
+											break;
+										}
+									}
+									if(direccion == 3) {
+										//Colisiones de los Enemigos
+										if((mazeMatrix[(stormy_posY / 32)][(stormy_posX / 32)-1] != 1) && (mazeMatrix[(stormy_posY / 32)][(stormy_posX / 32)-1] != 5)
+										&& (mazeMatrix[(stormy_posY / 32)][(stormy_posX / 32)-1] != 3) && (mazeMatrix[(stormy_posY / 32)][(stormy_posX / 32)-1] != 4)){
+											
+											mazeMatrix[stormy_posY / 32][stormy_posX / 32] = 0;
+											mazeMatrix[stormy_posY / 32][(stormy_posX / 32) - 1] = 6;
+											stormy_enemy.setLocation(stormy_enemy.getX()-desplazamiento, stormy_enemy.getY());
+											gameFrame.getGameState().repaint();
+											stormy_enemy.repaint();
+											break;
+										}
+									}
+									if(direccion == 4) {
+										//Colisiones de los Enemigos
+										if((mazeMatrix[(stormy_posY / 32)][(stormy_posX / 32)+1] != 1) && (mazeMatrix[(stormy_posY / 32)][(stormy_posX / 32)+1] != 5)
+										&& (mazeMatrix[(stormy_posY / 32)][(stormy_posX / 32)+1] != 3) && (mazeMatrix[(stormy_posY / 32)][(stormy_posX / 32)+1] != 4)){
+											
+											mazeMatrix[stormy_posY / 32][stormy_posX / 32] = 0;
+											mazeMatrix[stormy_posY / 32][(stormy_posX / 32) + 1] = 6;
+											stormy_enemy.setLocation(stormy_enemy.getX()+desplazamiento, stormy_enemy.getY());
+											gameFrame.getGameState().repaint();
+											stormy_enemy.repaint();
+											break;
+										}
+									}
+								} //Para cada Stormy
 								
+								//Verificar contacto con el enemigo Lethal en la cuatro direcciones
+								if (mazeMatrix[(posY / 32) - 1][posX / 32] == 2) {
+									System.out.println("Contacto con Lethal");
+									gameFrame.geteState().setVisible(true);
+									gameFrame.geteState().getLost_panel().setVisible(true);
+									gameFrame.geteState().getVictory_panel().setVisible(false);
+								}
+								if (mazeMatrix[(posY / 32) + 1][posX / 32] == 2) {
+									System.out.println("Contacto con Lethal");
+									gameFrame.geteState().setVisible(true);
+									gameFrame.geteState().getLost_panel().setVisible(true);
+									gameFrame.geteState().getVictory_panel().setVisible(false);
+								}
+								if (mazeMatrix[posY / 32][(posX / 32) - 1] == 2) {
+									System.out.println("Contacto con Lethal");
+									gameFrame.geteState().setVisible(true);
+									gameFrame.geteState().getLost_panel().setVisible(true);
+									gameFrame.geteState().getVictory_panel().setVisible(false);
+								}
+								if (mazeMatrix[posY / 32][(posX / 32) + 1] == 2) {
+									System.out.println("Contacto con Lethal");
+									gameFrame.geteState().setVisible(true);
+									gameFrame.geteState().getLost_panel().setVisible(true);
+									gameFrame.geteState().getVictory_panel().setVisible(false);
+								}
 								
-								int direccion = rnd.nextInt(5 - 1) + 1;
+								//Verificar contacto con el enemigo Stormy en las cuatro direcciones
+								if (mazeMatrix[(posY / 32) - 1][posX / 32] == 6) {
+									System.out.println("Contacto con Stormy");
+									mov_max = mov_max-((5*mov_max)/100);
+								}
+								if (mazeMatrix[(posY / 32) + 1][posX / 32] == 6) {
+									System.out.println("Contacto con Stormy");
+									mov_max = mov_max-((5*mov_max)/100);
+								}
+								if (mazeMatrix[posY / 32][(posX / 32) - 1] == 6) {
+									System.out.println("Contacto con Stormy");
+									mov_max = mov_max-((5*mov_max)/100);
+								}
+								if (mazeMatrix[posY / 32][(posX / 32) + 1] == 6) {
+									System.out.println("Contacto con Stormy");
+									mov_max = mov_max-((5*mov_max)/100);
+								}
 								
-								if(direccion == 1) {
-									//Colisiones de los Enemigos
-									if((mazeMatrix[(stormy_posY / 32)-1][stormy_posX / 32] != 1) && (mazeMatrix[(stormy_posY / 32)-1][stormy_posX / 32] != 5)
-									&& (mazeMatrix[(stormy_posY / 32)-1][stormy_posX / 32] != 3) && (mazeMatrix[(stormy_posY / 32)-1][stormy_posX / 32] != 4)){
-										
-										mazeMatrix[stormy_posY / 32][stormy_posX / 32] = 0;
-										mazeMatrix[(stormy_posY / 32) - 1][stormy_posX / 32] = 6;
-										stormy_enemy.setLocation(stormy_enemy.getX(), stormy_enemy.getY()-desplazamiento);
-										gameFrame.getGameState().repaint();
-										stormy_enemy.repaint();
-										break;
-									}
-								}
-								if(direccion == 2) {
-									//Colisiones de los Enemigos
-									if((mazeMatrix[(stormy_posY / 32)+1][stormy_posX / 32] != 1) && (mazeMatrix[(stormy_posY / 32)+1][stormy_posX / 32] != 5)
-									&& (mazeMatrix[(stormy_posY / 32)+1][stormy_posX / 32] != 3) && (mazeMatrix[(stormy_posY / 32)+1][stormy_posX / 32] != 4)){
-										
-										mazeMatrix[stormy_posY / 32][stormy_posX / 32] = 0;
-										mazeMatrix[(stormy_posY / 32) + 1][stormy_posX / 32] = 6;
-										stormy_enemy.setLocation(stormy_enemy.getX(), stormy_enemy.getY()+desplazamiento);
-										gameFrame.getGameState().repaint();
-										stormy_enemy.repaint();
-										break;
-									}
-								}
-								if(direccion == 3) {
-									//Colisiones de los Enemigos
-									if((mazeMatrix[(stormy_posY / 32)][(stormy_posX / 32)-1] != 1) && (mazeMatrix[(stormy_posY / 32)][(stormy_posX / 32)-1] != 5)
-									&& (mazeMatrix[(stormy_posY / 32)][(stormy_posX / 32)-1] != 3) && (mazeMatrix[(stormy_posY / 32)][(stormy_posX / 32)-1] != 4)){
-										
-										mazeMatrix[stormy_posY / 32][stormy_posX / 32] = 0;
-										mazeMatrix[stormy_posY / 32][(stormy_posX / 32) - 1] = 6;
-										stormy_enemy.setLocation(stormy_enemy.getX()-desplazamiento, stormy_enemy.getY());
-										gameFrame.getGameState().repaint();
-										stormy_enemy.repaint();
-										break;
-									}
-								}
-								if(direccion == 4) {
-									//Colisiones de los Enemigos
-									if((mazeMatrix[(stormy_posY / 32)][(stormy_posX / 32)+1] != 1) && (mazeMatrix[(stormy_posY / 32)][(stormy_posX / 32)+1] != 5)
-									&& (mazeMatrix[(stormy_posY / 32)][(stormy_posX / 32)+1] != 3) && (mazeMatrix[(stormy_posY / 32)][(stormy_posX / 32)+1] != 4)){
-										
-										mazeMatrix[stormy_posY / 32][stormy_posX / 32] = 0;
-										mazeMatrix[stormy_posY / 32][(stormy_posX / 32) + 1] = 6;
-										stormy_enemy.setLocation(stormy_enemy.getX()+desplazamiento, stormy_enemy.getY());
-										gameFrame.getGameState().repaint();
-										stormy_enemy.repaint();
-										break;
-									}
-								}
-							} //Para cada Stormy
-							
-							//Verificar contacto con el enemigo Lethal en la cuatro direcciones
-							if (mazeMatrix[(posY / 32) - 1][posX / 32] == 2) {
-								System.out.println("Contacto con Lethal");
-							}
-							if (mazeMatrix[(posY / 32) + 1][posX / 32] == 2) {
-								System.out.println("Contacto con Lethal");
-							}
-							if (mazeMatrix[posY / 32][(posX / 32) - 1] == 2) {
-								System.out.println("Contacto con Lethal");
-							}
-							if (mazeMatrix[posY / 32][(posX / 32) + 1] == 2) {
-								System.out.println("Contacto con Lethal");
-							}
-							
-							//Verificar contacto con el enemigo Stormy en las cuatro direcciones
-							if (mazeMatrix[(posY / 32) - 1][posX / 32] == 6) {
-								System.out.println("Contacto con Stormy");
-								mov_max = mov_max-((5*mov_max)/100);
-							}
-							if (mazeMatrix[(posY / 32) + 1][posX / 32] == 6) {
-								System.out.println("Contacto con Stormy");
-								mov_max = mov_max-((5*mov_max)/100);
-							}
-							if (mazeMatrix[posY / 32][(posX / 32) - 1] == 6) {
-								System.out.println("Contacto con Stormy");
-								mov_max = mov_max-((5*mov_max)/100);
-							}
-							if (mazeMatrix[posY / 32][(posX / 32) + 1] == 6) {
-								System.out.println("Contacto con Stormy");
-								mov_max = mov_max-((5*mov_max)/100);
-							}
-							
-//							//Debug
-//							for(int i = 0; i < mazeMatrix.length; i++) {
-//								for (int j = 0; j < mazeMatrix[i].length; j++) {
-//									System.out.print(mazeMatrix[i][j]+" ");
+//								//Debug
+//								for(int i = 0; i < mazeMatrix.length; i++) {
+//									for (int j = 0; j < mazeMatrix[i].length; j++) {
+//										System.out.print(mazeMatrix[i][j]+" ");
+//									}
+//									System.out.println();
 //								}
 //								System.out.println();
-//							}
-//							System.out.println();
-							
+								
+							}
+						} catch (ArrayIndexOutOfBoundsException e2) {
 						}
-					} catch (ArrayIndexOutOfBoundsException e2) {
+
 					}
+					if (code == KeyEvent.VK_S || code == KeyEvent.VK_DOWN) {
+						try {
+							if (mazeMatrix[(posY / 32) + 1][posX / 32] != 1) {
 
-				}
-				if (code == KeyEvent.VK_S || code == KeyEvent.VK_DOWN) {
-					try {
-						if (mazeMatrix[(posY / 32) + 1][posX / 32] != 1) {
+								downP = true;
+								gameFrame.getGameState().getPlayer().setLocation(posX, posY + desplazamiento);
+								gameFrame.getGameState().getPlayer().repaint();
+								posX = gameFrame.getGameState().getPlayer().getX();
+								posY = gameFrame.getGameState().getPlayer().getY();
+								mov_actuales++;
+								gameFrame.getGameState().getRestant_movements().setText(String.valueOf(mov_max-mov_actuales));
+								
+								//Entra al inicio
+								if(mazeMatrix[posY / 32][posX / 32] == 3) {
+									mazeMatrix[posY / 32][posX / 32] = 3;
+								}
+								//Entra a la salida
+								if(mazeMatrix[posY / 32][posX / 32] == 4) {
+									mazeMatrix[posY / 32][posX / 32] = 4;
+									mazeMatrix[(posY / 32) - 1][posX / 32] = 0;
+								}
+								
+								// Recoleccion de las llaves
+								listaLlaves = gameFrame.getGameState().getListaLlaves();
+								if ((mazeMatrix[posY / 32][posX / 32] == 5)) {
+									for (KeyRender key_render : listaLlaves) {
+										if (((posY / 32) == key_render.getPosRow())
+												&& ((posX / 32) == key_render.getPosCol())) {
+											key_render.setVisible(false);
+											llaves_acumuladas++;
+											llaves_restantes--;
+											gameFrame.getGameState().getRestant_keys().setText(String.valueOf(llaves_restantes));
+											gameFrame.getGameState().playSE(10);
+											mazeMatrix[posY / 32][posX / 32] = 0;
+											break;
+										}
+									}
+								}
+								//Acaba de salir 
+								if(mov_actuales == 1) {
+									mazeMatrix[posY / 32][posX / 32] = 9;
+								}
+								if(mazeMatrix[(posY / 32) - 1][posX / 32] == 9) {
+									mazeMatrix[(posY / 32) - 1][posX / 32] = 0;
+									mazeMatrix[posY / 32][posX / 32] = 9;
+								}
 
-							downP = true;
-							gameFrame.getGameState().getPlayer().setLocation(posX, posY + desplazamiento);
-							gameFrame.getGameState().getPlayer().repaint();
-							posX = gameFrame.getGameState().getPlayer().getX();
-							posY = gameFrame.getGameState().getPlayer().getY();
-							mov_actuales++;
-							
-							//Entra al inicio
-							if(mazeMatrix[posY / 32][posX / 32] == 3) {
-								mazeMatrix[posY / 32][posX / 32] = 3;
-							}
-							//Entra a la salida
-							if(mazeMatrix[posY / 32][posX / 32] == 4) {
-								mazeMatrix[posY / 32][posX / 32] = 4;
-								mazeMatrix[(posY / 32) - 1][posX / 32] = 0;
-							}
-							
-							// Recoleccion de las llaves
-							listaLlaves = gameFrame.getGameState().getListaLlaves();
-							if ((mazeMatrix[posY / 32][posX / 32] == 5)) {
-								for (KeyRender key_render : listaLlaves) {
-									if (((posY / 32) == key_render.getPosRow())
-											&& ((posX / 32) == key_render.getPosCol())) {
-										key_render.setVisible(false);
-										llaves_acumuladas++;
-										gameFrame.getGameState().playSE(10);
-										mazeMatrix[posY / 32][posX / 32] = 0;
-										break;
+								
+								
+								//Movimiento de los enemigos
+								listaLethal = gameFrame.getGameState().getListaLethal();
+								listaStormy = gameFrame.getGameState().getListaStormy();
+								Random rnd = new Random();
+								
+								for (EnemyRender lethal_enemy : listaLethal) {
+									int lethal_posX = lethal_enemy.getX();
+									int lethal_posY = lethal_enemy.getY();
+									
+									
+									int direccion = rnd.nextInt(5 - 1) + 1;
+									
+									if(direccion == 1) {
+										//Colisiones de los Enemigos
+										if((mazeMatrix[(lethal_posY / 32)-1][lethal_posX / 32] != 1) && (mazeMatrix[(lethal_posY / 32)-1][lethal_posX / 32] != 5)
+										&&	(mazeMatrix[(lethal_posY / 32)-1][lethal_posX / 32] != 3) && (mazeMatrix[(lethal_posY / 32)-1][lethal_posX / 32] != 4)
+										&& (mazeMatrix[(lethal_posY / 32)-1][lethal_posX / 32] != 9) && (mazeMatrix[(lethal_posY / 32)-1][lethal_posX / 32] != 6)){
+											
+											mazeMatrix[lethal_posY / 32][lethal_posX / 32] = 0; //La posicion previa es cero ahora
+											mazeMatrix[(lethal_posY / 32) -1][lethal_posX / 32] = 2; //La posicion nueva es 2, donde está el enemigo.
+											lethal_enemy.setLocation(lethal_enemy.getX(), lethal_enemy.getY()-desplazamiento);
+											gameFrame.getGameState().repaint();
+											lethal_enemy.repaint();
+											break;
+										}
 									}
-								}
-							}
-							//Acaba de salir 
-							if(mov_actuales == 1) {
-								mazeMatrix[posY / 32][posX / 32] = 9;
-							}
-							if(mazeMatrix[(posY / 32) - 1][posX / 32] == 9) {
-								mazeMatrix[(posY / 32) - 1][posX / 32] = 0;
-								mazeMatrix[posY / 32][posX / 32] = 9;
-							}
+									if(direccion == 2) {
+										//Colisiones de los Enemigos
+										if((mazeMatrix[(lethal_posY / 32)+1][lethal_posX / 32] != 1) && (mazeMatrix[(lethal_posY / 32)+1][lethal_posX / 32] != 5)
+										&&	(mazeMatrix[(lethal_posY / 32)+1][lethal_posX / 32] != 3) && (mazeMatrix[(lethal_posY / 32)+1][lethal_posX / 32] != 4)
+										&& (mazeMatrix[(lethal_posY / 32)+1][lethal_posX / 32] != 9) && (mazeMatrix[(lethal_posY / 32)+1][lethal_posX / 32] != 6)){
+											
+											mazeMatrix[lethal_posY / 32][lethal_posX / 32] = 0; //La posicion previa es cero ahora
+											mazeMatrix[(lethal_posY / 32)+1][lethal_posX / 32] = 2; //La posicion nueva es 2, donde está el enemigo.
+											lethal_enemy.setLocation(lethal_enemy.getX(), lethal_enemy.getY()+desplazamiento);
+											gameFrame.getGameState().repaint();
+											lethal_enemy.repaint();
+											break;
+										}
+									}
+									if(direccion == 3) {
 
-							
-							
-							//Movimiento de los enemigos
-							listaLethal = gameFrame.getGameState().getListaLethal();
-							listaStormy = gameFrame.getGameState().getListaStormy();
-							Random rnd = new Random();
-							
-							for (EnemyRender lethal_enemy : listaLethal) {
-								int lethal_posX = lethal_enemy.getX();
-								int lethal_posY = lethal_enemy.getY();
+										//Colisiones de los Enemigos
+										if((mazeMatrix[(lethal_posY / 32)][(lethal_posX / 32)-1] != 1) && (mazeMatrix[(lethal_posY / 32)][(lethal_posX / 32)-1] != 5)
+										&& (mazeMatrix[(lethal_posY / 32)][(lethal_posX / 32)-1] != 3) && (mazeMatrix[(lethal_posY / 32)][(lethal_posX / 32)-1] != 4)
+										&& (mazeMatrix[(lethal_posY / 32)][(lethal_posX / 32)-1] != 9) && (mazeMatrix[(lethal_posY / 32)][(lethal_posX / 32)-1] != 6)){
+											
+											mazeMatrix[lethal_posY / 32][lethal_posX / 32] = 0; //La posicion previa es cero ahora
+											mazeMatrix[lethal_posY / 32][(lethal_posX / 32) - 1] = 2; //La posicion nueva es 2, donde está el enemigo.
+											lethal_enemy.setLocation(lethal_enemy.getX()-desplazamiento, lethal_enemy.getY());
+											gameFrame.getGameState().repaint();
+											lethal_enemy.repaint();
+											break;
+										}
+									}
+									if(direccion == 4) {
+										//Colisiones de los Enemigos
+										if((mazeMatrix[(lethal_posY / 32)][(lethal_posX / 32)+1] != 1) && (mazeMatrix[(lethal_posY / 32)][(lethal_posX / 32)+1] != 5)
+										&& (mazeMatrix[(lethal_posY / 32)][(lethal_posX / 32)+1] != 3) && (mazeMatrix[(lethal_posY / 32)][(lethal_posX / 32)+1] != 4)
+										&& (mazeMatrix[(lethal_posY / 32)][(lethal_posX / 32)+1] != 9) && (mazeMatrix[(lethal_posY / 32)][(lethal_posX / 32)+1] != 6)){
+											
+											mazeMatrix[lethal_posY / 32][lethal_posX / 32] = 0; //La posicion previa es cero ahora
+											mazeMatrix[lethal_posY / 32][(lethal_posX / 32) + 1] = 2; //La posicion nueva es 2, donde está el enemigo.
+											lethal_enemy.setLocation(lethal_enemy.getX()+desplazamiento, lethal_enemy.getY());
+											gameFrame.getGameState().repaint();
+											lethal_enemy.repaint();
+											break;
+										}
+									}
+								} //Para cada Lethal
+									
 								
+								for (EnemyRender stormy_enemy : listaStormy) {
+									int stormy_posX = stormy_enemy.getX();
+									int stormy_posY = stormy_enemy.getY();
+									
+									
+									int direccion = rnd.nextInt(5 - 1) + 1;
+									
+									if(direccion == 1) {
+										//Colisiones de los Enemigos
+										if((mazeMatrix[(stormy_posY / 32)-1][stormy_posX / 32] != 1) && (mazeMatrix[(stormy_posY / 32)-1][stormy_posX / 32] != 5)
+										&& (mazeMatrix[(stormy_posY / 32)-1][stormy_posX / 32] != 3) && (mazeMatrix[(stormy_posY / 32)-1][stormy_posX / 32] != 4)){
+											
+											mazeMatrix[stormy_posY / 32][stormy_posX / 32] = 0;
+											mazeMatrix[(stormy_posY / 32) - 1][stormy_posX / 32] = 6;
+											stormy_enemy.setLocation(stormy_enemy.getX(), stormy_enemy.getY()-desplazamiento);
+											gameFrame.getGameState().repaint();
+											stormy_enemy.repaint();
+											break;
+										}
+									}
+									if(direccion == 2) {
+										//Colisiones de los Enemigos
+										if((mazeMatrix[(stormy_posY / 32)+1][stormy_posX / 32] != 1) && (mazeMatrix[(stormy_posY / 32)+1][stormy_posX / 32] != 5)
+										&& (mazeMatrix[(stormy_posY / 32)+1][stormy_posX / 32] != 3) && (mazeMatrix[(stormy_posY / 32)+1][stormy_posX / 32] != 4)){
+											
+											mazeMatrix[stormy_posY / 32][stormy_posX / 32] = 0;
+											mazeMatrix[(stormy_posY / 32) + 1][stormy_posX / 32] = 6;
+											stormy_enemy.setLocation(stormy_enemy.getX(), stormy_enemy.getY()+desplazamiento);
+											gameFrame.getGameState().repaint();
+											stormy_enemy.repaint();
+											break;
+										}
+									}
+									if(direccion == 3) {
+										//Colisiones de los Enemigos
+										if((mazeMatrix[(stormy_posY / 32)][(stormy_posX / 32)-1] != 1) && (mazeMatrix[(stormy_posY / 32)][(stormy_posX / 32)-1] != 5)
+										&& (mazeMatrix[(stormy_posY / 32)][(stormy_posX / 32)-1] != 3) && (mazeMatrix[(stormy_posY / 32)][(stormy_posX / 32)-1] != 4)){
+											
+											mazeMatrix[stormy_posY / 32][stormy_posX / 32] = 0;
+											mazeMatrix[stormy_posY / 32][(stormy_posX / 32) - 1] = 6;
+											stormy_enemy.setLocation(stormy_enemy.getX()-desplazamiento, stormy_enemy.getY());
+											gameFrame.getGameState().repaint();
+											stormy_enemy.repaint();
+											break;
+										}
+									}
+									if(direccion == 4) {
+										//Colisiones de los Enemigos
+										if((mazeMatrix[(stormy_posY / 32)][(stormy_posX / 32)+1] != 1) && (mazeMatrix[(stormy_posY / 32)][(stormy_posX / 32)+1] != 5)
+										&& (mazeMatrix[(stormy_posY / 32)][(stormy_posX / 32)+1] != 3) && (mazeMatrix[(stormy_posY / 32)][(stormy_posX / 32)+1] != 4)){
+											
+											mazeMatrix[stormy_posY / 32][stormy_posX / 32] = 0;
+											mazeMatrix[stormy_posY / 32][(stormy_posX / 32) + 1] = 6;
+											stormy_enemy.setLocation(stormy_enemy.getX()+desplazamiento, stormy_enemy.getY());
+											gameFrame.getGameState().repaint();
+											stormy_enemy.repaint();
+											break;
+										}
+									}
+								} //Para cada Stormy
 								
-								int direccion = rnd.nextInt(5 - 1) + 1;
+								//Verificar contacto con el enemigo Lethal en la cuatro direcciones
+								if (mazeMatrix[(posY / 32) - 1][posX / 32] == 2) {
+									System.out.println("Contacto con Lethal");
+									gameFrame.geteState().setVisible(true);
+									gameFrame.geteState().getLost_panel().setVisible(true);
+									gameFrame.geteState().getVictory_panel().setVisible(false);
+								}
+								if (mazeMatrix[(posY / 32) + 1][posX / 32] == 2) {
+									System.out.println("Contacto con Lethal");
+									gameFrame.geteState().setVisible(true);
+									gameFrame.geteState().getLost_panel().setVisible(true);
+									gameFrame.geteState().getVictory_panel().setVisible(false);
+								}
+								if (mazeMatrix[posY / 32][(posX / 32) - 1] == 2) {
+									System.out.println("Contacto con Lethal");
+									gameFrame.geteState().setVisible(true);
+									gameFrame.geteState().getLost_panel().setVisible(true);
+									gameFrame.geteState().getVictory_panel().setVisible(false);
+								}
+								if (mazeMatrix[posY / 32][(posX / 32) + 1] == 2) {
+									System.out.println("Contacto con Lethal");
+									gameFrame.geteState().setVisible(true);
+									gameFrame.geteState().getLost_panel().setVisible(true);
+									gameFrame.geteState().getVictory_panel().setVisible(false);
+								}
 								
-								if(direccion == 1) {
-									//Colisiones de los Enemigos
-									if((mazeMatrix[(lethal_posY / 32)-1][lethal_posX / 32] != 1) && (mazeMatrix[(lethal_posY / 32)-1][lethal_posX / 32] != 5)
-									&&	(mazeMatrix[(lethal_posY / 32)-1][lethal_posX / 32] != 3) && (mazeMatrix[(lethal_posY / 32)-1][lethal_posX / 32] != 4)
-									&& (mazeMatrix[(lethal_posY / 32)-1][lethal_posX / 32] != 9) && (mazeMatrix[(lethal_posY / 32)-1][lethal_posX / 32] != 6)){
-										
-										mazeMatrix[lethal_posY / 32][lethal_posX / 32] = 0; //La posicion previa es cero ahora
-										mazeMatrix[(lethal_posY / 32) -1][lethal_posX / 32] = 2; //La posicion nueva es 2, donde está el enemigo.
-										lethal_enemy.setLocation(lethal_enemy.getX(), lethal_enemy.getY()-desplazamiento);
-										gameFrame.getGameState().repaint();
-										lethal_enemy.repaint();
-										break;
-									}
+								//Verificar contacto con el enemigo Stormy en las cuatro direcciones
+								if (mazeMatrix[(posY / 32) - 1][posX / 32] == 6) {
+									System.out.println("Contacto con Stormy");
+									mov_max = mov_max-((5*mov_max)/100);
 								}
-								if(direccion == 2) {
-									//Colisiones de los Enemigos
-									if((mazeMatrix[(lethal_posY / 32)+1][lethal_posX / 32] != 1) && (mazeMatrix[(lethal_posY / 32)+1][lethal_posX / 32] != 5)
-									&&	(mazeMatrix[(lethal_posY / 32)+1][lethal_posX / 32] != 3) && (mazeMatrix[(lethal_posY / 32)+1][lethal_posX / 32] != 4)
-									&& (mazeMatrix[(lethal_posY / 32)+1][lethal_posX / 32] != 9) && (mazeMatrix[(lethal_posY / 32)+1][lethal_posX / 32] != 6)){
-										
-										mazeMatrix[lethal_posY / 32][lethal_posX / 32] = 0; //La posicion previa es cero ahora
-										mazeMatrix[(lethal_posY / 32)+1][lethal_posX / 32] = 2; //La posicion nueva es 2, donde está el enemigo.
-										lethal_enemy.setLocation(lethal_enemy.getX(), lethal_enemy.getY()+desplazamiento);
-										gameFrame.getGameState().repaint();
-										lethal_enemy.repaint();
-										break;
-									}
+								if (mazeMatrix[(posY / 32) + 1][posX / 32] == 6) {
+									System.out.println("Contacto con Stormy");
+									mov_max = mov_max-((5*mov_max)/100);
 								}
-								if(direccion == 3) {
-
-									//Colisiones de los Enemigos
-									if((mazeMatrix[(lethal_posY / 32)][(lethal_posX / 32)-1] != 1) && (mazeMatrix[(lethal_posY / 32)][(lethal_posX / 32)-1] != 5)
-									&& (mazeMatrix[(lethal_posY / 32)][(lethal_posX / 32)-1] != 3) && (mazeMatrix[(lethal_posY / 32)][(lethal_posX / 32)-1] != 4)
-									&& (mazeMatrix[(lethal_posY / 32)][(lethal_posX / 32)-1] != 9) && (mazeMatrix[(lethal_posY / 32)][(lethal_posX / 32)-1] != 6)){
-										
-										mazeMatrix[lethal_posY / 32][lethal_posX / 32] = 0; //La posicion previa es cero ahora
-										mazeMatrix[lethal_posY / 32][(lethal_posX / 32) - 1] = 2; //La posicion nueva es 2, donde está el enemigo.
-										lethal_enemy.setLocation(lethal_enemy.getX()-desplazamiento, lethal_enemy.getY());
-										gameFrame.getGameState().repaint();
-										lethal_enemy.repaint();
-										break;
-									}
+								if (mazeMatrix[posY / 32][(posX / 32) - 1] == 6) {
+									System.out.println("Contacto con Stormy");
+									mov_max = mov_max-((5*mov_max)/100);
 								}
-								if(direccion == 4) {
-									//Colisiones de los Enemigos
-									if((mazeMatrix[(lethal_posY / 32)][(lethal_posX / 32)+1] != 1) && (mazeMatrix[(lethal_posY / 32)][(lethal_posX / 32)+1] != 5)
-									&& (mazeMatrix[(lethal_posY / 32)][(lethal_posX / 32)+1] != 3) && (mazeMatrix[(lethal_posY / 32)][(lethal_posX / 32)+1] != 4)
-									&& (mazeMatrix[(lethal_posY / 32)][(lethal_posX / 32)+1] != 9) && (mazeMatrix[(lethal_posY / 32)][(lethal_posX / 32)+1] != 6)){
-										
-										mazeMatrix[lethal_posY / 32][lethal_posX / 32] = 0; //La posicion previa es cero ahora
-										mazeMatrix[lethal_posY / 32][(lethal_posX / 32) + 1] = 2; //La posicion nueva es 2, donde está el enemigo.
-										lethal_enemy.setLocation(lethal_enemy.getX()+desplazamiento, lethal_enemy.getY());
-										gameFrame.getGameState().repaint();
-										lethal_enemy.repaint();
-										break;
-									}
+								if (mazeMatrix[posY / 32][(posX / 32) + 1] == 6) {
+									System.out.println("Contacto con Stormy");
+									mov_max = mov_max-((5*mov_max)/100);
 								}
-							} //Para cada Lethal
 								
-							
-							for (EnemyRender stormy_enemy : listaStormy) {
-								int stormy_posX = stormy_enemy.getX();
-								int stormy_posY = stormy_enemy.getY();
-								
-								
-								int direccion = rnd.nextInt(5 - 1) + 1;
-								
-								if(direccion == 1) {
-									//Colisiones de los Enemigos
-									if((mazeMatrix[(stormy_posY / 32)-1][stormy_posX / 32] != 1) && (mazeMatrix[(stormy_posY / 32)-1][stormy_posX / 32] != 5)
-									&& (mazeMatrix[(stormy_posY / 32)-1][stormy_posX / 32] != 3) && (mazeMatrix[(stormy_posY / 32)-1][stormy_posX / 32] != 4)){
-										
-										mazeMatrix[stormy_posY / 32][stormy_posX / 32] = 0;
-										mazeMatrix[(stormy_posY / 32) - 1][stormy_posX / 32] = 6;
-										stormy_enemy.setLocation(stormy_enemy.getX(), stormy_enemy.getY()-desplazamiento);
-										gameFrame.getGameState().repaint();
-										stormy_enemy.repaint();
-										break;
-									}
-								}
-								if(direccion == 2) {
-									//Colisiones de los Enemigos
-									if((mazeMatrix[(stormy_posY / 32)+1][stormy_posX / 32] != 1) && (mazeMatrix[(stormy_posY / 32)+1][stormy_posX / 32] != 5)
-									&& (mazeMatrix[(stormy_posY / 32)+1][stormy_posX / 32] != 3) && (mazeMatrix[(stormy_posY / 32)+1][stormy_posX / 32] != 4)){
-										
-										mazeMatrix[stormy_posY / 32][stormy_posX / 32] = 0;
-										mazeMatrix[(stormy_posY / 32) + 1][stormy_posX / 32] = 6;
-										stormy_enemy.setLocation(stormy_enemy.getX(), stormy_enemy.getY()+desplazamiento);
-										gameFrame.getGameState().repaint();
-										stormy_enemy.repaint();
-										break;
-									}
-								}
-								if(direccion == 3) {
-									//Colisiones de los Enemigos
-									if((mazeMatrix[(stormy_posY / 32)][(stormy_posX / 32)-1] != 1) && (mazeMatrix[(stormy_posY / 32)][(stormy_posX / 32)-1] != 5)
-									&& (mazeMatrix[(stormy_posY / 32)][(stormy_posX / 32)-1] != 3) && (mazeMatrix[(stormy_posY / 32)][(stormy_posX / 32)-1] != 4)){
-										
-										mazeMatrix[stormy_posY / 32][stormy_posX / 32] = 0;
-										mazeMatrix[stormy_posY / 32][(stormy_posX / 32) - 1] = 6;
-										stormy_enemy.setLocation(stormy_enemy.getX()-desplazamiento, stormy_enemy.getY());
-										gameFrame.getGameState().repaint();
-										stormy_enemy.repaint();
-										break;
-									}
-								}
-								if(direccion == 4) {
-									//Colisiones de los Enemigos
-									if((mazeMatrix[(stormy_posY / 32)][(stormy_posX / 32)+1] != 1) && (mazeMatrix[(stormy_posY / 32)][(stormy_posX / 32)+1] != 5)
-									&& (mazeMatrix[(stormy_posY / 32)][(stormy_posX / 32)+1] != 3) && (mazeMatrix[(stormy_posY / 32)][(stormy_posX / 32)+1] != 4)){
-										
-										mazeMatrix[stormy_posY / 32][stormy_posX / 32] = 0;
-										mazeMatrix[stormy_posY / 32][(stormy_posX / 32) + 1] = 6;
-										stormy_enemy.setLocation(stormy_enemy.getX()+desplazamiento, stormy_enemy.getY());
-										gameFrame.getGameState().repaint();
-										stormy_enemy.repaint();
-										break;
-									}
-								}
-							} //Para cada Stormy
-							
-							//Verificar contacto con el enemigo Lethal en la cuatro direcciones
-							if (mazeMatrix[(posY / 32) - 1][posX / 32] == 2) {
-								System.out.println("Contacto con Lethal");
-							}
-							if (mazeMatrix[(posY / 32) + 1][posX / 32] == 2) {
-								System.out.println("Contacto con Lethal");
-							}
-							if (mazeMatrix[posY / 32][(posX / 32) - 1] == 2) {
-								System.out.println("Contacto con Lethal");
-							}
-							if (mazeMatrix[posY / 32][(posX / 32) + 1] == 2) {
-								System.out.println("Contacto con Lethal");
-							}
-							
-							//Verificar contacto con el enemigo Stormy en las cuatro direcciones
-							if (mazeMatrix[(posY / 32) - 1][posX / 32] == 6) {
-								System.out.println("Contacto con Stormy");
-								mov_max = mov_max-((5*mov_max)/100);
-							}
-							if (mazeMatrix[(posY / 32) + 1][posX / 32] == 6) {
-								System.out.println("Contacto con Stormy");
-								mov_max = mov_max-((5*mov_max)/100);
-							}
-							if (mazeMatrix[posY / 32][(posX / 32) - 1] == 6) {
-								System.out.println("Contacto con Stormy");
-								mov_max = mov_max-((5*mov_max)/100);
-							}
-							if (mazeMatrix[posY / 32][(posX / 32) + 1] == 6) {
-								System.out.println("Contacto con Stormy");
-								mov_max = mov_max-((5*mov_max)/100);
-							}
-							
-//							//Debug
-//							for(int i = 0; i < mazeMatrix.length; i++) {
-//								for (int j = 0; j < mazeMatrix[i].length; j++) {
-//									System.out.print(mazeMatrix[i][j]+" ");
+//								//Debug
+//								for(int i = 0; i < mazeMatrix.length; i++) {
+//									for (int j = 0; j < mazeMatrix[i].length; j++) {
+//										System.out.print(mazeMatrix[i][j]+" ");
+//									}
+//									System.out.println();
 //								}
 //								System.out.println();
-//							}
-//							System.out.println();
-							
+								
+							}
+						} catch (ArrayIndexOutOfBoundsException e2) {
 						}
-					} catch (ArrayIndexOutOfBoundsException e2) {
+
 					}
+					if (code == KeyEvent.VK_A || code == KeyEvent.VK_LEFT) {
+						try {
+							if (mazeMatrix[posY / 32][(posX / 32) - 1] != 1) {
 
-				}
-				if (code == KeyEvent.VK_A || code == KeyEvent.VK_LEFT) {
-					try {
-						if (mazeMatrix[posY / 32][(posX / 32) - 1] != 1) {
+								setLeftP(true);
+								gameFrame.getGameState().getPlayer().setLocation(posX - desplazamiento, posY);
+								gameFrame.getGameState().getPlayer().repaint();
+								posX = gameFrame.getGameState().getPlayer().getX();
+								posY = gameFrame.getGameState().getPlayer().getY();
+								mov_actuales++;
+								gameFrame.getGameState().getRestant_movements().setText(String.valueOf(mov_max-mov_actuales));
 
-							setLeftP(true);
-							gameFrame.getGameState().getPlayer().setLocation(posX - desplazamiento, posY);
-							gameFrame.getGameState().getPlayer().repaint();
-							posX = gameFrame.getGameState().getPlayer().getX();
-							posY = gameFrame.getGameState().getPlayer().getY();
-							mov_actuales++;
+								//Entra al inicio
+								if(mazeMatrix[posY / 32][posX / 32] == 3) {
+									mazeMatrix[posY / 32][posX / 32] = 3;
+								}
+								//Entra a la salida
+								if(mazeMatrix[posY / 32][posX / 32] == 4) {
+									mazeMatrix[posY / 32][posX / 32] = 4;
+								}
+								
+								// Recoleccion de las llaves
+								listaLlaves = gameFrame.getGameState().getListaLlaves();
+								if (mazeMatrix[posY / 32][posX / 32] == 5) {
+									for (KeyRender key_render : listaLlaves) {
+										if (((posY / 32) == key_render.getPosRow())
+												&& ((posX / 32) == key_render.getPosCol())) {
+											key_render.setVisible(false);
+											llaves_acumuladas++;
+											llaves_restantes--;
+											gameFrame.getGameState().getRestant_keys().setText(String.valueOf(llaves_restantes));
+											gameFrame.getGameState().playSE(10);
+											mazeMatrix[posY / 32][posX / 32] = 0;
+											break;
+										}
+									}
+								}
+								//Acaba de salir 
+								if(mov_actuales == 1) {
+									mazeMatrix[posY / 32][posX / 32] = 9;
+								}
+								if(mazeMatrix[posY / 32][(posX / 32) + 1] == 9) {
+									mazeMatrix[posY / 32][(posX / 32) + 1] = 0;
+									mazeMatrix[posY / 32][posX / 32] = 9;
+								}
+								//Sale del final
+								if(mazeMatrix[posY / 32][(posX / 32) + 1] == 4) {
+									mazeMatrix[posY / 32][(posX / 32) + 1] = 4;
+									mazeMatrix[posY / 32][posX / 32] = 9;
+								}
 
-							//Entra al inicio
-							if(mazeMatrix[posY / 32][posX / 32] == 3) {
-								mazeMatrix[posY / 32][posX / 32] = 3;
-							}
-							//Entra a la salida
-							if(mazeMatrix[posY / 32][posX / 32] == 4) {
-								mazeMatrix[posY / 32][posX / 32] = 4;
-							}
-							
-							// Recoleccion de las llaves
-							listaLlaves = gameFrame.getGameState().getListaLlaves();
-							if (mazeMatrix[posY / 32][posX / 32] == 5) {
-								for (KeyRender key_render : listaLlaves) {
-									if (((posY / 32) == key_render.getPosRow())
-											&& ((posX / 32) == key_render.getPosCol())) {
-										key_render.setVisible(false);
-										llaves_acumuladas++;
-										gameFrame.getGameState().playSE(10);
-										mazeMatrix[posY / 32][posX / 32] = 0;
-										break;
+								
+								
+								
+								//Movimiento de los enemigos
+								listaLethal = gameFrame.getGameState().getListaLethal();
+								listaStormy = gameFrame.getGameState().getListaStormy();
+								Random rnd = new Random();
+								
+								for (EnemyRender lethal_enemy : listaLethal) {
+									int lethal_posX = lethal_enemy.getX();
+									int lethal_posY = lethal_enemy.getY();
+									
+									
+									int direccion = rnd.nextInt(5 - 1) + 1;
+									
+									if(direccion == 1) {
+										//Colisiones de los Enemigos
+										if((mazeMatrix[(lethal_posY / 32)-1][lethal_posX / 32] != 1) && (mazeMatrix[(lethal_posY / 32)-1][lethal_posX / 32] != 5)
+										&&	(mazeMatrix[(lethal_posY / 32)-1][lethal_posX / 32] != 3) && (mazeMatrix[(lethal_posY / 32)-1][lethal_posX / 32] != 4)
+										&& (mazeMatrix[(lethal_posY / 32)-1][lethal_posX / 32] != 9) && (mazeMatrix[(lethal_posY / 32)-1][lethal_posX / 32] != 6)){
+											
+											mazeMatrix[lethal_posY / 32][lethal_posX / 32] = 0; //La posicion previa es cero ahora
+											mazeMatrix[(lethal_posY / 32) -1][lethal_posX / 32] = 2; //La posicion nueva es 2, donde está el enemigo.
+											lethal_enemy.setLocation(lethal_enemy.getX(), lethal_enemy.getY()-desplazamiento);
+											gameFrame.getGameState().repaint();
+											lethal_enemy.repaint();
+											break;
+										}
 									}
-								}
-							}
-							//Acaba de salir 
-							if(mov_actuales == 1) {
-								mazeMatrix[posY / 32][posX / 32] = 9;
-							}
-							if(mazeMatrix[posY / 32][(posX / 32) + 1] == 9) {
-								mazeMatrix[posY / 32][(posX / 32) + 1] = 0;
-								mazeMatrix[posY / 32][posX / 32] = 9;
-							}
-							//Sale del final
-							if(mazeMatrix[posY / 32][(posX / 32) + 1] == 4) {
-								mazeMatrix[posY / 32][(posX / 32) + 1] = 4;
-								mazeMatrix[posY / 32][posX / 32] = 9;
-							}
+									if(direccion == 2) {
+										//Colisiones de los Enemigos
+										if((mazeMatrix[(lethal_posY / 32)+1][lethal_posX / 32] != 1) && (mazeMatrix[(lethal_posY / 32)+1][lethal_posX / 32] != 5)
+										&&	(mazeMatrix[(lethal_posY / 32)+1][lethal_posX / 32] != 3) && (mazeMatrix[(lethal_posY / 32)+1][lethal_posX / 32] != 4)
+										&& (mazeMatrix[(lethal_posY / 32)+1][lethal_posX / 32] != 9) && (mazeMatrix[(lethal_posY / 32)+1][lethal_posX / 32] != 6)){
+											
+											mazeMatrix[lethal_posY / 32][lethal_posX / 32] = 0; //La posicion previa es cero ahora
+											mazeMatrix[(lethal_posY / 32)+1][lethal_posX / 32] = 2; //La posicion nueva es 2, donde está el enemigo.
+											lethal_enemy.setLocation(lethal_enemy.getX(), lethal_enemy.getY()+desplazamiento);
+											gameFrame.getGameState().repaint();
+											lethal_enemy.repaint();
+											break;
+										}
+									}
+									if(direccion == 3) {
 
-							
-							
-							
-							//Movimiento de los enemigos
-							listaLethal = gameFrame.getGameState().getListaLethal();
-							listaStormy = gameFrame.getGameState().getListaStormy();
-							Random rnd = new Random();
-							
-							for (EnemyRender lethal_enemy : listaLethal) {
-								int lethal_posX = lethal_enemy.getX();
-								int lethal_posY = lethal_enemy.getY();
+										//Colisiones de los Enemigos
+										if((mazeMatrix[(lethal_posY / 32)][(lethal_posX / 32)-1] != 1) && (mazeMatrix[(lethal_posY / 32)][(lethal_posX / 32)-1] != 5)
+										&& (mazeMatrix[(lethal_posY / 32)][(lethal_posX / 32)-1] != 3) && (mazeMatrix[(lethal_posY / 32)][(lethal_posX / 32)-1] != 4)
+										&& (mazeMatrix[(lethal_posY / 32)][(lethal_posX / 32)-1] != 9) && (mazeMatrix[(lethal_posY / 32)][(lethal_posX / 32)-1] != 6)){
+											
+											mazeMatrix[lethal_posY / 32][lethal_posX / 32] = 0; //La posicion previa es cero ahora
+											mazeMatrix[lethal_posY / 32][(lethal_posX / 32) - 1] = 2; //La posicion nueva es 2, donde está el enemigo.
+											lethal_enemy.setLocation(lethal_enemy.getX()-desplazamiento, lethal_enemy.getY());
+											gameFrame.getGameState().repaint();
+											lethal_enemy.repaint();
+											break;
+										}
+									}
+									if(direccion == 4) {
+										//Colisiones de los Enemigos
+										if((mazeMatrix[(lethal_posY / 32)][(lethal_posX / 32)+1] != 1) && (mazeMatrix[(lethal_posY / 32)][(lethal_posX / 32)+1] != 5)
+										&& (mazeMatrix[(lethal_posY / 32)][(lethal_posX / 32)+1] != 3) && (mazeMatrix[(lethal_posY / 32)][(lethal_posX / 32)+1] != 4)
+										&& (mazeMatrix[(lethal_posY / 32)][(lethal_posX / 32)+1] != 9) && (mazeMatrix[(lethal_posY / 32)][(lethal_posX / 32)+1] != 6)){
+											
+											mazeMatrix[lethal_posY / 32][lethal_posX / 32] = 0; //La posicion previa es cero ahora
+											mazeMatrix[lethal_posY / 32][(lethal_posX / 32) + 1] = 2; //La posicion nueva es 2, donde está el enemigo.
+											lethal_enemy.setLocation(lethal_enemy.getX()+desplazamiento, lethal_enemy.getY());
+											gameFrame.getGameState().repaint();
+											lethal_enemy.repaint();
+											break;
+										}
+									}
+								} //Para cada Lethal
+									
 								
+								for (EnemyRender stormy_enemy : listaStormy) {
+									int stormy_posX = stormy_enemy.getX();
+									int stormy_posY = stormy_enemy.getY();
+									
+									
+									int direccion = rnd.nextInt(5 - 1) + 1;
+									
+									if(direccion == 1) {
+										//Colisiones de los Enemigos
+										if((mazeMatrix[(stormy_posY / 32)-1][stormy_posX / 32] != 1) && (mazeMatrix[(stormy_posY / 32)-1][stormy_posX / 32] != 5)
+										&& (mazeMatrix[(stormy_posY / 32)-1][stormy_posX / 32] != 3) && (mazeMatrix[(stormy_posY / 32)-1][stormy_posX / 32] != 4)){
+											
+											mazeMatrix[stormy_posY / 32][stormy_posX / 32] = 0;
+											mazeMatrix[(stormy_posY / 32) - 1][stormy_posX / 32] = 6;
+											stormy_enemy.setLocation(stormy_enemy.getX(), stormy_enemy.getY()-desplazamiento);
+											gameFrame.getGameState().repaint();
+											stormy_enemy.repaint();
+											break;
+										}
+									}
+									if(direccion == 2) {
+										//Colisiones de los Enemigos
+										if((mazeMatrix[(stormy_posY / 32)+1][stormy_posX / 32] != 1) && (mazeMatrix[(stormy_posY / 32)+1][stormy_posX / 32] != 5)
+										&& (mazeMatrix[(stormy_posY / 32)+1][stormy_posX / 32] != 3) && (mazeMatrix[(stormy_posY / 32)+1][stormy_posX / 32] != 4)){
+											
+											mazeMatrix[stormy_posY / 32][stormy_posX / 32] = 0;
+											mazeMatrix[(stormy_posY / 32) + 1][stormy_posX / 32] = 6;
+											stormy_enemy.setLocation(stormy_enemy.getX(), stormy_enemy.getY()+desplazamiento);
+											gameFrame.getGameState().repaint();
+											stormy_enemy.repaint();
+											break;
+										}
+									}
+									if(direccion == 3) {
+										//Colisiones de los Enemigos
+										if((mazeMatrix[(stormy_posY / 32)][(stormy_posX / 32)-1] != 1) && (mazeMatrix[(stormy_posY / 32)][(stormy_posX / 32)-1] != 5)
+										&& (mazeMatrix[(stormy_posY / 32)][(stormy_posX / 32)-1] != 3) && (mazeMatrix[(stormy_posY / 32)][(stormy_posX / 32)-1] != 4)){
+											
+											mazeMatrix[stormy_posY / 32][stormy_posX / 32] = 0;
+											mazeMatrix[stormy_posY / 32][(stormy_posX / 32) - 1] = 6;
+											stormy_enemy.setLocation(stormy_enemy.getX()-desplazamiento, stormy_enemy.getY());
+											gameFrame.getGameState().repaint();
+											stormy_enemy.repaint();
+											break;
+										}
+									}
+									if(direccion == 4) {
+										//Colisiones de los Enemigos
+										if((mazeMatrix[(stormy_posY / 32)][(stormy_posX / 32)+1] != 1) && (mazeMatrix[(stormy_posY / 32)][(stormy_posX / 32)+1] != 5)
+										&& (mazeMatrix[(stormy_posY / 32)][(stormy_posX / 32)+1] != 3) && (mazeMatrix[(stormy_posY / 32)][(stormy_posX / 32)+1] != 4)){
+											
+											mazeMatrix[stormy_posY / 32][stormy_posX / 32] = 0;
+											mazeMatrix[stormy_posY / 32][(stormy_posX / 32) + 1] = 6;
+											stormy_enemy.setLocation(stormy_enemy.getX()+desplazamiento, stormy_enemy.getY());
+											gameFrame.getGameState().repaint();
+											stormy_enemy.repaint();
+											break;
+										}
+									}
+								} //Para cada Stormy
 								
-								int direccion = rnd.nextInt(5 - 1) + 1;
+								//Verificar contacto con el enemigo Lethal en la cuatro direcciones
+								if (mazeMatrix[(posY / 32) - 1][posX / 32] == 2) {
+									System.out.println("Contacto con Lethal");
+									gameFrame.geteState().setVisible(true);
+									gameFrame.geteState().getLost_panel().setVisible(true);
+									gameFrame.geteState().getVictory_panel().setVisible(false);
+								}
+								if (mazeMatrix[(posY / 32) + 1][posX / 32] == 2) {
+									System.out.println("Contacto con Lethal");
+									gameFrame.geteState().setVisible(true);
+									gameFrame.geteState().getLost_panel().setVisible(true);
+									gameFrame.geteState().getVictory_panel().setVisible(false);
+								}
+								if (mazeMatrix[posY / 32][(posX / 32) - 1] == 2) {
+									System.out.println("Contacto con Lethal");
+									gameFrame.geteState().setVisible(true);
+									gameFrame.geteState().getLost_panel().setVisible(true);
+									gameFrame.geteState().getVictory_panel().setVisible(false);
+								}
+								if (mazeMatrix[posY / 32][(posX / 32) + 1] == 2) {
+									System.out.println("Contacto con Lethal");
+									gameFrame.geteState().setVisible(true);
+									gameFrame.geteState().getLost_panel().setVisible(true);
+									gameFrame.geteState().getVictory_panel().setVisible(false);
+								}
 								
-								if(direccion == 1) {
-									//Colisiones de los Enemigos
-									if((mazeMatrix[(lethal_posY / 32)-1][lethal_posX / 32] != 1) && (mazeMatrix[(lethal_posY / 32)-1][lethal_posX / 32] != 5)
-									&&	(mazeMatrix[(lethal_posY / 32)-1][lethal_posX / 32] != 3) && (mazeMatrix[(lethal_posY / 32)-1][lethal_posX / 32] != 4)
-									&& (mazeMatrix[(lethal_posY / 32)-1][lethal_posX / 32] != 9) && (mazeMatrix[(lethal_posY / 32)-1][lethal_posX / 32] != 6)){
-										
-										mazeMatrix[lethal_posY / 32][lethal_posX / 32] = 0; //La posicion previa es cero ahora
-										mazeMatrix[(lethal_posY / 32) -1][lethal_posX / 32] = 2; //La posicion nueva es 2, donde está el enemigo.
-										lethal_enemy.setLocation(lethal_enemy.getX(), lethal_enemy.getY()-desplazamiento);
-										gameFrame.getGameState().repaint();
-										lethal_enemy.repaint();
-										break;
-									}
+								//Verificar contacto con el enemigo Stormy en las cuatro direcciones
+								if (mazeMatrix[(posY / 32) - 1][posX / 32] == 6) {
+									System.out.println("Contacto con Stormy");
+									mov_max = mov_max-((5*mov_max)/100);
 								}
-								if(direccion == 2) {
-									//Colisiones de los Enemigos
-									if((mazeMatrix[(lethal_posY / 32)+1][lethal_posX / 32] != 1) && (mazeMatrix[(lethal_posY / 32)+1][lethal_posX / 32] != 5)
-									&&	(mazeMatrix[(lethal_posY / 32)+1][lethal_posX / 32] != 3) && (mazeMatrix[(lethal_posY / 32)+1][lethal_posX / 32] != 4)
-									&& (mazeMatrix[(lethal_posY / 32)+1][lethal_posX / 32] != 9) && (mazeMatrix[(lethal_posY / 32)+1][lethal_posX / 32] != 6)){
-										
-										mazeMatrix[lethal_posY / 32][lethal_posX / 32] = 0; //La posicion previa es cero ahora
-										mazeMatrix[(lethal_posY / 32)+1][lethal_posX / 32] = 2; //La posicion nueva es 2, donde está el enemigo.
-										lethal_enemy.setLocation(lethal_enemy.getX(), lethal_enemy.getY()+desplazamiento);
-										gameFrame.getGameState().repaint();
-										lethal_enemy.repaint();
-										break;
-									}
+								if (mazeMatrix[(posY / 32) + 1][posX / 32] == 6) {
+									System.out.println("Contacto con Stormy");
+									mov_max = mov_max-((5*mov_max)/100);
 								}
-								if(direccion == 3) {
-
-									//Colisiones de los Enemigos
-									if((mazeMatrix[(lethal_posY / 32)][(lethal_posX / 32)-1] != 1) && (mazeMatrix[(lethal_posY / 32)][(lethal_posX / 32)-1] != 5)
-									&& (mazeMatrix[(lethal_posY / 32)][(lethal_posX / 32)-1] != 3) && (mazeMatrix[(lethal_posY / 32)][(lethal_posX / 32)-1] != 4)
-									&& (mazeMatrix[(lethal_posY / 32)][(lethal_posX / 32)-1] != 9) && (mazeMatrix[(lethal_posY / 32)][(lethal_posX / 32)-1] != 6)){
-										
-										mazeMatrix[lethal_posY / 32][lethal_posX / 32] = 0; //La posicion previa es cero ahora
-										mazeMatrix[lethal_posY / 32][(lethal_posX / 32) - 1] = 2; //La posicion nueva es 2, donde está el enemigo.
-										lethal_enemy.setLocation(lethal_enemy.getX()-desplazamiento, lethal_enemy.getY());
-										gameFrame.getGameState().repaint();
-										lethal_enemy.repaint();
-										break;
-									}
+								if (mazeMatrix[posY / 32][(posX / 32) - 1] == 6) {
+									System.out.println("Contacto con Stormy");
+									mov_max = mov_max-((5*mov_max)/100);
 								}
-								if(direccion == 4) {
-									//Colisiones de los Enemigos
-									if((mazeMatrix[(lethal_posY / 32)][(lethal_posX / 32)+1] != 1) && (mazeMatrix[(lethal_posY / 32)][(lethal_posX / 32)+1] != 5)
-									&& (mazeMatrix[(lethal_posY / 32)][(lethal_posX / 32)+1] != 3) && (mazeMatrix[(lethal_posY / 32)][(lethal_posX / 32)+1] != 4)
-									&& (mazeMatrix[(lethal_posY / 32)][(lethal_posX / 32)+1] != 9) && (mazeMatrix[(lethal_posY / 32)][(lethal_posX / 32)+1] != 6)){
-										
-										mazeMatrix[lethal_posY / 32][lethal_posX / 32] = 0; //La posicion previa es cero ahora
-										mazeMatrix[lethal_posY / 32][(lethal_posX / 32) + 1] = 2; //La posicion nueva es 2, donde está el enemigo.
-										lethal_enemy.setLocation(lethal_enemy.getX()+desplazamiento, lethal_enemy.getY());
-										gameFrame.getGameState().repaint();
-										lethal_enemy.repaint();
-										break;
-									}
+								if (mazeMatrix[posY / 32][(posX / 32) + 1] == 6) {
+									System.out.println("Contacto con Stormy");
+									mov_max = mov_max-((5*mov_max)/100);
 								}
-							} //Para cada Lethal
 								
-							
-							for (EnemyRender stormy_enemy : listaStormy) {
-								int stormy_posX = stormy_enemy.getX();
-								int stormy_posY = stormy_enemy.getY();
-								
-								
-								int direccion = rnd.nextInt(5 - 1) + 1;
-								
-								if(direccion == 1) {
-									//Colisiones de los Enemigos
-									if((mazeMatrix[(stormy_posY / 32)-1][stormy_posX / 32] != 1) && (mazeMatrix[(stormy_posY / 32)-1][stormy_posX / 32] != 5)
-									&& (mazeMatrix[(stormy_posY / 32)-1][stormy_posX / 32] != 3) && (mazeMatrix[(stormy_posY / 32)-1][stormy_posX / 32] != 4)){
-										
-										mazeMatrix[stormy_posY / 32][stormy_posX / 32] = 0;
-										mazeMatrix[(stormy_posY / 32) - 1][stormy_posX / 32] = 6;
-										stormy_enemy.setLocation(stormy_enemy.getX(), stormy_enemy.getY()-desplazamiento);
-										gameFrame.getGameState().repaint();
-										stormy_enemy.repaint();
-										break;
-									}
-								}
-								if(direccion == 2) {
-									//Colisiones de los Enemigos
-									if((mazeMatrix[(stormy_posY / 32)+1][stormy_posX / 32] != 1) && (mazeMatrix[(stormy_posY / 32)+1][stormy_posX / 32] != 5)
-									&& (mazeMatrix[(stormy_posY / 32)+1][stormy_posX / 32] != 3) && (mazeMatrix[(stormy_posY / 32)+1][stormy_posX / 32] != 4)){
-										
-										mazeMatrix[stormy_posY / 32][stormy_posX / 32] = 0;
-										mazeMatrix[(stormy_posY / 32) + 1][stormy_posX / 32] = 6;
-										stormy_enemy.setLocation(stormy_enemy.getX(), stormy_enemy.getY()+desplazamiento);
-										gameFrame.getGameState().repaint();
-										stormy_enemy.repaint();
-										break;
-									}
-								}
-								if(direccion == 3) {
-									//Colisiones de los Enemigos
-									if((mazeMatrix[(stormy_posY / 32)][(stormy_posX / 32)-1] != 1) && (mazeMatrix[(stormy_posY / 32)][(stormy_posX / 32)-1] != 5)
-									&& (mazeMatrix[(stormy_posY / 32)][(stormy_posX / 32)-1] != 3) && (mazeMatrix[(stormy_posY / 32)][(stormy_posX / 32)-1] != 4)){
-										
-										mazeMatrix[stormy_posY / 32][stormy_posX / 32] = 0;
-										mazeMatrix[stormy_posY / 32][(stormy_posX / 32) - 1] = 6;
-										stormy_enemy.setLocation(stormy_enemy.getX()-desplazamiento, stormy_enemy.getY());
-										gameFrame.getGameState().repaint();
-										stormy_enemy.repaint();
-										break;
-									}
-								}
-								if(direccion == 4) {
-									//Colisiones de los Enemigos
-									if((mazeMatrix[(stormy_posY / 32)][(stormy_posX / 32)+1] != 1) && (mazeMatrix[(stormy_posY / 32)][(stormy_posX / 32)+1] != 5)
-									&& (mazeMatrix[(stormy_posY / 32)][(stormy_posX / 32)+1] != 3) && (mazeMatrix[(stormy_posY / 32)][(stormy_posX / 32)+1] != 4)){
-										
-										mazeMatrix[stormy_posY / 32][stormy_posX / 32] = 0;
-										mazeMatrix[stormy_posY / 32][(stormy_posX / 32) + 1] = 6;
-										stormy_enemy.setLocation(stormy_enemy.getX()+desplazamiento, stormy_enemy.getY());
-										gameFrame.getGameState().repaint();
-										stormy_enemy.repaint();
-										break;
-									}
-								}
-							} //Para cada Stormy
-							
-							//Verificar contacto con el enemigo Lethal en la cuatro direcciones
-							if (mazeMatrix[(posY / 32) - 1][posX / 32] == 2) {
-								System.out.println("Contacto con Lethal");
-							}
-							if (mazeMatrix[(posY / 32) + 1][posX / 32] == 2) {
-								System.out.println("Contacto con Lethal");
-							}
-							if (mazeMatrix[posY / 32][(posX / 32) - 1] == 2) {
-								System.out.println("Contacto con Lethal");
-							}
-							if (mazeMatrix[posY / 32][(posX / 32) + 1] == 2) {
-								System.out.println("Contacto con Lethal");
-							}
-							
-							//Verificar contacto con el enemigo Stormy en las cuatro direcciones
-							if (mazeMatrix[(posY / 32) - 1][posX / 32] == 6) {
-								System.out.println("Contacto con Stormy");
-								mov_max = mov_max-((5*mov_max)/100);
-							}
-							if (mazeMatrix[(posY / 32) + 1][posX / 32] == 6) {
-								System.out.println("Contacto con Stormy");
-								mov_max = mov_max-((5*mov_max)/100);
-							}
-							if (mazeMatrix[posY / 32][(posX / 32) - 1] == 6) {
-								System.out.println("Contacto con Stormy");
-								mov_max = mov_max-((5*mov_max)/100);
-							}
-							if (mazeMatrix[posY / 32][(posX / 32) + 1] == 6) {
-								System.out.println("Contacto con Stormy");
-								mov_max = mov_max-((5*mov_max)/100);
-							}
-							
-//							//Debug
-//							for(int i = 0; i < mazeMatrix.length; i++) {
-//								for (int j = 0; j < mazeMatrix[i].length; j++) {
-//									System.out.print(mazeMatrix[i][j]+" ");
+//								//Debug
+//								for(int i = 0; i < mazeMatrix.length; i++) {
+//									for (int j = 0; j < mazeMatrix[i].length; j++) {
+//										System.out.print(mazeMatrix[i][j]+" ");
+//									}
+//									System.out.println();
 //								}
 //								System.out.println();
-//							}
-//							System.out.println();
-							
+								
+							}
+						} catch (ArrayIndexOutOfBoundsException e2) {
 						}
-					} catch (ArrayIndexOutOfBoundsException e2) {
+
 					}
+					if (code == KeyEvent.VK_D || code == KeyEvent.VK_RIGHT) {
+						try {
+							if (mazeMatrix[posY / 32][(posX / 32) + 1] != 1) {
 
-				}
-				if (code == KeyEvent.VK_D || code == KeyEvent.VK_RIGHT) {
-					try {
-						if (mazeMatrix[posY / 32][(posX / 32) + 1] != 1) {
+								rightP = true;
+								gameFrame.getGameState().getPlayer().setLocation(posX + desplazamiento, posY);
+								gameFrame.getGameState().getPlayer().repaint();
+								posX = gameFrame.getGameState().getPlayer().getX();
+								posY = gameFrame.getGameState().getPlayer().getY();
+								mov_actuales++;
+								gameFrame.getGameState().getRestant_movements().setText(String.valueOf(mov_max-mov_actuales));
 
-							rightP = true;
-							gameFrame.getGameState().getPlayer().setLocation(posX + desplazamiento, posY);
-							gameFrame.getGameState().getPlayer().repaint();
-							posX = gameFrame.getGameState().getPlayer().getX();
-							posY = gameFrame.getGameState().getPlayer().getY();
-							mov_actuales++;
+								//Entra al inicio
+								if(mazeMatrix[posY / 32][posX / 32] == 3) {
+									mazeMatrix[posY / 32][posX / 32] = 3;
+								}
+								//Entra a la salida
+								if(mazeMatrix[posY / 32][posX / 32] == 4) {
+									mazeMatrix[posY / 32][posX / 32] = 4;
+									mazeMatrix[posY / 32][(posX / 32) - 1] = 0;
+								}
+								
+								
+								// Recoleccion de las llaves
+								listaLlaves = gameFrame.getGameState().getListaLlaves();
+								if ((mazeMatrix[posY / 32][posX / 32] == 5)) {
+									for (KeyRender key_render : listaLlaves) {
+										if (((posY / 32) == key_render.getPosRow())
+												&& ((posX / 32) == key_render.getPosCol())) {
+											key_render.setVisible(false);
+											llaves_acumuladas++;
+											llaves_restantes--;
+											gameFrame.getGameState().getRestant_keys().setText(String.valueOf(llaves_restantes));
+											gameFrame.getGameState().playSE(10);
+											mazeMatrix[posY / 32][posX / 32] = 0;
+											break;
+										}
+									}
+								}
+								//Acaba de salir 
+								if(mov_actuales == 1) {
+									mazeMatrix[posY / 32][posX / 32] = 9;
+								}
+								if(mazeMatrix[posY / 32][(posX / 32) - 1] == 9) {
+									mazeMatrix[posY / 32][(posX / 32) - 1] = 0;
+									mazeMatrix[posY / 32][posX / 32] = 9;
+								}
 
-							//Entra al inicio
-							if(mazeMatrix[posY / 32][posX / 32] == 3) {
-								mazeMatrix[posY / 32][posX / 32] = 3;
-							}
-							//Entra a la salida
-							if(mazeMatrix[posY / 32][posX / 32] == 4) {
-								mazeMatrix[posY / 32][posX / 32] = 4;
-								mazeMatrix[posY / 32][(posX / 32) - 1] = 0;
-							}
-							
-							
-							// Recoleccion de las llaves
-							listaLlaves = gameFrame.getGameState().getListaLlaves();
-							if ((mazeMatrix[posY / 32][posX / 32] == 5)) {
-								for (KeyRender key_render : listaLlaves) {
-									if (((posY / 32) == key_render.getPosRow())
-											&& ((posX / 32) == key_render.getPosCol())) {
-										key_render.setVisible(false);
-										llaves_acumuladas++;
-										gameFrame.getGameState().playSE(10);
-										mazeMatrix[posY / 32][posX / 32] = 0;
-										break;
+								
+								//Movimiento de los enemigos
+								listaLethal = gameFrame.getGameState().getListaLethal();
+								listaStormy = gameFrame.getGameState().getListaStormy();
+								Random rnd = new Random();
+								
+								for (EnemyRender lethal_enemy : listaLethal) {
+									int lethal_posX = lethal_enemy.getX();
+									int lethal_posY = lethal_enemy.getY();
+									
+									
+									int direccion = rnd.nextInt(5 - 1) + 1;
+									
+									if(direccion == 1) {
+										//Colisiones de los Enemigos
+										if((mazeMatrix[(lethal_posY / 32)-1][lethal_posX / 32] != 1) && (mazeMatrix[(lethal_posY / 32)-1][lethal_posX / 32] != 5)
+										&&	(mazeMatrix[(lethal_posY / 32)-1][lethal_posX / 32] != 3) && (mazeMatrix[(lethal_posY / 32)-1][lethal_posX / 32] != 4)
+										&& (mazeMatrix[(lethal_posY / 32)-1][lethal_posX / 32] != 9) && (mazeMatrix[(lethal_posY / 32)-1][lethal_posX / 32] != 6)){
+											
+											mazeMatrix[lethal_posY / 32][lethal_posX / 32] = 0; //La posicion previa es cero ahora
+											mazeMatrix[(lethal_posY / 32) -1][lethal_posX / 32] = 2; //La posicion nueva es 2, donde está el enemigo.
+											lethal_enemy.setLocation(lethal_enemy.getX(), lethal_enemy.getY()-desplazamiento);
+											gameFrame.getGameState().repaint();
+											lethal_enemy.repaint();
+											break;
+										}
 									}
-								}
-							}
-							//Acaba de salir 
-							if(mov_actuales == 1) {
-								mazeMatrix[posY / 32][posX / 32] = 9;
-							}
-							if(mazeMatrix[posY / 32][(posX / 32) - 1] == 9) {
-								mazeMatrix[posY / 32][(posX / 32) - 1] = 0;
-								mazeMatrix[posY / 32][posX / 32] = 9;
-							}
+									if(direccion == 2) {
+										//Colisiones de los Enemigos
+										if((mazeMatrix[(lethal_posY / 32)+1][lethal_posX / 32] != 1) && (mazeMatrix[(lethal_posY / 32)+1][lethal_posX / 32] != 5)
+										&&	(mazeMatrix[(lethal_posY / 32)+1][lethal_posX / 32] != 3) && (mazeMatrix[(lethal_posY / 32)+1][lethal_posX / 32] != 4)
+										&& (mazeMatrix[(lethal_posY / 32)+1][lethal_posX / 32] != 9) && (mazeMatrix[(lethal_posY / 32)+1][lethal_posX / 32] != 6)){
+											
+											mazeMatrix[lethal_posY / 32][lethal_posX / 32] = 0; //La posicion previa es cero ahora
+											mazeMatrix[(lethal_posY / 32)+1][lethal_posX / 32] = 2; //La posicion nueva es 2, donde está el enemigo.
+											lethal_enemy.setLocation(lethal_enemy.getX(), lethal_enemy.getY()+desplazamiento);
+											gameFrame.getGameState().repaint();
+											lethal_enemy.repaint();
+											break;
+										}
+									}
+									if(direccion == 3) {
 
-							
-							//Movimiento de los enemigos
-							listaLethal = gameFrame.getGameState().getListaLethal();
-							listaStormy = gameFrame.getGameState().getListaStormy();
-							Random rnd = new Random();
-							
-							for (EnemyRender lethal_enemy : listaLethal) {
-								int lethal_posX = lethal_enemy.getX();
-								int lethal_posY = lethal_enemy.getY();
+										//Colisiones de los Enemigos
+										if((mazeMatrix[(lethal_posY / 32)][(lethal_posX / 32)-1] != 1) && (mazeMatrix[(lethal_posY / 32)][(lethal_posX / 32)-1] != 5)
+										&& (mazeMatrix[(lethal_posY / 32)][(lethal_posX / 32)-1] != 3) && (mazeMatrix[(lethal_posY / 32)][(lethal_posX / 32)-1] != 4)
+										&& (mazeMatrix[(lethal_posY / 32)][(lethal_posX / 32)-1] != 9) && (mazeMatrix[(lethal_posY / 32)][(lethal_posX / 32)-1] != 6)){
+											
+											mazeMatrix[lethal_posY / 32][lethal_posX / 32] = 0; //La posicion previa es cero ahora
+											mazeMatrix[lethal_posY / 32][(lethal_posX / 32) - 1] = 2; //La posicion nueva es 2, donde está el enemigo.
+											lethal_enemy.setLocation(lethal_enemy.getX()-desplazamiento, lethal_enemy.getY());
+											gameFrame.getGameState().repaint();
+											lethal_enemy.repaint();
+											break;
+										}
+									}
+									if(direccion == 4) {
+										//Colisiones de los Enemigos
+										if((mazeMatrix[(lethal_posY / 32)][(lethal_posX / 32)+1] != 1) && (mazeMatrix[(lethal_posY / 32)][(lethal_posX / 32)+1] != 5)
+										&& (mazeMatrix[(lethal_posY / 32)][(lethal_posX / 32)+1] != 3) && (mazeMatrix[(lethal_posY / 32)][(lethal_posX / 32)+1] != 4)
+										&& (mazeMatrix[(lethal_posY / 32)][(lethal_posX / 32)+1] != 9) && (mazeMatrix[(lethal_posY / 32)][(lethal_posX / 32)+1] != 6)){
+											
+											mazeMatrix[lethal_posY / 32][lethal_posX / 32] = 0; //La posicion previa es cero ahora
+											mazeMatrix[lethal_posY / 32][(lethal_posX / 32) + 1] = 2; //La posicion nueva es 2, donde está el enemigo.
+											lethal_enemy.setLocation(lethal_enemy.getX()+desplazamiento, lethal_enemy.getY());
+											gameFrame.getGameState().repaint();
+											lethal_enemy.repaint();
+											break;
+										}
+									}
+								} //Para cada Lethal
+									
 								
+								for (EnemyRender stormy_enemy : listaStormy) {
+									int stormy_posX = stormy_enemy.getX();
+									int stormy_posY = stormy_enemy.getY();
+									
+									
+									int direccion = rnd.nextInt(5 - 1) + 1;
+									
+									if(direccion == 1) {
+										//Colisiones de los Enemigos
+										if((mazeMatrix[(stormy_posY / 32)-1][stormy_posX / 32] != 1) && (mazeMatrix[(stormy_posY / 32)-1][stormy_posX / 32] != 5)
+										&& (mazeMatrix[(stormy_posY / 32)-1][stormy_posX / 32] != 3) && (mazeMatrix[(stormy_posY / 32)-1][stormy_posX / 32] != 4)){
+											
+											mazeMatrix[stormy_posY / 32][stormy_posX / 32] = 0;
+											mazeMatrix[(stormy_posY / 32) - 1][stormy_posX / 32] = 6;
+											stormy_enemy.setLocation(stormy_enemy.getX(), stormy_enemy.getY()-desplazamiento);
+											gameFrame.getGameState().repaint();
+											stormy_enemy.repaint();
+											break;
+										}
+									}
+									if(direccion == 2) {
+										//Colisiones de los Enemigos
+										if((mazeMatrix[(stormy_posY / 32)+1][stormy_posX / 32] != 1) && (mazeMatrix[(stormy_posY / 32)+1][stormy_posX / 32] != 5)
+										&& (mazeMatrix[(stormy_posY / 32)+1][stormy_posX / 32] != 3) && (mazeMatrix[(stormy_posY / 32)+1][stormy_posX / 32] != 4)){
+											
+											mazeMatrix[stormy_posY / 32][stormy_posX / 32] = 0;
+											mazeMatrix[(stormy_posY / 32) + 1][stormy_posX / 32] = 6;
+											stormy_enemy.setLocation(stormy_enemy.getX(), stormy_enemy.getY()+desplazamiento);
+											gameFrame.getGameState().repaint();
+											stormy_enemy.repaint();
+											break;
+										}
+									}
+									if(direccion == 3) {
+										//Colisiones de los Enemigos
+										if((mazeMatrix[(stormy_posY / 32)][(stormy_posX / 32)-1] != 1) && (mazeMatrix[(stormy_posY / 32)][(stormy_posX / 32)-1] != 5)
+										&& (mazeMatrix[(stormy_posY / 32)][(stormy_posX / 32)-1] != 3) && (mazeMatrix[(stormy_posY / 32)][(stormy_posX / 32)-1] != 4)){
+											
+											mazeMatrix[stormy_posY / 32][stormy_posX / 32] = 0;
+											mazeMatrix[stormy_posY / 32][(stormy_posX / 32) - 1] = 6;
+											stormy_enemy.setLocation(stormy_enemy.getX()-desplazamiento, stormy_enemy.getY());
+											gameFrame.getGameState().repaint();
+											stormy_enemy.repaint();
+											break;
+										}
+									}
+									if(direccion == 4) {
+										//Colisiones de los Enemigos
+										if((mazeMatrix[(stormy_posY / 32)][(stormy_posX / 32)+1] != 1) && (mazeMatrix[(stormy_posY / 32)][(stormy_posX / 32)+1] != 5)
+										&& (mazeMatrix[(stormy_posY / 32)][(stormy_posX / 32)+1] != 3) && (mazeMatrix[(stormy_posY / 32)][(stormy_posX / 32)+1] != 4)){
+											
+											mazeMatrix[stormy_posY / 32][stormy_posX / 32] = 0;
+											mazeMatrix[stormy_posY / 32][(stormy_posX / 32) + 1] = 6;
+											stormy_enemy.setLocation(stormy_enemy.getX()+desplazamiento, stormy_enemy.getY());
+											gameFrame.getGameState().repaint();
+											stormy_enemy.repaint();
+											break;
+										}
+									}
+								} //Para cada Stormy
 								
-								int direccion = rnd.nextInt(5 - 1) + 1;
+								//Verificar contacto con el enemigo Lethal en la cuatro direcciones
+								if (mazeMatrix[(posY / 32) - 1][posX / 32] == 2) {
+									System.out.println("Contacto con Lethal");
+									gameFrame.geteState().setVisible(true);
+									gameFrame.geteState().getLost_panel().setVisible(true);
+									gameFrame.geteState().getVictory_panel().setVisible(false);
+								}
+								if (mazeMatrix[(posY / 32) + 1][posX / 32] == 2) {
+									System.out.println("Contacto con Lethal");
+									gameFrame.geteState().setVisible(true);
+									gameFrame.geteState().getLost_panel().setVisible(true);
+									gameFrame.geteState().getVictory_panel().setVisible(false);
+								}
+								if (mazeMatrix[posY / 32][(posX / 32) - 1] == 2) {
+									System.out.println("Contacto con Lethal");
+									gameFrame.geteState().setVisible(true);
+									gameFrame.geteState().getLost_panel().setVisible(true);
+									gameFrame.geteState().getVictory_panel().setVisible(false);
+								}
+								if (mazeMatrix[posY / 32][(posX / 32) + 1] == 2) {
+									System.out.println("Contacto con Lethal");
+									gameFrame.geteState().setVisible(true);
+									gameFrame.geteState().getLost_panel().setVisible(true);
+									gameFrame.geteState().getVictory_panel().setVisible(false);
+								}
 								
-								if(direccion == 1) {
-									//Colisiones de los Enemigos
-									if((mazeMatrix[(lethal_posY / 32)-1][lethal_posX / 32] != 1) && (mazeMatrix[(lethal_posY / 32)-1][lethal_posX / 32] != 5)
-									&&	(mazeMatrix[(lethal_posY / 32)-1][lethal_posX / 32] != 3) && (mazeMatrix[(lethal_posY / 32)-1][lethal_posX / 32] != 4)
-									&& (mazeMatrix[(lethal_posY / 32)-1][lethal_posX / 32] != 9) && (mazeMatrix[(lethal_posY / 32)-1][lethal_posX / 32] != 6)){
-										
-										mazeMatrix[lethal_posY / 32][lethal_posX / 32] = 0; //La posicion previa es cero ahora
-										mazeMatrix[(lethal_posY / 32) -1][lethal_posX / 32] = 2; //La posicion nueva es 2, donde está el enemigo.
-										lethal_enemy.setLocation(lethal_enemy.getX(), lethal_enemy.getY()-desplazamiento);
-										gameFrame.getGameState().repaint();
-										lethal_enemy.repaint();
-										break;
-									}
+								//Verificar contacto con el enemigo Stormy en las cuatro direcciones
+								if (mazeMatrix[(posY / 32) - 1][posX / 32] == 6) {
+									System.out.println("Contacto con Stormy");
+									mov_max = mov_max-((5*mov_max)/100);
 								}
-								if(direccion == 2) {
-									//Colisiones de los Enemigos
-									if((mazeMatrix[(lethal_posY / 32)+1][lethal_posX / 32] != 1) && (mazeMatrix[(lethal_posY / 32)+1][lethal_posX / 32] != 5)
-									&&	(mazeMatrix[(lethal_posY / 32)+1][lethal_posX / 32] != 3) && (mazeMatrix[(lethal_posY / 32)+1][lethal_posX / 32] != 4)
-									&& (mazeMatrix[(lethal_posY / 32)+1][lethal_posX / 32] != 9) && (mazeMatrix[(lethal_posY / 32)+1][lethal_posX / 32] != 6)){
-										
-										mazeMatrix[lethal_posY / 32][lethal_posX / 32] = 0; //La posicion previa es cero ahora
-										mazeMatrix[(lethal_posY / 32)+1][lethal_posX / 32] = 2; //La posicion nueva es 2, donde está el enemigo.
-										lethal_enemy.setLocation(lethal_enemy.getX(), lethal_enemy.getY()+desplazamiento);
-										gameFrame.getGameState().repaint();
-										lethal_enemy.repaint();
-										break;
-									}
+								if (mazeMatrix[(posY / 32) + 1][posX / 32] == 6) {
+									System.out.println("Contacto con Stormy");
+									mov_max = mov_max-((5*mov_max)/100);
 								}
-								if(direccion == 3) {
-
-									//Colisiones de los Enemigos
-									if((mazeMatrix[(lethal_posY / 32)][(lethal_posX / 32)-1] != 1) && (mazeMatrix[(lethal_posY / 32)][(lethal_posX / 32)-1] != 5)
-									&& (mazeMatrix[(lethal_posY / 32)][(lethal_posX / 32)-1] != 3) && (mazeMatrix[(lethal_posY / 32)][(lethal_posX / 32)-1] != 4)
-									&& (mazeMatrix[(lethal_posY / 32)][(lethal_posX / 32)-1] != 9) && (mazeMatrix[(lethal_posY / 32)][(lethal_posX / 32)-1] != 6)){
-										
-										mazeMatrix[lethal_posY / 32][lethal_posX / 32] = 0; //La posicion previa es cero ahora
-										mazeMatrix[lethal_posY / 32][(lethal_posX / 32) - 1] = 2; //La posicion nueva es 2, donde está el enemigo.
-										lethal_enemy.setLocation(lethal_enemy.getX()-desplazamiento, lethal_enemy.getY());
-										gameFrame.getGameState().repaint();
-										lethal_enemy.repaint();
-										break;
-									}
+								if (mazeMatrix[posY / 32][(posX / 32) - 1] == 6) {
+									System.out.println("Contacto con Stormy");
+									mov_max = mov_max-((5*mov_max)/100);
 								}
-								if(direccion == 4) {
-									//Colisiones de los Enemigos
-									if((mazeMatrix[(lethal_posY / 32)][(lethal_posX / 32)+1] != 1) && (mazeMatrix[(lethal_posY / 32)][(lethal_posX / 32)+1] != 5)
-									&& (mazeMatrix[(lethal_posY / 32)][(lethal_posX / 32)+1] != 3) && (mazeMatrix[(lethal_posY / 32)][(lethal_posX / 32)+1] != 4)
-									&& (mazeMatrix[(lethal_posY / 32)][(lethal_posX / 32)+1] != 9) && (mazeMatrix[(lethal_posY / 32)][(lethal_posX / 32)+1] != 6)){
-										
-										mazeMatrix[lethal_posY / 32][lethal_posX / 32] = 0; //La posicion previa es cero ahora
-										mazeMatrix[lethal_posY / 32][(lethal_posX / 32) + 1] = 2; //La posicion nueva es 2, donde está el enemigo.
-										lethal_enemy.setLocation(lethal_enemy.getX()+desplazamiento, lethal_enemy.getY());
-										gameFrame.getGameState().repaint();
-										lethal_enemy.repaint();
-										break;
-									}
+								if (mazeMatrix[posY / 32][(posX / 32) + 1] == 6) {
+									System.out.println("Contacto con Stormy");
+									mov_max = mov_max-((5*mov_max)/100);
 								}
-							} //Para cada Lethal
 								
-							
-							for (EnemyRender stormy_enemy : listaStormy) {
-								int stormy_posX = stormy_enemy.getX();
-								int stormy_posY = stormy_enemy.getY();
-								
-								
-								int direccion = rnd.nextInt(5 - 1) + 1;
-								
-								if(direccion == 1) {
-									//Colisiones de los Enemigos
-									if((mazeMatrix[(stormy_posY / 32)-1][stormy_posX / 32] != 1) && (mazeMatrix[(stormy_posY / 32)-1][stormy_posX / 32] != 5)
-									&& (mazeMatrix[(stormy_posY / 32)-1][stormy_posX / 32] != 3) && (mazeMatrix[(stormy_posY / 32)-1][stormy_posX / 32] != 4)){
-										
-										mazeMatrix[stormy_posY / 32][stormy_posX / 32] = 0;
-										mazeMatrix[(stormy_posY / 32) - 1][stormy_posX / 32] = 6;
-										stormy_enemy.setLocation(stormy_enemy.getX(), stormy_enemy.getY()-desplazamiento);
-										gameFrame.getGameState().repaint();
-										stormy_enemy.repaint();
-										break;
-									}
-								}
-								if(direccion == 2) {
-									//Colisiones de los Enemigos
-									if((mazeMatrix[(stormy_posY / 32)+1][stormy_posX / 32] != 1) && (mazeMatrix[(stormy_posY / 32)+1][stormy_posX / 32] != 5)
-									&& (mazeMatrix[(stormy_posY / 32)+1][stormy_posX / 32] != 3) && (mazeMatrix[(stormy_posY / 32)+1][stormy_posX / 32] != 4)){
-										
-										mazeMatrix[stormy_posY / 32][stormy_posX / 32] = 0;
-										mazeMatrix[(stormy_posY / 32) + 1][stormy_posX / 32] = 6;
-										stormy_enemy.setLocation(stormy_enemy.getX(), stormy_enemy.getY()+desplazamiento);
-										gameFrame.getGameState().repaint();
-										stormy_enemy.repaint();
-										break;
-									}
-								}
-								if(direccion == 3) {
-									//Colisiones de los Enemigos
-									if((mazeMatrix[(stormy_posY / 32)][(stormy_posX / 32)-1] != 1) && (mazeMatrix[(stormy_posY / 32)][(stormy_posX / 32)-1] != 5)
-									&& (mazeMatrix[(stormy_posY / 32)][(stormy_posX / 32)-1] != 3) && (mazeMatrix[(stormy_posY / 32)][(stormy_posX / 32)-1] != 4)){
-										
-										mazeMatrix[stormy_posY / 32][stormy_posX / 32] = 0;
-										mazeMatrix[stormy_posY / 32][(stormy_posX / 32) - 1] = 6;
-										stormy_enemy.setLocation(stormy_enemy.getX()-desplazamiento, stormy_enemy.getY());
-										gameFrame.getGameState().repaint();
-										stormy_enemy.repaint();
-										break;
-									}
-								}
-								if(direccion == 4) {
-									//Colisiones de los Enemigos
-									if((mazeMatrix[(stormy_posY / 32)][(stormy_posX / 32)+1] != 1) && (mazeMatrix[(stormy_posY / 32)][(stormy_posX / 32)+1] != 5)
-									&& (mazeMatrix[(stormy_posY / 32)][(stormy_posX / 32)+1] != 3) && (mazeMatrix[(stormy_posY / 32)][(stormy_posX / 32)+1] != 4)){
-										
-										mazeMatrix[stormy_posY / 32][stormy_posX / 32] = 0;
-										mazeMatrix[stormy_posY / 32][(stormy_posX / 32) + 1] = 6;
-										stormy_enemy.setLocation(stormy_enemy.getX()+desplazamiento, stormy_enemy.getY());
-										gameFrame.getGameState().repaint();
-										stormy_enemy.repaint();
-										break;
-									}
-								}
-							} //Para cada Stormy
-							
-							//Verificar contacto con el enemigo Lethal en la cuatro direcciones
-							if (mazeMatrix[(posY / 32) - 1][posX / 32] == 2) {
-								System.out.println("Contacto con Lethal");
-							}
-							if (mazeMatrix[(posY / 32) + 1][posX / 32] == 2) {
-								System.out.println("Contacto con Lethal");
-							}
-							if (mazeMatrix[posY / 32][(posX / 32) - 1] == 2) {
-								System.out.println("Contacto con Lethal");
-							}
-							if (mazeMatrix[posY / 32][(posX / 32) + 1] == 2) {
-								System.out.println("Contacto con Lethal");
-							}
-							
-							//Verificar contacto con el enemigo Stormy en las cuatro direcciones
-							if (mazeMatrix[(posY / 32) - 1][posX / 32] == 6) {
-								System.out.println("Contacto con Stormy");
-								mov_max = mov_max-((5*mov_max)/100);
-							}
-							if (mazeMatrix[(posY / 32) + 1][posX / 32] == 6) {
-								System.out.println("Contacto con Stormy");
-								mov_max = mov_max-((5*mov_max)/100);
-							}
-							if (mazeMatrix[posY / 32][(posX / 32) - 1] == 6) {
-								System.out.println("Contacto con Stormy");
-								mov_max = mov_max-((5*mov_max)/100);
-							}
-							if (mazeMatrix[posY / 32][(posX / 32) + 1] == 6) {
-								System.out.println("Contacto con Stormy");
-								mov_max = mov_max-((5*mov_max)/100);
-							}
-							
-//							//Debug
-//							for(int i = 0; i < mazeMatrix.length; i++) {
-//								for (int j = 0; j < mazeMatrix[i].length; j++) {
-//									System.out.print(mazeMatrix[i][j]+" ");
+//								//Debug
+//								for(int i = 0; i < mazeMatrix.length; i++) {
+//									for (int j = 0; j < mazeMatrix[i].length; j++) {
+//										System.out.print(mazeMatrix[i][j]+" ");
+//									}
+//									System.out.println();
 //								}
 //								System.out.println();
-//							}
-//							System.out.println();
+								
+							}
+						} catch (ArrayIndexOutOfBoundsException e2) {
+						}
+
+					}
+
+					// Chequea si la posicion actualizada actual es 4 (es decir, la salida)
+					if (mazeMatrix[posY / 32][posX / 32] == 4) {
+						
+						if(llaves_acumuladas == keys) {
+							System.out.println("Pestaña Victoria");
+							gameFrame.geteState().setVisible(true);
+							gameFrame.geteState().getLost_panel().setVisible(false);
+							gameFrame.geteState().getVictory_panel().setVisible(true);
+							gameFrame.getGameState().getAdvise_key().setVisible(false);
 							
 						}
-					} catch (ArrayIndexOutOfBoundsException e2) {
-					}
+						else if(llaves_acumuladas < keys) {
+							System.out.println("Pestaña Perdio");
+							gameFrame.getGameState().getAdvise_key().setVisible(true);
+						}
 
+					}
+				}else if(mov_actuales == mov_max) {
+					System.out.println("Ha usado todos los movimientos posibles");
 				}
 
-				// Chequea si la posicion actualizada actual es 4 (es decir, la salida)
-				if (mazeMatrix[posY / 32][posX / 32] == 4) {
-					
-					if(llaves_acumuladas == keys) {
-						System.out.println("Pestaña Victoria");
-					}
-					else if(llaves_acumuladas < keys) {
-						System.out.println("Pestaña Perdio");
-					}
 
-				}
-			}else if(mov_actuales == mov_max) {
-				System.out.println("Ha usado todos los movimientos posibles");
 			}
-
 
 		}
 	// Pausa
@@ -1134,6 +1208,9 @@ public class Controlador implements ActionListener, KeyListener, ChangeListener 
 		// Pre-Game Start Button
 		gameFrame.getPrgState().getStart_button().addActionListener(this);
 		gameFrame.getPrgState().getStart_button().setActionCommand("prg_start_button");
+		
+		gameFrame.getPrgState().getInvert_button().addActionListener(this);
+		gameFrame.getPrgState().getInvert_button().setActionCommand("prg_invert_button");
 
 		// Pause Buttons
 		gameFrame.getpState().getOptions_button().addActionListener(this);
@@ -1149,6 +1226,21 @@ public class Controlador implements ActionListener, KeyListener, ChangeListener 
 		gameFrame.getpState().getInstructions_button().setActionCommand("pause_instruction_button");
 		
 		gameFrame.getpState().getMusic_volume().addChangeListener(this);
+		
+		// End State Buttons
+		
+		gameFrame.geteState().getBack_menu_lost().addActionListener(this);
+		gameFrame.geteState().getBack_menu_lost().setActionCommand("lost_back_button");
+		
+		gameFrame.geteState().getCredits_button_lost().addActionListener(this);
+		gameFrame.geteState().getCredits_button_lost().setActionCommand("lost_credits_button");
+		
+		gameFrame.geteState().getBack_menu_win().addActionListener(this);
+		gameFrame.geteState().getBack_menu_win().setActionCommand("win_back_button");
+		
+		gameFrame.geteState().getCredits_button_win().addActionListener(this);
+		gameFrame.geteState().getCredits_button_win().setActionCommand("win_credits_button");
+		
 
 	}
 	
@@ -1430,6 +1522,8 @@ public class Controlador implements ActionListener, KeyListener, ChangeListener 
 			gameFrame.getChState().getCharacter_select().setVisible(false);
 
 			gameFrame.getPrgState().getCantidad_llaves().setBackground(Color.DARK_GRAY);
+			gameFrame.getPrgState().getInvert_button().setBackground(Color.BLACK);
+			gameFrame.getPrgState().getInvert_button().setForeground(Color.WHITE);
 
 			break;
 		}
@@ -1443,6 +1537,7 @@ public class Controlador implements ActionListener, KeyListener, ChangeListener 
 			keys = Integer.parseInt(gameFrame.getPrgState().getCantidad_llaves().getText());
 			lethal = Integer.parseInt(gameFrame.getPrgState().getCantidad_lethal().getText());
 			stormy = Integer.parseInt(gameFrame.getPrgState().getCantidad_stormy().getText());
+			llaves_restantes = keys;
 
 			// Condicional para las dimensiones del Laberinto
 			if ((rows < 5 || rows > 20) || (columns < 5 || columns > 20)) {
@@ -1501,6 +1596,21 @@ public class Controlador implements ActionListener, KeyListener, ChangeListener 
 			break;
 
 		}
+		case "prg_invert_button": {
+			//actualInvert	
+			
+			if(actualInvert == false) {
+				actualInvert = true;
+				gameFrame.getPrgState().getInvert_button().setBackground(Color.LIGHT_GRAY);
+				gameFrame.getPrgState().getInvert_button().setForeground(Color.BLACK);
+			}
+			else if(actualInvert == true) {
+				actualInvert = false;
+				gameFrame.getPrgState().getInvert_button().setBackground(Color.BLACK);
+				gameFrame.getPrgState().getInvert_button().setForeground(Color.WHITE);
+			}
+			break;
+		}
 		case "pause_options_button": {
 
 
@@ -1537,9 +1647,32 @@ public class Controlador implements ActionListener, KeyListener, ChangeListener 
 		}
 		case "pause_instruction_button": {
 
+			gameFrame.dispose();
+			
 			gameFrame.getpState().getPanel_tu().setVisible(true);
 			gameFrame.getpState().getPanel_op().setVisible(false);
+			break;
 
+		}
+		case "lost_back_button": {
+			
+
+			break;
+		}
+		case "lost_credits_button": {
+
+
+			break;
+		}
+		case "win_back_button": {
+
+
+			break;
+		}
+		case "win_credits_button": {
+
+
+			break;
 		}
 		default:
 		}
@@ -1720,5 +1853,29 @@ public class Controlador implements ActionListener, KeyListener, ChangeListener 
 
 	public void setApariencia(int apariencia) {
 		this.apariencia = apariencia;
+	}
+
+	public int getMov_max() {
+		return mov_max;
+	}
+
+	public void setMov_max(int mov_max) {
+		this.mov_max = mov_max;
+	}
+
+	public int getMov_actuales() {
+		return mov_actuales;
+	}
+
+	public void setMov_actuales(int mov_actuales) {
+		this.mov_actuales = mov_actuales;
+	}
+
+	public int getLlaves_acumuladas() {
+		return llaves_acumuladas;
+	}
+
+	public void setLlaves_acumuladas(int llaves_acumuladas) {
+		this.llaves_acumuladas = llaves_acumuladas;
 	}
 }

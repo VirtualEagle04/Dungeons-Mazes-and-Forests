@@ -48,6 +48,7 @@ public class GameState extends JLayeredPane {
 	private JLabel restant_movements;
 
 	public GameState() {
+		c = new Controlador();
 		listaLlaves = new ArrayList<KeyRender>();
 		listaLethal = new ArrayList<EnemyRender>();
 		listaStormy = new ArrayList<EnemyRender>();
@@ -71,56 +72,56 @@ public class GameState extends JLayeredPane {
 		// movements indicators
 
 		movement_indicator = new JTextArea();
-		movement_indicator.setText("Restant \nMovements:");
+		movement_indicator.setText("Remaining \nMoves:");
 		movement_indicator.setFont(Alagard);
 		movement_indicator.setFont(movement_indicator.getFont().deriveFont(Font.BOLD, 20));
 		movement_indicator.setBackground(new Color(0, 0, 0, 0));
 		movement_indicator.setForeground(Color.white);
-		movement_indicator.setBounds(0, 160, 120, 40);
+		movement_indicator.setBounds(20, 160, 120, 40);
 		movement_indicator.setEditable(false);
 
 		movement_indicator_shadow = new JTextArea();
-		movement_indicator_shadow.setText("Restant \nMovements:");
+		movement_indicator_shadow.setText("Remaining \nMoves:");
 		movement_indicator_shadow.setFont(Alagard);
 		movement_indicator_shadow.setFont(movement_indicator.getFont().deriveFont(Font.BOLD, 20));
 		movement_indicator_shadow.setBackground(new Color(0, 0, 0, 0));
 		movement_indicator_shadow.setForeground(Color.DARK_GRAY);
-		movement_indicator_shadow.setBounds(3, 163, 120, 40);
+		movement_indicator_shadow.setBounds(23, 163, 120, 40);
 		movement_indicator_shadow.setEditable(false);
 
 		restant_movements = new JLabel();
-		restant_movements.setText("400");
+		restant_movements.setText(String.valueOf(c.getMov_max()));
 		restant_movements.setFont(Alagard);
 		restant_movements.setFont(restant_movements.getFont().deriveFont(Font.BOLD, 18));
 		restant_movements.setForeground(Color.white);
-		restant_movements.setBounds(125, 183, 45, 20);
+		restant_movements.setBounds(110, 183, 45, 20);
 
 		//keys indicators
 		
 		key_indicator = new JTextArea();
-		key_indicator.setText("Restant Keys:");
+		key_indicator.setText("Remaining \nKeys:");
 		key_indicator.setFont(Alagard);
 		key_indicator.setFont(key_indicator.getFont().deriveFont(Font.BOLD,20));
 		key_indicator.setBackground(new Color(0,0,0,0));
 		key_indicator.setForeground(Color.white);
-		key_indicator.setBounds(0,230,120,20);
+		key_indicator.setBounds(20,230,120,120);
 		key_indicator.setEditable(false);
 		
 		key_indicator_shadow = new JTextArea();
-		key_indicator_shadow.setText("Restant Keys:");
+		key_indicator_shadow.setText("Remaining \nKeys:");
 		key_indicator_shadow.setFont(Alagard);
 		key_indicator_shadow.setFont(key_indicator.getFont().deriveFont(Font.BOLD,20));
 		key_indicator_shadow.setBackground(new Color(0,0,0,0));
 		key_indicator_shadow.setForeground(Color.DARK_GRAY);
-		key_indicator_shadow.setBounds(3,233,120,20);
+		key_indicator_shadow.setBounds(23,233,120,120);
 		key_indicator_shadow.setEditable(false);
 		
 		restant_keys = new JLabel();
-		restant_keys.setText("5");
 		restant_keys.setFont(Alagard);
 		restant_keys.setFont(restant_keys.getFont().deriveFont(Font.BOLD, 18));
 		restant_keys.setForeground(Color.white);
-		restant_keys.setBounds(130,230,20,20);
+		restant_keys.setBounds(110,253,20,20);
+		restant_keys.setEnabled(true);
 		
 		advise_key = new JTextArea();
 		advise_key.setText("Take all the\nkeys to finish\nthe laberynth");
@@ -377,8 +378,8 @@ public class GameState extends JLayeredPane {
 		}
 
 		add(tablero, JLayeredPane.MODAL_LAYER);
-		add(key_indicator, JLayeredPane.DRAG_LAYER);
-		add(key_indicator_shadow, JLayeredPane.POPUP_LAYER);
+		add(key_indicator, JLayeredPane.MODAL_LAYER);
+		add(key_indicator_shadow, JLayeredPane.PALETTE_LAYER);
 		add(restant_keys, JLayeredPane.DRAG_LAYER);
 		add(advise_key, JLayeredPane.DRAG_LAYER);
 		add(movement_indicator, JLayeredPane.DRAG_LAYER);
@@ -527,6 +528,86 @@ public class GameState extends JLayeredPane {
 
 	public void setListaStormy(ArrayList<EnemyRender> listaStormy) {
 		this.listaStormy = listaStormy;
+	}
+
+	public int getListIndexKeys() {
+		return listIndexKeys;
+	}
+
+	public void setListIndexKeys(int listIndexKeys) {
+		this.listIndexKeys = listIndexKeys;
+	}
+
+	public int getListIndexLethal() {
+		return listIndexLethal;
+	}
+
+	public void setListIndexLethal(int listIndexLethal) {
+		this.listIndexLethal = listIndexLethal;
+	}
+
+	public int getListIndexStormy() {
+		return listIndexStormy;
+	}
+
+	public void setListIndexStormy(int listIndexStormy) {
+		this.listIndexStormy = listIndexStormy;
+	}
+
+	public JTextArea getKey_indicator() {
+		return key_indicator;
+	}
+
+	public void setKey_indicator(JTextArea key_indicator) {
+		this.key_indicator = key_indicator;
+	}
+
+	public JTextArea getKey_indicator_shadow() {
+		return key_indicator_shadow;
+	}
+
+	public void setKey_indicator_shadow(JTextArea key_indicator_shadow) {
+		this.key_indicator_shadow = key_indicator_shadow;
+	}
+
+	public JLabel getRestant_keys() {
+		return restant_keys;
+	}
+
+	public void setRestant_keys(JLabel restant_keys) {
+		this.restant_keys = restant_keys;
+	}
+
+	public JTextArea getMovement_indicator() {
+		return movement_indicator;
+	}
+
+	public void setMovement_indicator(JTextArea movement_indicator) {
+		this.movement_indicator = movement_indicator;
+	}
+
+	public JTextArea getMovement_indicator_shadow() {
+		return movement_indicator_shadow;
+	}
+
+	public void setMovement_indicator_shadow(JTextArea movement_indicator_shadow) {
+		this.movement_indicator_shadow = movement_indicator_shadow;
+	}
+
+	public JTextArea getAdvise_key() {
+		return advise_key;
+	}
+
+	public void setAdvise_key(JTextArea advise_key) {
+		this.advise_key = advise_key;
+	}
+
+	public JLabel getRestant_movements() {
+		return restant_movements;
+	}
+
+	public void setRestant_movements(JLabel restant_movements) {
+		this.restant_movements = restant_movements;
 	}
 
 }

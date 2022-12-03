@@ -36,7 +36,7 @@ public class GameFrame extends JFrame{
 		setFocusable(true);
 		
 		add(eState, JLayeredPane.DRAG_LAYER);
-		this.eState.setVisible(true);
+		this.eState.setVisible(false);
 		add(tsState).setVisible(true);
 		add(chState).setVisible(false);
 		add(pState, JLayeredPane.MODAL_LAYER);

@@ -564,4 +564,12 @@ public class PreGameState extends JLayeredPane {
 		PrgMusic = prgMusic;
 	}
 
+	public JButton getInvert_button() {
+		return invert_button;
+	}
+
+	public void setInvert_button(JButton invert_button) {
+		this.invert_button = invert_button;
+	}
+
 }
